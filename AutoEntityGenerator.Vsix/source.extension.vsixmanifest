@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="AutoEntityGenerator..4635e799-2295-4731-83e6-ac9a33e3a679" Version="1.0" Language="en-US" Publisher="Owner"/>
+    <Identity Id="AutoEntityGenerator..3633938B-4D62-4E7A-92C3-BCBBD5DEEFE6"
+              Version="1.0.0"
+              Language="en-US"
+              Publisher="Zohar Peled"/>
     <DisplayName>AutoEntityGenerator</DisplayName>
-    <Description xml:space="preserve">This is a sample code refactoring extension for the .NET Compiler Platform ("Roslyn").</Description>
+    <Description xml:space="preserve">Automatically generates DTO and mapping classes based on your domain entities.</Description>
   </Metadata>
   <Installation>
-    <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[15.0,)" />
+    <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[16.0,17.0)">
+      <ProductArchitecture>x86</ProductArchitecture>
+    </InstallationTarget>
+    <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[17.0,)">
+      <ProductArchitecture>amd64</ProductArchitecture>
+    </InstallationTarget>
   </Installation>
   <Dependencies>
     <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.5,)" />
