@@ -26,6 +26,11 @@ You can install the AutoEntityGenerator extension by downloading the `.vsix` fil
 double click and follow the vsix installer instructions.
 Sometime in the future I plan to upload it to the Visual Studio Marketplace as well.
 
+## Target platforms
+
+Currently only supported target is visual studio 2022 community version and visual studio 2019 community version.
+I plan to expand that in the future, but I will need to test each target platform before adding them to the supported target list.
+
 ## Usage
 
 1. Open your project in Visual Studio.
