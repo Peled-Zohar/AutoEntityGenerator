@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35013.160
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoEntityGenerator", "AutoEntityGenerator\AutoEntityGenerator\AutoEntityGenerator.csproj", "{4A67B562-D6D2-4D0E-9056-845433ED6724}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoEntityGenerator", "AutoEntityGenerator\AutoEntityGenerator.csproj", "{4A67B562-D6D2-4D0E-9056-845433ED6724}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoEntityGenerator.Vsix", "AutoEntityGenerator\AutoEntityGenerator.Vsix\AutoEntityGenerator.Vsix.csproj", "{871661BB-3CE7-436E-86B0-A1D31E736CED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoEntityGenerator.Vsix", "AutoEntityGenerator.Vsix\AutoEntityGenerator.Vsix.csproj", "{871661BB-3CE7-436E-86B0-A1D31E736CED}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoEntityGenerator.Common", "AutoEntityGenerator.Common\AutoEntityGenerator.Common.csproj", "{305571D7-A64F-45EE-B220-BE75ABB1A639}"
 EndProject

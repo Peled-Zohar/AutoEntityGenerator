@@ -14,9 +14,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\AutoEntityGenerator.CodeGenerator\AutoEntityGenerator.CodeGenerator.csproj" />
-    <ProjectReference Include="..\..\AutoEntityGenerator.Common\AutoEntityGenerator.Common.csproj" />
-    <ProjectReference Include="..\..\AutoEntityGenerator.UI\AutoEntityGenerator.UI.csproj" />
+    <ProjectReference Include="..\AutoEntityGenerator.CodeGenerator\AutoEntityGenerator.CodeGenerator.csproj" />
+    <ProjectReference Include="..\AutoEntityGenerator.Common\AutoEntityGenerator.Common.csproj" />
+    <ProjectReference Include="..\AutoEntityGenerator.UI\AutoEntityGenerator.UI.csproj" />
   </ItemGroup>
 
 </Project>
