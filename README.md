@@ -28,9 +28,15 @@ This project is licensed under the MIT License - see the [LICENSE](/LICENSE) fil
 
 ## Installation
 
-You can install the AutoEntityGenerator extension by downloading the `.vsix` file from the [releases page](https://github.com/Peled-Zohar/AutoEntityGenerator/releases/tag/1.0.0),
-double click and follow the vsix installer instructions.  
-Sometime in the future I plan to upload it to the Visual Studio Marketplace as well.
+#### &nbsp;&nbsp; From Visual Studio Marketplace
+
+&nbsp;&nbsp; You can install the AutoEntityGenerator extension directly from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=ZoharPeled.AutoEntityGenerator).  
+&nbsp;&nbsp; Simply navigate to the extension's page and click on "Install" to add it to your Visual Studio environment.
+
+#### &nbsp;&nbsp; Manual Installation
+
+&nbsp;&nbsp; Alternatively, you can install the extension by downloading the `.vsix` file from the [releases page](https://github.com/Peled-Zohar/AutoEntityGenerator/releases/tag/1.0.0).  
+&nbsp;&nbsp; Once downloaded, double-click the `.vsix` file and follow the instructions in the VSIX installer to complete the installation.
 
 ## Target platforms
 
