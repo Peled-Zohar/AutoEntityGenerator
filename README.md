@@ -5,25 +5,37 @@ This extension helps developers quickly create and maintain supporting classes, 
 
 ## Features
 
-- Automatically generate DTOs from domain entity classes or records.
-- Create mapping extension methods to convert between domain entities and DTOs.
+- Automatically generates DTOs from domain entity classes or records.
+- Creates mapping extension methods to convert between domain entities and DTOs.
 - Supports generating code in the same folder or a new folder.
 - User-friendly UI for configuring generation options.
 - Seamless integration with Visual Studio.
 - Supports all kinds of DTOs.
-- Generates DTO as records when c# version allows it, or as classes for older versions.
-- All generated classes are partial to allow adding user code easily while still maintaining the ability to re-generate if needed.
+- Generates DTOs as records when the C# version allows it, or as classes for older versions.
+- All generated classes are partial, allowing users to add custom code while still maintaining the ability to re-generate if needed.
 - Supports generic types and generic constraints.
-  
+
+## Note
+
+Currently, only types with parameterless constructors are supported for mapping generation.  
+If the model doesn't have a parameterless constructor, the generated mapping extension will not compile.  
+In future versions, I plan to support entities without parameterless constructors by allowing users to include the properties that correspond to the constructor parameters.  
+
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](/LICENSE.txt) file for details.
+This project is licensed under the MIT License - see the [LICENSE](/LICENSE) file for details.
 
 
 ## Installation
 
-You can install the AutoEntityGenerator extension by downloading the `.vsix` file from the [releases page]().
+You can install the AutoEntityGenerator extension by downloading the `.vsix` file from the [releases page](https://github.com/Peled-Zohar/AutoEntityGenerator/releases/tag/1.0.0),
+double click and follow the vsix installer instructions.  
 Sometime in the future I plan to upload it to the Visual Studio Marketplace as well.
+
+## Target platforms
+
+Currently only supported target is visual studio 2022 community version and visual studio 2019 community version.  
+I plan to expand that in the future, but I will need to test each target platform before adding them to the supported target list.
 
 ## Usage
 
