@@ -14,6 +14,7 @@ namespace AutoEntityGenerator.UI
     public partial class ConfigureEntity : Form
     {
         // TODO: Consider replacing this constant with a configuration value
+        // TODO: Consider localizing all currently hard coded strings.
         private const string Generated = "Generated";
 
         private readonly Entity _entity;
@@ -74,7 +75,7 @@ namespace AutoEntityGenerator.UI
                 return ShowError("Destination folder must be a subfolder of the project folder", DestinationFolder);
             }
 
-            // TODO: Add more form validation logic here
+            // TODO: Consider more form validation logic here
 
             return true;
 
