@@ -14,7 +14,13 @@ This extension helps developers quickly create and maintain supporting classes, 
 - Generates DTO as records when c# version allows it, or as classes for older versions.
 - All generated classes are partial to allow adding user code easily while still maintaining the ability to re-generate if needed.
 - Supports generic types and generic constraints.
-  
+
+## Note
+
+Currently, only types with parameterless constructors are supported for mapping generation.  
+If the model doesn't have a parameterless constructor, the generated mapping extension will not compile.  
+In future versions, I plan to support entities without parameterless constructors by allowing users to include the properties that correspond to the constructor parameters.  
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](/LICENSE.txt) file for details.
