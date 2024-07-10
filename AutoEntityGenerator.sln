@@ -13,6 +13,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoEntityGenerator.CodeGen
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoEntityGenerator.UI", "AutoEntityGenerator.UI\AutoEntityGenerator.UI.csproj", "{98D8E573-F343-43A2-A534-944635C6D0EC}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{DDBA4572-A75F-47AF-977F-3B3814CF4EDA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoEntityGenerator.Tests", "AutoEntityGenerator.Tests\AutoEntityGenerator.Tests.csproj", "{77B92F11-BD2C-450E-8F2C-2A102F291DE9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoEntityGenerator.CodeGenerator.Tests", "AutoEntityGenerator.CodeGenerator.Tests\AutoEntityGenerator.CodeGenerator.Tests.csproj", "{A39051BC-D31D-46E8-BDDE-0796632625B1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoEntityGenerator.UI.Tests", "AutoEntityGenerator.UI.Tests\AutoEntityGenerator.UI.Tests.csproj", "{3C12E541-A680-448F-8DC7-EA3EF13A2843}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,9 +47,26 @@ Global
 		{98D8E573-F343-43A2-A534-944635C6D0EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{98D8E573-F343-43A2-A534-944635C6D0EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{98D8E573-F343-43A2-A534-944635C6D0EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77B92F11-BD2C-450E-8F2C-2A102F291DE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77B92F11-BD2C-450E-8F2C-2A102F291DE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77B92F11-BD2C-450E-8F2C-2A102F291DE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77B92F11-BD2C-450E-8F2C-2A102F291DE9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A39051BC-D31D-46E8-BDDE-0796632625B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A39051BC-D31D-46E8-BDDE-0796632625B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A39051BC-D31D-46E8-BDDE-0796632625B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A39051BC-D31D-46E8-BDDE-0796632625B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C12E541-A680-448F-8DC7-EA3EF13A2843}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C12E541-A680-448F-8DC7-EA3EF13A2843}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C12E541-A680-448F-8DC7-EA3EF13A2843}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C12E541-A680-448F-8DC7-EA3EF13A2843}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{77B92F11-BD2C-450E-8F2C-2A102F291DE9} = {DDBA4572-A75F-47AF-977F-3B3814CF4EDA}
+		{A39051BC-D31D-46E8-BDDE-0796632625B1} = {DDBA4572-A75F-47AF-977F-3B3814CF4EDA}
+		{3C12E541-A680-448F-8DC7-EA3EF13A2843} = {DDBA4572-A75F-47AF-977F-3B3814CF4EDA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {88029B09-C948-4263-A90D-5EEDA0E57C75}
