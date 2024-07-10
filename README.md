@@ -5,14 +5,14 @@ This extension helps developers quickly create and maintain supporting classes, 
 
 ## Features
 
-- Automatically generate DTOs from domain entity classes or records.
-- Create mapping extension methods to convert between domain entities and DTOs.
+- Automatically generates DTOs from domain entity classes or records.
+- Creates mapping extension methods to convert between domain entities and DTOs.
 - Supports generating code in the same folder or a new folder.
 - User-friendly UI for configuring generation options.
 - Seamless integration with Visual Studio.
 - Supports all kinds of DTOs.
-- Generates DTO as records when c# version allows it, or as classes for older versions.
-- All generated classes are partial to allow adding user code easily while still maintaining the ability to re-generate if needed.
+- Generates DTOs as records when the C# version allows it, or as classes for older versions.
+- All generated classes are partial, allowing users to add custom code while still maintaining the ability to re-generate if needed.
 - Supports generic types and generic constraints.
 
 ## Note
