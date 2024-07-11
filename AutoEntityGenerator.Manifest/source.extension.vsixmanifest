@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="AutoEntityGenerator..3633938B-4D62-4E7A-92C3-BCBBD5DEEFE6" Version="1.0.0" Language="en-US" Publisher="Zohar Peled" />
+    <Identity Id="AutoEntityGenerator..3633938B-4D62-4E7A-92C3-BCBBD5DEEFE6" Version="1.0.1" Language="en-US" Publisher="Zohar Peled" />
     <DisplayName>AutoEntityGenerator</DisplayName>
     <Description xml:space="preserve">Automatically generates DTO and mapping classes based on your domain entities.</Description>
-    <!--<License>LICENSE.txt</License>-->
+    <MoreInfo>https://github.com/Peled-Zohar/AutoEntityGenerator/blob/main/README.md</MoreInfo>
+    <License>LICENSE.txt</License>
     <Icon>AutoEntityGenerator.png</Icon>
+    <Tags>C#, Code Generation, DTO, Mapping</Tags>
   </Metadata>
   <Installation>
     <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[17.0, 18.0)">
@@ -19,7 +21,7 @@
     <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.5,)" />
   </Dependencies>
   <Assets>
-    <Asset Type="Microsoft.VisualStudio.MefComponent" d:Source="Project" d:ProjectName="AutoEntityGenerator" Path="|AutoEntityGenerator|"/>
+    <Asset Type="Microsoft.VisualStudio.MefComponent" d:Source="Project" d:ProjectName="AutoEntityGenerator" Path="|AutoEntityGenerator|" />
   </Assets>
   <Prerequisites>
     <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[15.0,)" DisplayName="Visual Studio core editor" />
