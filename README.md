@@ -1,4 +1,8 @@
-﻿# AutoEntityGenerator
+<p align="center">
+  <img  src="/AutoEntityGenerator.Manifest/AutoEntityGenerator.png" />
+</p>
+
+# AutoEntityGenerator
 
 AutoEntityGenerator is a Visual Studio extension that simplifies the process of generating Data Transfer Objects (DTOs) and mapping extensions based on existing domain entity classes.
 This extension helps developers quickly create and maintain supporting classes, enhancing productivity and reducing manual coding errors.
@@ -23,7 +27,7 @@ In future versions, I plan to support entities without parameterless constructor
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](/LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](/AutoEntityGenerator.Manifest/LICENSE.txt) file for details.
 
 
 ## Installation
