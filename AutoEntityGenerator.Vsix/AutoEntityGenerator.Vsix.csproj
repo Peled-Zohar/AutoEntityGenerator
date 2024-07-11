@@ -19,6 +19,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="AutoEntityGenerator.png" />
+    <None Remove="LICENSE.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="AutoEntityGenerator.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LICENSE.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="17.10.2185" PrivateAssets="all" />
   </ItemGroup>
 
