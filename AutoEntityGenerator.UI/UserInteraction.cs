@@ -8,11 +8,17 @@ namespace AutoEntityGenerator.UI
 {
     public class UserInteraction : IUserInteraction
     {
+        private readonly EntityConfigurationFormFactory _configureEntityFactory;
+
+        public UserInteraction(EntityConfigurationFormFactory configureEntityFactory)
+        {
+            _configureEntityFactory = configureEntityFactory;
+        }
         public IUserInteractionResult ShowUIForm(Entity entityInfo)
         {
             try
             {
-                using (var instance = new ConfigureEntity(entityInfo))
+                using (var instance = _configureEntityFactory.Create(entityInfo))
                 {
                     var dialogResult = instance.ShowDialog();
                     return dialogResult == DialogResult.OK

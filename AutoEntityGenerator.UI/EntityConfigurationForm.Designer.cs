@@ -1,6 +1,6 @@
 ﻿namespace AutoEntityGenerator.UI
 {
-    partial class ConfigureEntity
+    partial class EntityConfigurationForm
     {
         /// <summary>
         /// Required designer variable.

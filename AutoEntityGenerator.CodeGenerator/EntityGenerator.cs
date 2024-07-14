@@ -1,32 +1,70 @@
-﻿namespace AutoEntityGenerator.CodeGenerator
+﻿using AutoEntityGenerator.Common.CodeInfo;
+using System.Collections.Generic;
+using System.Text;
+
+namespace AutoEntityGenerator.CodeGenerator
 {
-    internal class EntityGenerator : CodeGenerator
+    public interface IEntityGenerator
     {
-        public string Namespace { get; set; }
-        public string EntityType { get; set; }
-        public string EntityName { get; set; }
+        string GenerateEntityCode(Entity entity);
+    }
 
-        public string GenerateEntityCode(bool isFileScopedNamespace)
+    internal class EntityGenerator : CodeGenerator, IEntityGenerator
+    {
+        public string GenerateEntityCode(Entity entity)
         {
-            return isFileScopedNamespace
-                ?
-$@"{Comments}namespace {Namespace};
 
-public partial {EntityType} {EntityName}{TypeParameters}{GenericConstraints}
+            var entityType = entity.Project.CSharpVersion == CSharpVersion.Default
+               || (int)entity.Project.CSharpVersion >= (int)CSharpVersion.CSharp9
+               ? "record"
+               : "class";
+
+            var indentationLevel = entity.Namespace.IsFileScoped ? 1 : 2;
+
+            var properties = GenerateProperties(entity.Properties, indentationLevel);
+
+            return GenerateCode(entity, entityType, properties);
+        }
+
+        private string GenerateProperties(IEnumerable<Property> properties, int indentationLevel)
+        {
+            const string propertyFormat = "public {0} {1} {{get;set;}}";
+            var propertiesBuilder = new StringBuilder();
+            foreach (var property in properties)
+            {
+                GenerateIndentation(propertiesBuilder, indentationLevel);
+                propertiesBuilder
+                    .AppendFormat(propertyFormat, property.Type, property.Name)
+                    .AppendLine();
+            }
+            return propertiesBuilder.ToString(0, propertiesBuilder.Length - 2);
+        }
+
+        private string GenerateCode(Entity entity, string typeName, string properties)
+        {
+            var typeParameters = GenerateTypeParameters(entity);
+            var genericConstraints = GenerateGenericConstraints(entity);
+
+            return entity.Namespace.IsFileScoped
+                ?
+$@"{Comments}namespace {entity.Namespace.Name};
+
+public partial {typeName} {entity.Name}{typeParameters}{genericConstraints}
 {{
-{Properties}
+{properties}
 }}
 "
                 :
-$@"{Comments}namespace {Namespace}
+$@"{Comments}namespace {entity.Namespace.Name}
 {{
-    public partial {EntityType} {EntityName}{TypeParameters}{GenericConstraints}
+    public partial {typeName} {entity.Name}{typeParameters}{genericConstraints}
     {{
-{Properties}
+{properties}
     }}
 }}
-"
-;
+";
         }
+
     }
 }
+

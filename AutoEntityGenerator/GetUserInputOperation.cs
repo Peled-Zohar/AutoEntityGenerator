@@ -22,10 +22,8 @@ namespace AutoEntityGenerator
             _userInteraction = userInteraction;
         }
 
-        public override void Apply(Workspace workspace, CancellationToken cancellationToken)
-        {
-            UserInteractionResult = _userInteraction.ShowUIForm(_entityInfo);
-        }
+        public override void Apply(Workspace workspace, CancellationToken cancellationToken) 
+            => UserInteractionResult = _userInteraction.ShowUIForm(_entityInfo);
 
         public IUserInteractionResult UserInteractionResult { get; private set; }
     }

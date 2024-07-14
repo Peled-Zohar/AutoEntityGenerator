@@ -1,4 +1,5 @@
 ﻿using AutoEntityGenerator.Common.CodeInfo;
+using AutoEntityGenerator.Common.Interfaces;
 using System;
 using System.ComponentModel;
 using System.Data;
@@ -8,7 +9,14 @@ using System.Windows.Forms;
 
 namespace AutoEntityGenerator.UI
 {
-    public partial class ConfigureEntity : Form
+    public interface IEntityConfigurationForm : IDisposable
+    {
+        IUserInteractionResult Result { get; }
+
+        DialogResult ShowDialog();
+    }
+
+    public partial class EntityConfigurationForm : Form, IEntityConfigurationForm
     {
         // TODO: Consider replacing this constant with a configuration value
         // TODO: Consider localizing all currently hard coded strings.
@@ -18,7 +26,7 @@ namespace AutoEntityGenerator.UI
         private bool _allowFileNameMismatch;
         private BindingList<SelectablePropertyInfo> _properties;
 
-        public ConfigureEntity(Entity entity)
+        public EntityConfigurationForm(Entity entity)
         {
             _entity = entity;
             InitializeComponent();
@@ -26,6 +34,8 @@ namespace AutoEntityGenerator.UI
         }
 
         internal UserInteractionResult Result { get; private set; }
+
+        IUserInteractionResult IEntityConfigurationForm.Result => this.Result;
 
         private void PopulateData()
         {
@@ -84,8 +94,6 @@ namespace AutoEntityGenerator.UI
             }
         }
 
-
-
         private void DTOName_TextChanged(object sender, EventArgs e)
         {
             if (!_allowFileNameMismatch)
@@ -142,7 +150,7 @@ namespace AutoEntityGenerator.UI
 
         private void Ok_Click(object sender, EventArgs e)
         {
-            if(!ValidateForm())
+            if (!ValidateForm())
             {
                 return;
             }

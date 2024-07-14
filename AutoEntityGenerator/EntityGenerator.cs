@@ -18,7 +18,6 @@ namespace AutoEntityGenerator
         Entity GenerateFromUIResult(IUserInteractionResult userInteractionResult, Entity sourceEntity);
     }
 
-
     internal class EntityGenerator : IEntityGenerator
     {
         private readonly ILogger _logger;

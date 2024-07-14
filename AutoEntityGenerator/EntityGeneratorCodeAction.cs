@@ -17,8 +17,9 @@ namespace AutoEntityGenerator
         private readonly IUserInteraction _userInteraction;
         private readonly ICodeFileGenerator _codeGenerator;
         private readonly IEntityGenerator _entityGenerator;
+        private readonly ICodeActionFactory _codeActionFactory;
 
-        public EntityGeneratorCodeAction(ILogger logger, Document document, TypeDeclarationSyntax typeDeclaration, IEntityGenerator entityGenerator, IUserInteraction userInteraction, ICodeFileGenerator codeGenerator)
+        public EntityGeneratorCodeAction(ILogger logger, Document document, TypeDeclarationSyntax typeDeclaration, IEntityGenerator entityGenerator, IUserInteraction userInteraction, ICodeFileGenerator codeGenerator, ICodeActionFactory codeActionFactory)
         {
             _logger = logger;
             _document = document;
@@ -26,6 +27,7 @@ namespace AutoEntityGenerator
             _entityGenerator = entityGenerator;
             _userInteraction = userInteraction;
             _codeGenerator = codeGenerator;
+            _codeActionFactory = codeActionFactory;
         }
 
         // TODO: consider converting the title to a LocalizedString or to a confiruated-value rather than a hardcoded one..
@@ -37,8 +39,8 @@ namespace AutoEntityGenerator
             // This call is here and not in a dedicated CodeActionOperation because it's an async call,
             // and CodeActionOperation's Apply method is not an async one.
             var entityInfo = await _entityGenerator.GenerateFromDocumentAsync(_document, _typeDeclaration, cancellationToken);
-            var getUserInputOperation = new GetUserInputOperation(entityInfo, _userInteraction);
-            var generateCodeOperation = new GenerateCodeOperation(getUserInputOperation, _entityGenerator, _codeGenerator, entityInfo, _document, _logger);
+            var getUserInputOperation = _codeActionFactory.CreateGetUserInputOperation(entityInfo);
+            var generateCodeOperation = _codeActionFactory.CreateGenerateCodeOperation(getUserInputOperation, entityInfo, _document);
 
             return new CodeActionOperation[]
             {

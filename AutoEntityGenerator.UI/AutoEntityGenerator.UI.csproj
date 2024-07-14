@@ -42,12 +42,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConfigureEntity.cs">
+    <Compile Include="EntityConfigurationForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ConfigureEntity.Designer.cs">
-      <DependentUpon>ConfigureEntity.cs</DependentUpon>
+    <Compile Include="EntityConfigurationForm.Designer.cs">
+      <DependentUpon>EntityConfigurationForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="EntityConfigurationFormFactory.cs" />
     <Compile Include="IdentifierValidator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SelectablePropertyInfo.cs" />
@@ -56,8 +57,8 @@
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ConfigureEntity.resx">
-      <DependentUpon>ConfigureEntity.cs</DependentUpon>
+    <EmbeddedResource Include="EntityConfigurationForm.resx">
+      <DependentUpon>EntityConfigurationForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

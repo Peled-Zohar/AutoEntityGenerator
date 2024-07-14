@@ -1,7 +1,4 @@
-﻿using AutoEntityGenerator.CodeGenerator;
-using AutoEntityGenerator.Common;
-using AutoEntityGenerator.Common.Interfaces;
-using AutoEntityGenerator.UI;
+﻿using AutoEntityGenerator.Common.Interfaces;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeRefactorings;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -13,19 +10,16 @@ namespace AutoEntityGenerator
     [ExportCodeRefactoringProvider(LanguageNames.CSharp, Name = nameof(AutoEntityGeneratorCodeRefactoringProvider)), Shared]
     internal class AutoEntityGeneratorCodeRefactoringProvider : CodeRefactoringProvider
     {
-        private readonly IUserInteraction _userInteraction;
-        private readonly ICodeFileGenerator _codeGenerator;
-        private readonly IEntityGenerator _entityGenerator;
         private readonly ILogger _logger;
+        private readonly ICodeActionFactory _codeActionFactory;
+        private readonly Services _services;
 
         public AutoEntityGeneratorCodeRefactoringProvider()
         {
-            // TODO: Configure DI 
+            _services = new Services();
 
-            _logger = new LoggerFactory().CreateLogger();
-            _userInteraction = new UserInteraction();
-            _codeGenerator = new CodeFileGenerator();
-            _entityGenerator = new EntityGenerator(_logger);
+            _logger = _services.GetService<ILogger>();
+            _codeActionFactory = _services.GetService<ICodeActionFactory>();
         }
 
         public sealed override async Task ComputeRefactoringsAsync(CodeRefactoringContext context)
@@ -40,9 +34,8 @@ namespace AutoEntityGenerator
             }
 
             _logger.Debug("About to register refactoring.");
-            var action = new EntityGeneratorCodeAction(_logger, context.Document, node as TypeDeclarationSyntax, _entityGenerator, _userInteraction, _codeGenerator);
+            var action = _codeActionFactory.CreateEntityGeneratorCodeAction(context.Document, node as TypeDeclarationSyntax);
             context.RegisterRefactoring(action);
         }
-
     }
 }
