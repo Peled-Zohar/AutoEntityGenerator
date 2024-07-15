@@ -3,6 +3,7 @@ using AutoEntityGenerator.Common;
 using AutoEntityGenerator.Common.Interfaces;
 using AutoEntityGenerator.UI;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
 
 namespace AutoEntityGenerator
@@ -23,12 +24,21 @@ namespace AutoEntityGenerator
 
         private void ConfigureServices()
         {
-            AddSingleton<IServices, Services>()
+            AddLogger()
+                .AddSingleton<IServices, Services>()
                 .AddSingleton<IEntityGenerator, EntityGenerator>()
                 .AddSingleton<ICodeActionFactory, CodeActionFactory>()
-                .AddLogger()
                 .AddCodeGenerator()
                 .AddUI();
+        }
+
+        private IServices AddLogger()
+        {
+            _services.AddLogging(buider => buider
+                .SetMinimumLevel(LogLevel.Trace)
+                .AddDebug()
+            );
+            return this;
         }
 
         public IServices AddSingleton<TService, TImplementation>() where TService : class where TImplementation : class, TService

@@ -2,6 +2,7 @@
 using AutoEntityGenerator.Common.Interfaces;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.Extensions.Logging;
 
 namespace AutoEntityGenerator
 {
@@ -14,21 +15,23 @@ namespace AutoEntityGenerator
 
     internal class CodeActionFactory : ICodeActionFactory
     {
-        private readonly ILogger _logger;
+        private readonly ILogger<EntityGeneratorCodeAction> _entityGeneratorCodeActionLogger;
+        private readonly ILogger<GenerateCodeOperation> _generateCodeOperationLogger;
         private readonly IEntityGenerator _entityGenerator;
         private readonly IUserInteraction _userInteraction;
         private readonly ICodeFileGenerator _codeGenerator;
 
-        public CodeActionFactory(ILogger logger, IEntityGenerator entityGenerator, IUserInteraction userInteraction, ICodeFileGenerator codeGenerator)
+        public CodeActionFactory(ILogger<EntityGeneratorCodeAction> entityGeneratorCodeActionLogger, ILogger<GenerateCodeOperation> generateCodeOperationLogger, IEntityGenerator entityGenerator, IUserInteraction userInteraction, ICodeFileGenerator codeGenerator)
         {
-            _logger = logger;
+            _entityGeneratorCodeActionLogger = entityGeneratorCodeActionLogger;
+            _generateCodeOperationLogger = generateCodeOperationLogger;
             _entityGenerator = entityGenerator;
             _userInteraction = userInteraction;
             _codeGenerator = codeGenerator;
         }
 
         public EntityGeneratorCodeAction CreateEntityGeneratorCodeAction(Document document, TypeDeclarationSyntax typeDeclaration) 
-            => new EntityGeneratorCodeAction(_logger, document, typeDeclaration, _entityGenerator, _userInteraction, _codeGenerator, this);
+            => new EntityGeneratorCodeAction(_entityGeneratorCodeActionLogger, document, typeDeclaration, _entityGenerator, _userInteraction, _codeGenerator, this);
 
         public GetUserInputOperation CreateGetUserInputOperation(Entity entityInfo) 
             => new GetUserInputOperation(entityInfo, _userInteraction);
@@ -40,7 +43,7 @@ namespace AutoEntityGenerator
                 _codeGenerator,
                 entityInfo,
                 document,
-                _logger
+                _generateCodeOperationLogger
             );
     }
 }

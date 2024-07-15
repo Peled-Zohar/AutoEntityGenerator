@@ -3,6 +3,7 @@ using AutoEntityGenerator.Common.Interfaces;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -20,9 +21,9 @@ namespace AutoEntityGenerator
 
     internal class EntityGenerator : IEntityGenerator
     {
-        private readonly ILogger _logger;
+        private readonly ILogger<EntityGenerator> _logger;
 
-        public EntityGenerator(ILogger logger)
+        public EntityGenerator(ILogger<EntityGenerator> logger)
         {
             _logger = logger;
         }
@@ -38,7 +39,7 @@ namespace AutoEntityGenerator
                     .Replace(Path.AltDirectorySeparatorChar, '.')
             };
 
-            _logger.Debug("Attempting to create entity based on source entity and user interaction result.");
+            _logger.LogDebug("Attempting to create entity based on source entity and user interaction result.");
             return new Entity
             {
                 Constructors = Enumerable.Empty<Constructor>().ToList(),
@@ -54,7 +55,7 @@ namespace AutoEntityGenerator
 
         public async Task<Entity> GenerateFromDocumentAsync(Document document, TypeDeclarationSyntax typeDeclaration, CancellationToken cancellationToken)
         {
-            _logger.Debug("Attempting to get semantic model.");
+            _logger.LogDebug("Attempting to get semantic model.");
             var semanticModel = await document.GetSemanticModelAsync(cancellationToken).ConfigureAwait(false);
             var typeSymbol = semanticModel.GetDeclaredSymbol(typeDeclaration);
             var typeParameters = typeDeclaration.TypeParameterList is null
@@ -62,7 +63,7 @@ namespace AutoEntityGenerator
                 : typeDeclaration.TypeParameterList.Parameters.Select(p => p.Identifier.Text);
             var genericConstraints = typeDeclaration.ConstraintClauses.Select(c => c.ToString());
 
-            _logger.Debug("Attempting to create entity from document info.");
+            _logger.LogDebug("Attempting to create entity from document info.");
             return new Entity
             {
                 Constructors = GenerateConstructors(typeSymbol, cancellationToken),

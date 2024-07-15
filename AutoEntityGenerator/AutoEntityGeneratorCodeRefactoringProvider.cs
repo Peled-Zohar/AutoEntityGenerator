@@ -2,7 +2,10 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeRefactorings;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Composition;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace AutoEntityGenerator
@@ -10,21 +13,22 @@ namespace AutoEntityGenerator
     [ExportCodeRefactoringProvider(LanguageNames.CSharp, Name = nameof(AutoEntityGeneratorCodeRefactoringProvider)), Shared]
     internal class AutoEntityGeneratorCodeRefactoringProvider : CodeRefactoringProvider
     {
-        private readonly ILogger _logger;
+        private readonly ILogger<AutoEntityGeneratorCodeRefactoringProvider> _logger;
         private readonly ICodeActionFactory _codeActionFactory;
         private readonly Services _services;
 
         public AutoEntityGeneratorCodeRefactoringProvider()
         {
             _services = new Services();
-
-            _logger = _services.GetService<ILogger>();
+            _logger = _services.GetService<ILogger<AutoEntityGeneratorCodeRefactoringProvider>>();
             _codeActionFactory = _services.GetService<ICodeActionFactory>();
+            _logger.LogInformation("AutoEntityGenerator started.");
+            Debug.WriteLine("This comes from Console.WriteLine");
         }
 
         public sealed override async Task ComputeRefactoringsAsync(CodeRefactoringContext context)
         {
-            _logger.Debug("ComputeRefactoringsAsync called.");
+            _logger.LogDebug("ComputeRefactoringsAsync called.");
             var root = await context.Document.GetSyntaxRootAsync(context.CancellationToken).ConfigureAwait(false);
             var node = root.FindNode(context.Span);
 
@@ -33,7 +37,7 @@ namespace AutoEntityGenerator
                 return;
             }
 
-            _logger.Debug("About to register refactoring.");
+            _logger.LogDebug("About to register refactoring.");
             var action = _codeActionFactory.CreateEntityGeneratorCodeAction(context.Document, node as TypeDeclarationSyntax);
             context.RegisterRefactoring(action);
         }
