@@ -1,11 +1,8 @@
-﻿using AutoEntityGenerator.Common.Interfaces;
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeRefactorings;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Composition;
-using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace AutoEntityGenerator

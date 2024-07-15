@@ -1,5 +1,4 @@
 ﻿using AutoEntityGenerator.CodeGenerator;
-using AutoEntityGenerator.Common;
 using AutoEntityGenerator.Common.Interfaces;
 using AutoEntityGenerator.UI;
 using Microsoft.Extensions.DependencyInjection;
