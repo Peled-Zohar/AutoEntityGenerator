@@ -23,7 +23,6 @@ namespace AutoEntityGenerator
             _logger = _services.GetService<ILogger<AutoEntityGeneratorCodeRefactoringProvider>>();
             _codeActionFactory = _services.GetService<ICodeActionFactory>();
             _logger.LogInformation("AutoEntityGenerator started.");
-            Debug.WriteLine("This comes from Console.WriteLine");
         }
 
         public sealed override async Task ComputeRefactoringsAsync(CodeRefactoringContext context)

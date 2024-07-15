@@ -5,6 +5,7 @@ using AutoEntityGenerator.UI;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Diagnostics;
 
 namespace AutoEntityGenerator
 {
@@ -34,9 +35,18 @@ namespace AutoEntityGenerator
 
         private IServices AddLogger()
         {
+
+            const string sourceName = nameof(AutoEntityGenerator);
+            if (!EventLog.SourceExists(sourceName))
+            {
+                EventLog.CreateEventSource(sourceName, "Application");
+            }
+
             _services.AddLogging(buider => buider
                 .SetMinimumLevel(LogLevel.Trace)
-                .AddDebug()
+                .AddEventLog(settings => {
+                    settings.SourceName = sourceName;
+                })
             );
             return this;
         }
