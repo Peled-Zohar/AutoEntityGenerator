@@ -7,6 +7,7 @@
         <MoreInfo>https://github.com/Peled-Zohar/AutoEntityGenerator/blob/main/README.md</MoreInfo>
         <License>LICENSE.txt</License>
         <Icon>AutoEntityGenerator.png</Icon>
+        <PreviewImage>AutoEntityGenerator.png</PreviewImage>
         <Tags>C#, Code Generation, DTO, Mapping</Tags>
     </Metadata>
     <Installation>
