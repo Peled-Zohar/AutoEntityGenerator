@@ -6,11 +6,11 @@ using System.Windows.Forms;
 
 namespace AutoEntityGenerator.UI
 {
-    public class UserInteraction : IUserInteraction
+    internal class UserInteraction : IUserInteraction
     {
-        private readonly EntityConfigurationFormFactory _configureEntityFactory;
+        private readonly IEntityConfigurationFormFactory _configureEntityFactory;
 
-        public UserInteraction(EntityConfigurationFormFactory configureEntityFactory)
+        public UserInteraction(IEntityConfigurationFormFactory configureEntityFactory)
         {
             _configureEntityFactory = configureEntityFactory;
         }

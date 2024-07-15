@@ -2,7 +2,12 @@
 
 namespace AutoEntityGenerator.UI
 {
-    public class EntityConfigurationFormFactory
+    public interface IEntityConfigurationFormFactory
+    {
+        IEntityConfigurationForm Create(Entity entity);
+    }
+
+    internal class EntityConfigurationFormFactory : IEntityConfigurationFormFactory
     {
         public IEntityConfigurationForm Create(Entity entity) => new EntityConfigurationForm(entity);
     }

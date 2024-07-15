@@ -4,7 +4,7 @@ using System.IO;
 
 namespace AutoEntityGenerator.CodeGenerator
 {
-    public class CodeFileGenerator : ICodeFileGenerator
+    internal class CodeFileGenerator : ICodeFileGenerator
     {
         private readonly IEntityGenerator _entityGenerator;
         private readonly IMappingsClassGenerator _mappingsClassGenerator;

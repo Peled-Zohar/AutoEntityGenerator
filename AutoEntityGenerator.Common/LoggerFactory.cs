@@ -3,7 +3,7 @@ using System;
 
 namespace AutoEntityGenerator.Common
 {
-    public class LoggerFactory
+    internal class LoggerFactory
     {
         private ILogger _logger;
 

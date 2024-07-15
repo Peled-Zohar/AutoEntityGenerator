@@ -16,7 +16,7 @@ namespace AutoEntityGenerator.UI
         DialogResult ShowDialog();
     }
 
-    public partial class EntityConfigurationForm : Form, IEntityConfigurationForm
+    internal partial class EntityConfigurationForm : Form, IEntityConfigurationForm
     {
         // TODO: Consider replacing this constant with a configuration value
         // TODO: Consider localizing all currently hard coded strings.
@@ -33,9 +33,7 @@ namespace AutoEntityGenerator.UI
             PopulateData();
         }
 
-        internal UserInteractionResult Result { get; private set; }
-
-        IUserInteractionResult IEntityConfigurationForm.Result => this.Result;
+        public IUserInteractionResult Result { get; private set; }
 
         private void PopulateData()
         {

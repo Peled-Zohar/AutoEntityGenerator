@@ -23,16 +23,12 @@ namespace AutoEntityGenerator
 
         private void ConfigureServices()
         {
-            ILogger logger = new LoggerFactory().CreateLogger();
-            AddSingleton(logger)
-                .AddSingleton<IServices, Services>()
-                .AddSingleton<IUserInteraction, UserInteraction>()
-                .AddSingleton<ICodeFileGenerator, CodeFileGenerator>()
+            AddSingleton<IServices, Services>()
                 .AddSingleton<IEntityGenerator, EntityGenerator>()
                 .AddSingleton<ICodeActionFactory, CodeActionFactory>()
-                .AddSingleton<EntityConfigurationFormFactory>()
-                .AddTransient<IUserInteraction, UserInteraction>()
-                .AddCodeGenerator();
+                .AddLogger()
+                .AddCodeGenerator()
+                .AddUI();
         }
 
         public IServices AddSingleton<TService, TImplementation>() where TService : class where TImplementation : class, TService
