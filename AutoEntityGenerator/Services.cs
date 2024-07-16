@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace AutoEntityGenerator
 {
@@ -18,6 +19,7 @@ namespace AutoEntityGenerator
             _services = new ServiceCollection();
             ConfigureServices();
             _serviceProvider = _services.BuildServiceProvider();
+            ConfigureGlobalExceptionHandling();
         }
 
         public T GetService<T>() => _serviceProvider.GetService<T>();
@@ -30,6 +32,24 @@ namespace AutoEntityGenerator
                 .AddSingleton<ICodeActionFactory, CodeActionFactory>()
                 .AddCodeGenerator()
                 .AddUI();
+        }
+
+        private void ConfigureGlobalExceptionHandling()
+        {
+            var logger = GetService<ILogger<IServices>>();
+
+            AppDomain.CurrentDomain.UnhandledException += (sender, args) =>
+            {
+                logger.LogError(args.ExceptionObject as Exception, "Unhandled domain exception");
+            };
+
+            TaskScheduler.UnobservedTaskException += (sender, args) =>
+            {
+                logger.LogError(args.Exception, "Unobserved task exception");
+                args.SetObserved();
+            };
+
+            this.AddUIRelatedGlobalExceptionHandling(logger);
         }
 
         private IServices AddLogger()
