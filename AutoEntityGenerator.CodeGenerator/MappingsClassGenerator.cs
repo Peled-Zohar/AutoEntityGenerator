@@ -12,16 +12,16 @@ namespace AutoEntityGenerator.CodeGenerator
     {
          public string GenerateMappingClassCode(Entity from, Entity to)
         {
-            var indentationLevel = from.Namespace.IsFileScoped ? 3 : 4;
-
-            var properties = GenerateMappingProperties(from, indentationLevel);
+            var properties = GenerateMappingProperties(from);
 
             return GenerateCode(from, to, properties);
         }
 
-        private string GenerateMappingProperties(Entity from, int indentationLevel)
+        private string GenerateMappingProperties(Entity from)
         {
             const string propertyFormat = "{0} = source.{0},";
+
+            var indentationLevel = from.Namespace.IsFileScoped ? 3 : 4;
             var propertiesBuilder = new StringBuilder();
             foreach (var property in from.Properties)
             {
