@@ -1,6 +1,9 @@
 ﻿using AutoEntityGenerator.Common.CodeInfo;
 using AutoEntityGenerator.Common.Interfaces;
 using System.IO;
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("AutoEntityGenerator.CodeGenerator.Tests")]
 
 namespace AutoEntityGenerator.CodeGenerator
 {
