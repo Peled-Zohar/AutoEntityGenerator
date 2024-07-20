@@ -63,5 +63,49 @@ public class EntityGeneratorUnitTests
         Assert.That(generated, Does.Contain("class"));
     }
 
+    [Test]
+    public void GenerateEntityCode_EntityWithFileScopedNamespace_ReturnFileScopedNamespace()
+    {
+        _testEntity.Namespace.IsFileScoped = true;
 
+        var generated = _generator.GenerateEntityCode(_testEntity);
+
+        Assert.That(generated, !Does.Contain(_testEntity.Namespace.Name + Environment.NewLine + "{"));
+        Assert.That(generated, Does.Contain(_testEntity.Namespace.Name + ";"));
+    }
+
+    [Test]
+    public void GenerateEntityCode_EntityWithScopedNamespace_ReturnScopedNamespace()
+    {
+        _testEntity.Namespace.IsFileScoped = false;
+
+        var generated = _generator.GenerateEntityCode(_testEntity);
+
+        Assert.That(generated, !Does.Contain(_testEntity.Namespace.Name + ";"));
+        Assert.That(generated, Does.Contain(_testEntity.Namespace.Name + Environment.NewLine + "{"));
+    }
+
+    [Test]
+    public void GenerateEntityCode_EntityWithTypeParameters_ReturnGenericClass()
+    {
+        List<string> typeParameters = ["TSource", "TTarget"];
+        _testEntity.TypeParameters = typeParameters;
+
+        var generated = _generator.GenerateEntityCode(_testEntity);
+
+        Assert.That(generated, Does.Contain(_testEntity.Name + $"<{string.Join(", ", typeParameters)}>"));
+    }
+
+    [Test]
+    public void GenerateEntityCode_EntityWithGenericConstraints_ReturnGenericClassWithCorrectConstraints()
+    {
+        List<string> typeParameters = ["TSource", "TTarget"];
+        List<string> genericConstraints = ["where TSource : class", "where TTarget : class, new()"];
+        _testEntity.TypeParameters = typeParameters;
+        _testEntity.GenericConstraints = genericConstraints;
+
+        var generated = _generator.GenerateEntityCode(_testEntity);
+
+        Assert.That(generated, Does.Contain(_testEntity.Name + $"<{string.Join(", ", typeParameters)}>" + " " + string.Join(" ", genericConstraints)));
+    }
 }
