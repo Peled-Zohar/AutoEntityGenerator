@@ -108,4 +108,54 @@ public class EntityGeneratorUnitTests
 
         Assert.That(generated, Does.Contain(_testEntity.Name + $"<{string.Join(", ", typeParameters)}>" + " " + string.Join(" ", genericConstraints)));
     }
+
+    [Test]
+    public void GenerateEntityCode_FileScopedNamespace_PropertiesIndentedCorrectly()
+    {
+        _testEntity.Namespace.IsFileScoped = true;
+        var generated = _generator.GenerateEntityCode(_testEntity);
+        Assert.That(generated, Does.Contain("\n\tpublic int TestProperty {get;set;}"));
+    }
+
+    [Test]
+    public void GenerateEntityCode_ScopedNamespace_PropertiesIndentedCorrectly()
+    {
+        _testEntity.Namespace.IsFileScoped = false;
+        var generated = _generator.GenerateEntityCode(_testEntity);
+        Assert.That(generated, Does.Contain("\n\t\tpublic int TestProperty {get;set;}"));
+    }
+
+    [Test]
+    public void GenerateEntityCode_MultipleProperties_AllPropertiesGenerated()
+    {
+        _testEntity.Properties.Add(new() { IsReadonly = false, Name = "AnotherProperty", Type = "string" });
+        var generated = _generator.GenerateEntityCode(_testEntity);
+        Assert.That(generated, Does.Contain("public int TestProperty {get;set;}"));
+        Assert.That(generated, Does.Contain("public string AnotherProperty {get;set;}"));
+    }
+
+    [Test]
+    public void GenerateEntityCode_DifferentPropertyTypes_GeneratedCorrectly()
+    {
+        _testEntity.Properties.Add(new() { Name = "StringsProperty", Type = "List<string>" });
+        _testEntity.Properties.Add(new() { Name = "SomeClassProperty", Type = "SomeClass" });
+        var generated = _generator.GenerateEntityCode(_testEntity);
+        Assert.That(generated, Does.Contain("public int TestProperty {get;set;}"));
+        Assert.That(generated, Does.Contain("public List<string> StringsProperty {get;set;}"));
+        Assert.That(generated, Does.Contain("public SomeClass SomeClassProperty {get;set;}"));
+    }
+
+    [Test]
+    public void GenerateEntityCode_Always_ReturnsAPartialClass()
+    {
+        var generated = _generator.GenerateEntityCode(_testEntity);
+        Assert.That(generated, Does.Contain(" partial "));
+    }
+
+    [Test]
+    public void GenerateEntityCode_Always_IncludesComments()
+    {
+        var generated = _generator.GenerateEntityCode(_testEntity);
+        Assert.That(generated, Does.StartWith(_generator.Comments));
+    }
 }
