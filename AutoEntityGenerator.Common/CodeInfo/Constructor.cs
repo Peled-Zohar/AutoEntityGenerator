@@ -2,7 +2,7 @@
 
 namespace AutoEntityGenerator.Common.CodeInfo
 {
-    public class Constructor
+    public sealed class Constructor
     {
         public Constructor(IEnumerable<Parameter> parameters)
         {

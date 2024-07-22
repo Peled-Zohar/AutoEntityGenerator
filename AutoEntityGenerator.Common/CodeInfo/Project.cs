@@ -1,6 +1,6 @@
 ﻿namespace AutoEntityGenerator.Common.CodeInfo
 {
-    public class Project
+    public sealed class Project
     {
         public string FilePath { get; set; }
         public string DefaultNamespace { get; set; }

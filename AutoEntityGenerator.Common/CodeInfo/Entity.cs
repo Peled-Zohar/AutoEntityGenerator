@@ -2,7 +2,7 @@
 
 namespace AutoEntityGenerator.Common.CodeInfo
 {
-    public class Entity
+    public sealed class Entity
     {
         public Project Project { get; set; }
         public Namespace Namespace { get; set; }
