@@ -7,22 +7,22 @@ using System;
 using System.IO;
 using System.Threading;
 
-namespace AutoEntityGenerator
+namespace AutoEntityGenerator.CodeOperations
 {
     internal class GenerateCodeOperation : CodeActionOperation
     {
         private readonly ILogger<GenerateCodeOperation> _logger;
         private readonly IUIResultProvider _resultProvider;
         private readonly IEntityGenerator _entityGenerator;
-        private readonly Entity _entityInfo;
+        private readonly IEntityProvider _entityProvider;
         private readonly ICodeFileGenerator _codeGenerator;
         private readonly Document _document;
 
-        public GenerateCodeOperation(IUIResultProvider getUserInputOperation, IEntityGenerator entityGenerator, ICodeFileGenerator codeGenerator, Entity entityInfo, Document document, ILogger<GenerateCodeOperation> logger)
+        public GenerateCodeOperation(IUIResultProvider getUserInputOperation, IEntityGenerator entityGenerator, ICodeFileGenerator codeGenerator, IEntityProvider entityProvider, Document document, ILogger<GenerateCodeOperation> logger)
         {
             _resultProvider = getUserInputOperation;
             _codeGenerator = codeGenerator;
-            _entityInfo = entityInfo;
+            _entityProvider = entityProvider;
             _document = document;
             _entityGenerator = entityGenerator;
             _logger = logger;
@@ -39,17 +39,18 @@ namespace AutoEntityGenerator
 
             _logger.LogInformation("Attempting to generate dto and mappings.");
 
-            var dtoEntity = _entityGenerator.GenerateFromUIResult(result, _entityInfo);
+            var sourceEntity = _entityProvider.Entity;
+            var dtoEntity = _entityGenerator.GenerateFromUIResult(result, sourceEntity);
 
             var (from, to) = result.MappingDirection == MappingDirection.FromDtoToModel
-                ? (dtoEntity, _entityInfo)
-                : (_entityInfo, dtoEntity);
+                ? (dtoEntity, sourceEntity)
+                : (sourceEntity, dtoEntity);
 
             var dto = _codeGenerator.GenerateEntityCodeFile(dtoEntity);
             var mapping = _codeGenerator.GenerateMappingCodeFile(from, to);
 
-            var dtoDocument = AddDocument(_document, dto.FileName, dto.Content, result.TargetDirectory);
-            var mappingDocument = AddDocument(dtoDocument, mapping.FileName, mapping.Content, result.TargetDirectory);
+            var dtoDocument = AddDocument(_document, dto.FileName, dto.Content, result.TargetDirectory, sourceEntity);
+            var mappingDocument = AddDocument(dtoDocument, mapping.FileName, mapping.Content, result.TargetDirectory, sourceEntity);
 
             _logger.LogDebug("Attempting to save changes.");
             try
@@ -65,10 +66,10 @@ namespace AutoEntityGenerator
             }
         }
 
-        private Document AddDocument(Document document, string fileName, string code, string targetFolder)
+        private Document AddDocument(Document document, string fileName, string code, string targetFolder, Entity sourceEntity)
         {
             var filePath = Path.Combine(targetFolder, fileName);
-            string[] folders = targetFolder == Path.GetDirectoryName(_entityInfo.SourceFilePath)
+            string[] folders = targetFolder == Path.GetDirectoryName(sourceEntity.SourceFilePath)
                 ? null
                 : new[] { targetFolder };
             _logger.LogDebug($"Attempting to add document. File name: {fileName}.");

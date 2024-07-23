@@ -19,8 +19,9 @@ namespace AutoEntityGenerator
         private readonly ICodeFileGenerator _codeGenerator;
         private readonly IEntityGenerator _entityGenerator;
         private readonly ICodeActionFactory _codeActionFactory;
+        private readonly INamedTypeSymbol _typeSymbol;
 
-        public EntityGeneratorCodeAction(ILogger<EntityGeneratorCodeAction> logger, Document document, TypeDeclarationSyntax typeDeclaration, IEntityGenerator entityGenerator, IUserInteraction userInteraction, ICodeFileGenerator codeGenerator, ICodeActionFactory codeActionFactory)
+        public EntityGeneratorCodeAction(ILogger<EntityGeneratorCodeAction> logger, Document document, TypeDeclarationSyntax typeDeclaration, IEntityGenerator entityGenerator, IUserInteraction userInteraction, ICodeFileGenerator codeGenerator, ICodeActionFactory codeActionFactory, INamedTypeSymbol typeSymbol)
         {
             _logger = logger;
             _document = document;
@@ -29,6 +30,7 @@ namespace AutoEntityGenerator
             _userInteraction = userInteraction;
             _codeGenerator = codeGenerator;
             _codeActionFactory = codeActionFactory;
+            _typeSymbol = typeSymbol;
         }
 
         // TODO: consider converting the title to a LocalizedString or to a confiruated-value rather than a hardcoded one..
@@ -37,14 +39,13 @@ namespace AutoEntityGenerator
         protected override async Task<IEnumerable<CodeActionOperation>> ComputeOperationsAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation("Attempting to gather type information.");
-            // This call is here and not in a dedicated CodeActionOperation because it's an async call,
-            // and CodeActionOperation's Apply method is not an async one.
-            var entityInfo = await _entityGenerator.GenerateFromDocumentAsync(_document, _typeDeclaration, cancellationToken);
-            var getUserInputOperation = _codeActionFactory.CreateGetUserInputOperation(entityInfo);
-            var generateCodeOperation = _codeActionFactory.CreateGenerateCodeOperation(getUserInputOperation, entityInfo, _document);
+            var getEntityInfoOperation = _codeActionFactory.CreateGetEntityInfoOperation(_document, _typeDeclaration, _typeSymbol);
+            var getUserInputOperation = _codeActionFactory.CreateGetUserInputOperation(getEntityInfoOperation);
+            var generateCodeOperation = _codeActionFactory.CreateGenerateCodeOperation(getUserInputOperation, getEntityInfoOperation, _document);
 
             return new CodeActionOperation[]
             {
+                getEntityInfoOperation,
                 getUserInputOperation,
                 generateCodeOperation
             };

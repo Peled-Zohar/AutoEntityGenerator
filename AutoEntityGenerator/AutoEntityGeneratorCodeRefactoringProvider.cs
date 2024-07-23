@@ -3,7 +3,11 @@ using Microsoft.CodeAnalysis.CodeRefactorings;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Logging;
 using System.Composition;
+using System.Linq;
+using System.Reflection.Metadata;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace AutoEntityGenerator
 {
@@ -32,9 +36,23 @@ namespace AutoEntityGenerator
             {
                 return;
             }
+            var typeDecleration = node as TypeDeclarationSyntax;
+            var semanticModel = await context.Document.GetSemanticModelAsync(context.CancellationToken).ConfigureAwait(false);
+            var typeSymbol = semanticModel.GetDeclaredSymbol(typeDecleration) as INamedTypeSymbol;
+            if (typeSymbol is null)
+            {
+                return;
+            }
+
+            var hasPublicProperties = typeSymbol.GetMembers().OfType<IPropertySymbol>().Any(p => p.DeclaredAccessibility == Accessibility.Public);
+
+            if (!hasPublicProperties)
+            {
+                return;
+            }
 
             _logger.LogDebug("About to register refactoring.");
-            var action = _codeActionFactory.CreateEntityGeneratorCodeAction(context.Document, node as TypeDeclarationSyntax);
+            var action = _codeActionFactory.CreateEntityGeneratorCodeAction(context.Document, typeDecleration, typeSymbol);
             context.RegisterRefactoring(action);
         }
     }

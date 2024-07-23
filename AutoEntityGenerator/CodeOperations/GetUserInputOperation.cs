@@ -4,7 +4,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeActions;
 using System.Threading;
 
-namespace AutoEntityGenerator
+namespace AutoEntityGenerator.CodeOperations
 {
     internal interface IUIResultProvider
     {
@@ -13,17 +13,17 @@ namespace AutoEntityGenerator
 
     internal class GetUserInputOperation : CodeActionOperation, IUIResultProvider
     {
-        private readonly Entity _entityInfo;
+        private readonly IEntityProvider _entityProvider;
         private readonly IUserInteraction _userInteraction;
 
-        public GetUserInputOperation(Entity entityInfo, IUserInteraction userInteraction)
+        public GetUserInputOperation(IEntityProvider entityProvider, IUserInteraction userInteraction)
         {
-            _entityInfo = entityInfo;
+            _entityProvider = entityProvider;
             _userInteraction = userInteraction;
         }
 
-        public override void Apply(Workspace workspace, CancellationToken cancellationToken) 
-            => UserInteractionResult = _userInteraction.ShowUIForm(_entityInfo);
+        public override void Apply(Workspace workspace, CancellationToken cancellationToken)
+            => UserInteractionResult = _userInteraction.ShowUIForm(_entityProvider.Entity);
 
         public IUserInteractionResult UserInteractionResult { get; private set; }
     }

@@ -77,7 +77,12 @@ namespace AutoEntityGenerator.UI
             var projectDirectory = Path.GetDirectoryName(_entity.Project.FilePath);
             if (!DestinationFolder.Text.StartsWith(projectDirectory))
             {
-                return ShowError("Destination folder must be a subfolder of the project folder", DestinationFolder);
+                return ShowError("Destination folder must be a subfolder of the project folder.", DestinationFolder);
+            }
+
+            if (!_properties.Any(p => p.IsSelected))
+            {
+                return ShowError("You must check at least one property.", Properties);
             }
 
             // TODO: Consider more form validation logic here

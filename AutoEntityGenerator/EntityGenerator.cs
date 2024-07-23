@@ -14,7 +14,7 @@ namespace AutoEntityGenerator
 {
     internal interface IEntityGenerator
     {
-        Task<Entity> GenerateFromDocumentAsync(Document document, TypeDeclarationSyntax typeDeclaration, CancellationToken cancellationToken);
+        Entity GenerateFromDocument(Document document, TypeDeclarationSyntax typeDeclaration, INamedTypeSymbol typeSymbol, CancellationToken cancellationToken);
 
         Entity GenerateFromUIResult(IUserInteractionResult userInteractionResult, Entity sourceEntity);
     }
@@ -53,11 +53,8 @@ namespace AutoEntityGenerator
             };
         }
 
-        public async Task<Entity> GenerateFromDocumentAsync(Document document, TypeDeclarationSyntax typeDeclaration, CancellationToken cancellationToken)
+        public Entity GenerateFromDocument(Document document, TypeDeclarationSyntax typeDeclaration, INamedTypeSymbol typeSymbol, CancellationToken cancellationToken)
         {
-            _logger.LogDebug("Attempting to get semantic model.");
-            var semanticModel = await document.GetSemanticModelAsync(cancellationToken).ConfigureAwait(false);
-            var typeSymbol = semanticModel.GetDeclaredSymbol(typeDeclaration);
             var typeParameters = typeDeclaration.TypeParameterList is null
                 ? Enumerable.Empty<string>()
                 : typeDeclaration.TypeParameterList.Parameters.Select(p => p.Identifier.Text);
