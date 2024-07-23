@@ -10,7 +10,7 @@ namespace AutoEntityGenerator.CodeGenerator
 
     internal class MappingsClassGenerator : CodeGenerator, IMappingsClassGenerator
     {
-         public string GenerateMappingClassCode(Entity from, Entity to)
+        public string GenerateMappingClassCode(Entity from, Entity to)
         {
             var properties = GenerateMappingProperties(from);
 
@@ -39,15 +39,19 @@ namespace AutoEntityGenerator.CodeGenerator
             var typeParameters = GenerateTypeParameters(to);
             var genericConstraints = GenerateGenericConstraints(to);
 
+            var toFullName = string.IsNullOrEmpty(to.Namespace.Name)
+                ? to.Name
+                : to.Namespace.Name + "." + to.Name;
+
             return from.Namespace.IsFileScoped
                 ?
 $@"{Comments}namespace {from.Namespace.Name};
 
 public static partial class {from.Name}MappingExtensions
 {{
-    public static {to.Namespace.Name}.{to.Name}{typeParameters} To{to.Name}{typeParameters}(this {from.Name}{typeParameters} source){genericConstraints}
+    public static {toFullName}{typeParameters} To{to.Name}{typeParameters}(this {from.Name}{typeParameters} source){genericConstraints}
     {{
-        return new {to.Namespace.Name}.{to.Name}{typeParameters}
+        return new {toFullName}{typeParameters}
         {{
 {properties}
         }};
@@ -58,9 +62,9 @@ $@"{Comments}namespace {from.Namespace.Name}
 {{
     public static partial class {from.Name}MappingExtension
     {{
-        public static {to.Namespace.Name}.{to.Name}{typeParameters} To{to.Name}{typeParameters}(this {from.Name}{typeParameters} source){genericConstraints}
+        public static {toFullName}{typeParameters} To{to.Name}{typeParameters}(this {from.Name}{typeParameters} source){genericConstraints}
         {{
-            return new {to.Namespace.Name}.{to.Name}{typeParameters}
+            return new {toFullName}{typeParameters}
             {{
 {properties}
             }};
