@@ -39,7 +39,7 @@ This project is licensed under the MIT License - see the [LICENSE](/AutoEntityGe
 
 #### &nbsp;&nbsp; Manual Installation
 
-&nbsp;&nbsp; Alternatively, you can install the extension by downloading the `.vsix` file from the [releases page](https://github.com/Peled-Zohar/AutoEntityGenerator/releases/tag/1.1.2).  
+&nbsp;&nbsp; Alternatively, you can install the extension by downloading the `.vsix` file from the latest [release](https://github.com/Peled-Zohar/AutoEntityGenerator/releases).  
 &nbsp;&nbsp; Once downloaded, double-click the `.vsix` file and follow the instructions in the VSIX installer to complete the installation.
 
 ## Target platforms
