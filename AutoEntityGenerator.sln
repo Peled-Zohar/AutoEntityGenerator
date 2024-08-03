@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoEntityGenerator.Common"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoEntityGenerator.CodeGenerator", "AutoEntityGenerator.CodeGenerator\AutoEntityGenerator.CodeGenerator.csproj", "{1F9AE15C-EA69-4D13-855E-69C0F8B7A288}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoEntityGenerator.UI", "AutoEntityGenerator.UI\AutoEntityGenerator.UI.csproj", "{98D8E573-F343-43A2-A534-944635C6D0EC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoEntityGenerator.UI.Winforms", "AutoEntityGenerator.UI.Winforms\AutoEntityGenerator.UI.Winforms.csproj", "{98D8E573-F343-43A2-A534-944635C6D0EC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{DDBA4572-A75F-47AF-977F-3B3814CF4EDA}"
 EndProject
