@@ -25,7 +25,7 @@
   <ItemGroup>
     <ProjectReference Include="..\AutoEntityGenerator.CodeGenerator\AutoEntityGenerator.CodeGenerator.csproj" />
     <ProjectReference Include="..\AutoEntityGenerator.Common\AutoEntityGenerator.Common.csproj" />
-    <ProjectReference Include="..\AutoEntityGenerator.UI.Winforms\AutoEntityGenerator.UI.Winforms.csproj" />
+    <ProjectReference Include="..\AutoEntityGenerator.UI\AutoEntityGenerator.UI.csproj" />
   </ItemGroup>
 
 </Project>
