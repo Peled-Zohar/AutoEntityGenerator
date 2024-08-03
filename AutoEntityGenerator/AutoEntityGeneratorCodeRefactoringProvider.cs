@@ -38,8 +38,7 @@ namespace AutoEntityGenerator
             }
             var typeDecleration = node as TypeDeclarationSyntax;
             var semanticModel = await context.Document.GetSemanticModelAsync(context.CancellationToken).ConfigureAwait(false);
-            var typeSymbol = semanticModel.GetDeclaredSymbol(typeDecleration) as INamedTypeSymbol;
-            if (typeSymbol is null)
+            if (!(semanticModel.GetDeclaredSymbol(typeDecleration) is INamedTypeSymbol typeSymbol))
             {
                 return;
             }
