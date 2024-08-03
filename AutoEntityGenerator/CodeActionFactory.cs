@@ -34,7 +34,7 @@ namespace AutoEntityGenerator
         }
 
         public EntityGeneratorCodeAction CreateEntityGeneratorCodeAction(Document document, TypeDeclarationSyntax typeDeclaration, INamedTypeSymbol typeSymbol) 
-            => new EntityGeneratorCodeAction(_entityGeneratorCodeActionLogger, document, typeDeclaration, _entityGenerator, _userInteraction, _codeGenerator, this, typeSymbol);
+            => new EntityGeneratorCodeAction(_entityGeneratorCodeActionLogger, document, typeDeclaration, this, typeSymbol);
 
         public GetUserInputOperation CreateGetUserInputOperation(IEntityProvider entityProvider) 
             => new GetUserInputOperation(entityProvider, _userInteraction);
