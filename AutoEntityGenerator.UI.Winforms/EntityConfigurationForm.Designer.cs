@@ -1,4 +1,4 @@
-﻿namespace AutoEntityGenerator.UI
+﻿namespace AutoEntityGenerator.UI.Winforms
 {
     partial class EntityConfigurationForm
     {

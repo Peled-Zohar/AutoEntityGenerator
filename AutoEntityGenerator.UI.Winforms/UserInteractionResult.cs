@@ -2,7 +2,7 @@
 using AutoEntityGenerator.Common.Interfaces;
 using System.Collections.Generic;
 
-namespace AutoEntityGenerator.UI
+namespace AutoEntityGenerator.UI.Winforms
 {
     internal class UserInteractionResult : IUserInteractionResult
     {

@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using System.Windows.Forms;
 
-namespace AutoEntityGenerator.UI
+namespace AutoEntityGenerator.UI.Winforms
 {
     public static class ServicesExtensions
     {

@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace AutoEntityGenerator.UI
+namespace AutoEntityGenerator.UI.Winforms
 {
     internal class IdentifierValidator
     {
