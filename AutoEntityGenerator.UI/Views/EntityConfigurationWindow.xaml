@@ -5,16 +5,77 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AutoEntityGenerator.UI.Views"
         mc:Ignorable="d"
-        Title="EntityConfigurationWindow" Height="450" Width="800">
+        Title="EntityConfigurationWindow" Height="600" Width="443" ResizeMode="CanResizeWithGrip" ShowInTaskbar="False">
     <Grid>
-        <Button x:Name="button" 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="280"/>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <!-- Text boxes -->
+        <StackPanel Orientation="Vertical" Margin="10">
+            <Label Content="Mapping Direction:" />
+            <ComboBox x:Name="MappingDirection" Margin="0,0,0,10" >
+                <ComboBoxItem Content="From DTO To Model" />
+                <ComboBoxItem Content="From Model To DTO" />
+            </ComboBox>
+                <Label Content="DTO name:" />
+            <TextBox x:Name="DTOName" Margin="0,0,0,10" />
+            <Label Content="Generated file name:" />
+            <TextBox x:Name="GeneratedFileName" Margin="0,0,0,10" />
+            <Label Content="Destination folder:" />
+                <TextBox x:Name="DestinationFolder" Margin="0,0,0,10" />
+            <Button x:Name="Browes" Content="Browes" Command="{Binding BrowesCommand}" HorizontalAlignment="Right" Padding="5,2,5,2" Margin="0,0,0,10" />
+        </StackPanel>
+        <!-- Data grid -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <DataGrid Grid.RowSpan="3" Grid.Column="0" ItemsSource="{Binding Properties}" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False">
+                <DataGrid.Columns>
+                    <DataGridCheckBoxColumn Header="Select" Binding="{Binding IsSelected}" Width="50"/>
+                    <DataGridTextColumn IsReadOnly="True" Header="Property Name" Binding="{Binding Name}" Width="*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <StackPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical" >
+                <Button Content="Select All" Margin="5" Command="{Binding SelectAllCommand}"/>
+                <Button Content="Unselect All" Margin="5" Command="{Binding UnselectAllCommand}" />
+            </StackPanel>
+        </Grid>
+        <!-- Buttons -->
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" 
+                x:Name="Cancel" 
                 Content="Cancel" 
                 HorizontalAlignment="Left" 
-                Margin="169,66,0,0" 
-                VerticalAlignment="Top" 
-                Height="105" 
-                Width="248" 
-                Click="button_Click"
-        />
+                Margin="20,0,0,0"
+                VerticalAlignment="Center" 
+                Height="28" 
+                Width="98"
+                Command="{Binding CancelCommand}" />
+            <Button Grid.Column="1" 
+                x:Name="Ok" 
+                Content="Ok" 
+                HorizontalAlignment="Center" 
+                Margin="0,0,0,0"
+                VerticalAlignment="Center" 
+                Height="28" 
+                Width="98" 
+                Command="{Binding SaveCommand}" />
+        </Grid>
     </Grid>
 </Window>

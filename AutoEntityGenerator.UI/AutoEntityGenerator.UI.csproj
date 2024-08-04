@@ -90,6 +90,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="ViewModels\EntityConfigurationViewModel.cs" />
+    <Compile Include="ViewModels\PropertyViewModel.cs" />
+    <Compile Include="ViewModels\RelayCommand.cs" />
     <Compile Include="Views\EntityConfigurationWindow.xaml.cs">
       <DependentUpon>EntityConfigurationWindow.xaml</DependentUpon>
     </Compile>
@@ -111,7 +114,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
-    <Folder Include="ViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="Views\EntityConfigurationWindow.xaml">

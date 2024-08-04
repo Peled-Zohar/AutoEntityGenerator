@@ -1,5 +1,6 @@
 ﻿using AutoEntityGenerator.Common.CodeInfo;
 using AutoEntityGenerator.Common.Interfaces;
+using AutoEntityGenerator.UI.ViewModels;
 using AutoEntityGenerator.UI.Views;
 
 namespace AutoEntityGenerator.UI.DependencyInjection
@@ -14,8 +15,8 @@ namespace AutoEntityGenerator.UI.DependencyInjection
     {
         public IEntityConfigurationWindow Create(Entity entity)
         {
-            var viewModel = new EntityConfigurationViewModel(entoty);
-            return new EntityConfigurationWindow() { DataContext = viewModel };
+            var viewModel = new EntityConfigurationViewModel(entity);
+            return new EntityConfigurationWindow(viewModel);
         }
     }
 

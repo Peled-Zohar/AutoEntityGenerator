@@ -1,5 +1,6 @@
 ﻿using AutoEntityGenerator.Common.CodeInfo;
 using AutoEntityGenerator.Common.Interfaces;
+using AutoEntityGenerator.UI.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,20 +30,22 @@ namespace AutoEntityGenerator.UI.Views
     /// </summary>
     public partial class EntityConfigurationWindow : Window, IEntityConfigurationWindow
     {
-        private readonly Entity _entity;
-
-        public EntityConfigurationWindow(Entity entity)
+        private EntityConfigurationViewModel _viewModel;
+        public EntityConfigurationWindow(EntityConfigurationViewModel viewModel)
         {
             InitializeComponent();
-            _entity = entity;
+            _viewModel = viewModel;
+            DataContext = _viewModel;
+            _viewModel.RequestClose += ViewModel_RequestClose;
+
         }
 
-        public IUserInteractionResult Result => throw new NotImplementedException();
-
-        private void button_Click(object sender, RoutedEventArgs e)
+        private void ViewModel_RequestClose(bool? dialogResult)
         {
-            DialogResult = false;
-
+            DialogResult = dialogResult;
         }
+
+        public IUserInteractionResult Result => _viewModel.Result;
+
     }
 }
