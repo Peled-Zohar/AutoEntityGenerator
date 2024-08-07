@@ -1,20 +1,6 @@
-﻿using AutoEntityGenerator.Common.CodeInfo;
-using AutoEntityGenerator.Common.Interfaces;
+﻿using AutoEntityGenerator.Common.Interfaces;
 using AutoEntityGenerator.UI.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace AutoEntityGenerator.UI.Views
 {
@@ -38,6 +24,7 @@ namespace AutoEntityGenerator.UI.Views
             DataContext = _viewModel;
             _viewModel.RequestClose += ViewModel_RequestClose;
             _viewModel.RequestFocus += ViewModel_RequestFocus;
+            _viewModel.ValidationFailed += ValidationErrors => MessageBox.Show(ValidationErrors);
         }
 
         private void ViewModel_RequestFocus()

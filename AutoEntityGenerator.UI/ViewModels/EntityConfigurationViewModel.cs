@@ -1,40 +1,42 @@
 ﻿using AutoEntityGenerator.Common.CodeInfo;
 using AutoEntityGenerator.Common.Interfaces;
 using AutoEntityGenerator.UI.Interaction;
+using FluentValidation;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace AutoEntityGenerator.UI.ViewModels
 {
     public class EntityConfigurationViewModel : INotifyPropertyChanged
     {
+        private readonly IValidator<EntityConfigurationViewModel> _validator;
         private readonly Entity _entity;
         private bool _generatedFileNameWasManuallySet;
         private string _destinationFolder;
         private string _dtoName;
         private string _generatedFileName;
 
-        public EntityConfigurationViewModel(Entity entity)
+        public EntityConfigurationViewModel(IValidator<EntityConfigurationViewModel> validator, Entity entity)
         {
+            _validator = validator;
             _entity = entity;
 
             _generatedFileNameWasManuallySet = false;
             DtoName = _entity.Name + "Request";
-            DestinationFolder= Path.Combine(Path.GetDirectoryName(_entity.SourceFilePath), "Generated");
+            DestinationFolder = Path.Combine(Path.GetDirectoryName(_entity.SourceFilePath), "Generated");
 
             MappingDirections = new[]
             {
-                new MappingDirectionViewModel("From Dto To Model", MappingDirection.FromDtoToModel ),
+                new MappingDirectionViewModel("From Dto To Model", MappingDirection.FromDtoToModel),
                 new MappingDirectionViewModel("From Model To Dto", MappingDirection.FromModelToDto),
             };
+
+            SelectedMappingDirection = MappingDirections[0];
 
             Properties = new ObservableCollection<PropertyViewModel>();
             foreach (var property in _entity.Properties)
@@ -48,7 +50,7 @@ namespace AutoEntityGenerator.UI.ViewModels
                 });
             }
 
-            SaveCommand = new RelayCommand(Save, CanSave);
+            SaveCommand = new RelayCommand(Save);
             CancelCommand = new RelayCommand(Cancel);
             BrowesCommand = new RelayCommand(Browes);
             SelectAllCommand = new RelayCommand(SelectAll);
@@ -57,13 +59,12 @@ namespace AutoEntityGenerator.UI.ViewModels
 
         public event Action<bool?> RequestClose;
         public event Action RequestFocus;
+        public event Action<string> ValidationFailed;
         public event PropertyChangedEventHandler PropertyChanged;
 
         public ObservableCollection<PropertyViewModel> Properties { get; }
         public MappingDirectionViewModel[] MappingDirections { get; }
-
         public MappingDirectionViewModel SelectedMappingDirection { get; set; }
-
         public string DestinationFolder
         {
             get => _destinationFolder;
@@ -117,15 +118,28 @@ namespace AutoEntityGenerator.UI.ViewModels
 
         private void Save()
         {
-            // TODO: Set Result property here
+            if (!Validate()) { return; }
 
+            Result = new UserInteractionResult(
+                SelectedMappingDirection.Value,
+                DestinationFolder,
+                DtoName,
+                Properties.Select(p => new Property() { IsReadonly = p.IsReadOnly, Name = p.Name, Type = p.Type }).ToList(),
+                GeneratedFileName);
             OnRequestClose(true);
         }
-        private bool CanSave()
+
+        private bool Validate()
         {
-            // TODO: Input validation logic goes here
+            var validationResult = _validator.Validate(this);
+            if (!validationResult.IsValid)
+            {
+                ValidationFailed?.Invoke(string.Join(Environment.NewLine, validationResult.Errors.Select(e => e.ErrorMessage)));
+                return false;
+            }
             return true;
         }
+
         private void Cancel()
         {
             Result = new UserInteractionResult();
