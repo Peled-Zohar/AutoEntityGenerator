@@ -19,7 +19,7 @@ namespace AutoEntityGenerator.UI.DependencyInjection
             return services;
         }
 
-        public static void AddUIRelatedGlobalExceptionHandling(this IServices services, ILogger<IServices> logger)
+        public static void AddUIRelatedGlobalExceptionHandling(this ILogger<IServices> logger)
         {
             Application.Current.DispatcherUnhandledException += (sender, args) =>
             {

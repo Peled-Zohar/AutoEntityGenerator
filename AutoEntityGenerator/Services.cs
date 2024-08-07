@@ -49,7 +49,7 @@ namespace AutoEntityGenerator
                 args.SetObserved();
             };
 
-            this.AddUIRelatedGlobalExceptionHandling(logger);
+            logger.AddUIRelatedGlobalExceptionHandling();
         }
 
         private IServices AddLogger()
