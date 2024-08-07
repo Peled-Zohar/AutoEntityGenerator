@@ -24,7 +24,6 @@ namespace AutoEntityGenerator.UI.Views
             DataContext = _viewModel;
             _viewModel.RequestClose += ViewModel_RequestClose;
             _viewModel.RequestFocus += ViewModel_RequestFocus;
-            _viewModel.ValidationFailed += ValidationErrors => MessageBox.Show(ValidationErrors);
         }
 
         private void ViewModel_RequestFocus()
@@ -42,5 +41,9 @@ namespace AutoEntityGenerator.UI.Views
 
         public IUserInteractionResult Result => _viewModel.Result;
 
+        private void GeneratedFileName_LostFocus(object sender, RoutedEventArgs e)
+        {
+            _viewModel.CheckFileNameMismatch();
+        }
     }
 }

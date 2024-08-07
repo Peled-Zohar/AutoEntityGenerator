@@ -1,5 +1,6 @@
 ﻿using AutoEntityGenerator.Common.Interfaces;
 using AutoEntityGenerator.UI.Interaction;
+using AutoEntityGenerator.UI.Services;
 using Microsoft.Extensions.Logging;
 using System.Windows;
 
@@ -10,7 +11,8 @@ namespace AutoEntityGenerator.UI.DependencyInjection
         public static IServices AddUI(this IServices services)
         {
             services.AddSingleton<IUserInteraction, UserInteraction>()
-                .AddSingleton<IEntityConfigurationWindowFactory, EntityConfigurationWindowFactory>();
+                .AddSingleton<IEntityConfigurationWindowFactory, EntityConfigurationWindowFactory>()
+                .AddSingleton<IDialogService, DialogService>();
             return services;
         }
 

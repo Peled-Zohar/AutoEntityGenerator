@@ -20,9 +20,9 @@ namespace AutoEntityGenerator.UI.ViewModels
                 .Must(v => IsValidIdentifier(v)).WithMessage("Invalid Dto name.");
 
             RuleFor(vm => vm.DestinationFolder)
-                .Must(folder => !string.IsNullOrWhiteSpace(folder)).WithMessage("Destination folder is required")
-                .Must(folder => !folder.Any(c => Path.GetInvalidPathChars().Contains(c))).WithMessage("Invalid Destination folder path.")
-                .Must(folder => folder.StartsWith(_projectDirectory, StringComparison.OrdinalIgnoreCase)).WithMessage("Destination folder must be a subfolder of the project folder.");
+                .Must(v => !string.IsNullOrWhiteSpace(v)).WithMessage("Destination folder is required")
+                .Must(v => !v.Any(c => Path.GetInvalidPathChars().Contains(c))).WithMessage("Invalid Destination folder path.")
+                .Must(v => v.StartsWith(_projectDirectory, StringComparison.OrdinalIgnoreCase)).WithMessage("Destination folder must be a subfolder of the project folder.");
 
             RuleFor(vm => vm.Properties)
                 .Must(v => v.Any(p => p.IsSelected)).WithMessage("You must check at least one property.");

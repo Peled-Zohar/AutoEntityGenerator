@@ -103,6 +103,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Services\DialogService.cs" />
     <Compile Include="ViewModels\EntityConfigurationViewModel.cs" />
     <Compile Include="ViewModels\EntityConfigurationViewModelValidator.cs" />
     <Compile Include="ViewModels\MappingDirectionViewModel.cs" />

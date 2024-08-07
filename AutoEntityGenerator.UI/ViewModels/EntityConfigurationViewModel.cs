@@ -1,6 +1,7 @@
 ﻿using AutoEntityGenerator.Common.CodeInfo;
 using AutoEntityGenerator.Common.Interfaces;
 using AutoEntityGenerator.UI.Interaction;
+using AutoEntityGenerator.UI.Services;
 using FluentValidation;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using System;
@@ -15,18 +16,20 @@ namespace AutoEntityGenerator.UI.ViewModels
     public class EntityConfigurationViewModel : INotifyPropertyChanged
     {
         private readonly IValidator<EntityConfigurationViewModel> _validator;
+        private readonly IDialogService _dialogService;
         private readonly Entity _entity;
-        private bool _generatedFileNameWasManuallySet;
+        private bool _allowFileNameMismatch;
         private string _destinationFolder;
         private string _dtoName;
         private string _generatedFileName;
 
-        public EntityConfigurationViewModel(IValidator<EntityConfigurationViewModel> validator, Entity entity)
+        public EntityConfigurationViewModel(IValidator<EntityConfigurationViewModel> validator, IDialogService dialogService, Entity entity)
         {
             _validator = validator;
+            _dialogService = dialogService;
             _entity = entity;
 
-            _generatedFileNameWasManuallySet = false;
+            _allowFileNameMismatch = false;
             DtoName = _entity.Name + "Request";
             DestinationFolder = Path.Combine(Path.GetDirectoryName(_entity.SourceFilePath), "Generated");
 
@@ -59,7 +62,6 @@ namespace AutoEntityGenerator.UI.ViewModels
 
         public event Action<bool?> RequestClose;
         public event Action RequestFocus;
-        public event Action<string> ValidationFailed;
         public event PropertyChangedEventHandler PropertyChanged;
 
         public ObservableCollection<PropertyViewModel> Properties { get; }
@@ -87,7 +89,7 @@ namespace AutoEntityGenerator.UI.ViewModels
                     _dtoName = value;
                     OnPropertyChanged(nameof(DtoName));
 
-                    if (!_generatedFileNameWasManuallySet)
+                    if (!_allowFileNameMismatch)
                     {
                         _generatedFileName = _dtoName + ".cs";
                         OnPropertyChanged(nameof(GeneratedFileName));
@@ -103,7 +105,7 @@ namespace AutoEntityGenerator.UI.ViewModels
                 if (_generatedFileName != value)
                 {
                     _generatedFileName = value;
-                    _generatedFileNameWasManuallySet = true;
+                    _allowFileNameMismatch = true;
                     OnPropertyChanged(nameof(GeneratedFileName));
                 }
             }
@@ -128,18 +130,6 @@ namespace AutoEntityGenerator.UI.ViewModels
                 GeneratedFileName);
             OnRequestClose(true);
         }
-
-        private bool Validate()
-        {
-            var validationResult = _validator.Validate(this);
-            if (!validationResult.IsValid)
-            {
-                ValidationFailed?.Invoke(string.Join(Environment.NewLine, validationResult.Errors.Select(e => e.ErrorMessage)));
-                return false;
-            }
-            return true;
-        }
-
         private void Cancel()
         {
             Result = new UserInteractionResult();
@@ -167,6 +157,35 @@ namespace AutoEntityGenerator.UI.ViewModels
                 property.IsSelected = selected;
             }
         }
+        private bool Validate()
+        {
+            var validationResult = _validator.Validate(this);
+            if (!validationResult.IsValid)
+            {
+                _dialogService.ShowDialog(string.Join(Environment.NewLine, validationResult.Errors.Select(e => e.ErrorMessage)), "Invalid input");
+                return false;
+            }
+            CheckFileNameMismatch();
+            return true;
+        }
+
+        public void CheckFileNameMismatch()
+        {
+            if (!_allowFileNameMismatch && GeneratedFileName != DtoName + ".cs")
+            {
+                _allowFileNameMismatch = _dialogService.ShowYesNoDialog(
+                    "Generated file name doesn't match entity name.\nIs that Intended?",
+                    "File name and entity name mismatch");
+
+                if (!_allowFileNameMismatch)
+                {
+                    _generatedFileName = DtoName + ".cs";
+                }
+
+                OnPropertyChanged(nameof(GeneratedFileName));
+            }
+        }
+
         protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         protected virtual void OnRequestClose(bool? dialogResult) => RequestClose?.Invoke(dialogResult);
         protected virtual void OnRequestFocus() => RequestFocus?.Invoke();
