@@ -30,14 +30,22 @@ namespace AutoEntityGenerator.UI.Views
     /// </summary>
     public partial class EntityConfigurationWindow : Window, IEntityConfigurationWindow
     {
-        private EntityConfigurationViewModel _viewModel;
+        private readonly EntityConfigurationViewModel _viewModel;
         public EntityConfigurationWindow(EntityConfigurationViewModel viewModel)
         {
             InitializeComponent();
             _viewModel = viewModel;
             DataContext = _viewModel;
             _viewModel.RequestClose += ViewModel_RequestClose;
+            _viewModel.RequestFocus += ViewModel_RequestFocus;
+        }
 
+        private void ViewModel_RequestFocus()
+        {
+            Activate();
+            Topmost = true;
+            Topmost = false;
+            Focus();
         }
 
         private void ViewModel_RequestClose(bool? dialogResult)

@@ -12,14 +12,14 @@ namespace AutoEntityGenerator.UI.ViewModels
         public bool IsReadOnly { get; set; }
         public bool IsSelected
         {
-            get { return _isSelected; }
+            get => _isSelected;
             set
             {
-                if (IsSelected != value)
-                {
-                    _isSelected = value;
-                    OnPropertyChanged(nameof(IsSelected));
-                }
+                // Normally this will be in a condition,
+                // but I've noticed sometime the UI doesn't get refreshed
+                // so I've removed the condition in the hope to solve this problem.
+                _isSelected = value;
+                OnPropertyChanged(nameof(IsSelected));
             }
         }
         private void OnPropertyChanged(string propertyName)

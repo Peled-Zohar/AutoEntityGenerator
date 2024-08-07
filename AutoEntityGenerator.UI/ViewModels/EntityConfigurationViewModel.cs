@@ -1,6 +1,7 @@
 ﻿using AutoEntityGenerator.Common.CodeInfo;
 using AutoEntityGenerator.Common.Interfaces;
 using AutoEntityGenerator.UI.Interaction;
+using Microsoft.WindowsAPICodePack.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,7 +16,11 @@ namespace AutoEntityGenerator.UI.ViewModels
     public class EntityConfigurationViewModel : INotifyPropertyChanged
     {
         private readonly Entity _entity;
+        private string _destinationFolder;
+
         public event Action<bool?> RequestClose;
+
+        public event Action RequestFocus;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -28,7 +33,6 @@ namespace AutoEntityGenerator.UI.ViewModels
             BrowesCommand = new RelayCommand(OnBrowes);
             SelectAllCommand = new RelayCommand(OnSelectAll);
             UnselectAllCommand = new RelayCommand(OnUnselectAll);
-
 
             foreach (var property in _entity.Properties)
             {
@@ -50,13 +54,26 @@ namespace AutoEntityGenerator.UI.ViewModels
 
         public ObservableCollection<PropertyViewModel> Properties { get; }
 
+        public string DestinationFolder
+        {
+            get => _destinationFolder;
+            set
+            {
+                if (_destinationFolder != value)
+                {
+                    _destinationFolder = value;
+                    OnPropertyChanged(nameof(DestinationFolder));
+                }
+            }
+        }
+
         public IUserInteractionResult Result { get; private set; }
 
         private void OnSave()
         {
             // TODO: Set Result property here
 
-            RequestClose(true);
+            OnRequestClose(true);
         }
 
         private bool CanSave()
@@ -68,31 +85,48 @@ namespace AutoEntityGenerator.UI.ViewModels
         private void OnCancel()
         {
             Result = new UserInteractionResult();
-            RequestClose(false);
+            OnRequestClose(false);
         }
 
         private void OnUnselectAll()
         {
-            // TODO: Implement UnSelect all
-            throw new NotImplementedException();
+            ToggleSelectedForAllProperties(false);
         }
 
         private void OnSelectAll()
         {
-            // TODO: Implement Select all
-            throw new NotImplementedException();
+            ToggleSelectedForAllProperties(true);
         }
 
         private void OnBrowes()
         {
-            // TODO: Implement Browes
-            throw new NotImplementedException();
+            using (var dialog = new CommonOpenFileDialog())
+            {
+                dialog.IsFolderPicker = true;
+                if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+                {
+                    DestinationFolder = dialog.FileName;
+                }
+            }
+            OnRequestFocus();
+        }
+
+        private void ToggleSelectedForAllProperties(bool selected)
+        {
+            foreach (var property in Properties)
+            {
+                property.IsSelected = selected;
+            }
         }
 
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        protected virtual void OnRequestClose(bool? dialogResult) => RequestClose?.Invoke(dialogResult);
+
+        protected virtual void OnRequestFocus() => RequestFocus?.Invoke();
     }
     
 }
