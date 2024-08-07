@@ -14,15 +14,9 @@ namespace AutoEntityGenerator.UI.ViewModels
             _canExecute = canExecute;
         }
 
-        public bool CanExecute(object parameter)
-        {
-            return _canExecute == null || _canExecute();
-        }
+        public bool CanExecute(object parameter) => _canExecute?.Invoke() ?? true;
 
-        public void Execute(object parameter)
-        {
-            _execute();
-        }
+        public void Execute(object parameter) => _execute();
 
         public event EventHandler CanExecuteChanged
         {

@@ -19,14 +19,14 @@
         <!-- Text boxes -->
         <StackPanel Orientation="Vertical" Margin="10">
             <Label Content="Mapping Direction:" />
-            <ComboBox x:Name="MappingDirection" Margin="0,0,0,10" >
-                <ComboBoxItem Content="From DTO To Model" />
-                <ComboBoxItem Content="From Model To DTO" />
-            </ComboBox>
-                <Label Content="DTO name:" />
-            <TextBox x:Name="DTOName" Margin="0,0,0,10" />
+            <ComboBox x:Name="MappingDirection" Margin="0,0,0,10" 
+                      ItemsSource="{Binding MappingDirections}"
+                      SelectedItem="{Binding SelectedMappingDirection}" 
+                      DisplayMemberPath="Name"/>
+            <Label Content="DTO name:" />
+            <TextBox x:Name="DTOName" Margin="0,0,0,10" Text="{Binding DtoName}" />
             <Label Content="Generated file name:" />
-            <TextBox x:Name="GeneratedFileName" Margin="0,0,0,10" />
+            <TextBox x:Name="GeneratedFileName" Margin="0,0,0,10" Text="{Binding GeneratedFileName}"/>
             <Label Content="Destination folder:" />
             <TextBox x:Name="DestinationFolder" Margin="0,0,0,10" Text="{Binding DestinationFolder}" />
             <Button x:Name="Browes" Content="Browes" Command="{Binding BrowesCommand}" HorizontalAlignment="Right" Padding="5,2,5,2" Margin="0,0,0,10" />
