@@ -41,9 +41,5 @@ namespace AutoEntityGenerator.UI.Views
 
         public IUserInteractionResult Result => _viewModel.Result;
 
-        private void GeneratedFileName_LostFocus(object sender, RoutedEventArgs e)
-        {
-            _viewModel.CheckFileNameMismatch();
-        }
     }
 }

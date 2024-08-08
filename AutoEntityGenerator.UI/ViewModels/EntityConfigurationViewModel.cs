@@ -7,6 +7,7 @@ using Microsoft.WindowsAPICodePack.Dialogs;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Input;
@@ -18,10 +19,12 @@ namespace AutoEntityGenerator.UI.ViewModels
         private readonly IValidator<EntityConfigurationViewModel> _validator;
         private readonly IDialogService _dialogService;
         private readonly Entity _entity;
-        private bool _allowFileNameMismatch;
         private string _destinationFolder;
         private string _dtoName;
         private string _generatedFileName;
+        private bool _allowFileNameMismatch;
+
+        public const string Extension = ".cs";
 
         public EntityConfigurationViewModel(IValidator<EntityConfigurationViewModel> validator, IDialogService dialogService, Entity entity)
         {
@@ -91,7 +94,7 @@ namespace AutoEntityGenerator.UI.ViewModels
 
                     if (!_allowFileNameMismatch)
                     {
-                        _generatedFileName = _dtoName + ".cs";
+                        _generatedFileName = _dtoName + Extension;
                         OnPropertyChanged(nameof(GeneratedFileName));
                     }
                 }
@@ -104,9 +107,12 @@ namespace AutoEntityGenerator.UI.ViewModels
             {
                 if (_generatedFileName != value)
                 {
-                    _generatedFileName = value;
-                    _allowFileNameMismatch = true;
-                    OnPropertyChanged(nameof(GeneratedFileName));
+                    if (CheckFileNameMismatch())
+                    {
+                        _generatedFileName = value;
+                        _allowFileNameMismatch = true;
+                        OnPropertyChanged(nameof(GeneratedFileName));
+                    }
                 }
             }
         }
@@ -132,7 +138,6 @@ namespace AutoEntityGenerator.UI.ViewModels
         }
         private void Cancel()
         {
-            Result = new UserInteractionResult();
             OnRequestClose(false);
         }
         private void SelectAll() => ToggleSelectedForAllProperties(true);
@@ -165,26 +170,14 @@ namespace AutoEntityGenerator.UI.ViewModels
                 _dialogService.ShowDialog(string.Join(Environment.NewLine, validationResult.Errors.Select(e => e.ErrorMessage)), "Invalid input");
                 return false;
             }
-            CheckFileNameMismatch();
-            return true;
+            
+            return CheckFileNameMismatch();
         }
 
-        public void CheckFileNameMismatch()
-        {
-            if (!_allowFileNameMismatch && GeneratedFileName != DtoName + ".cs")
-            {
-                _allowFileNameMismatch = _dialogService.ShowYesNoDialog(
-                    "Generated file name doesn't match entity name.\nIs that Intended?",
-                    "File name and entity name mismatch");
-
-                if (!_allowFileNameMismatch)
-                {
-                    _generatedFileName = DtoName + ".cs";
-                }
-
-                OnPropertyChanged(nameof(GeneratedFileName));
-            }
-        }
+        public bool CheckFileNameMismatch() 
+            => _allowFileNameMismatch || _dialogService.ShowYesNoDialog(
+                $"Generated file name doesn't match entity name.{Environment.NewLine}Is that Intended?",
+                "File name and entity name mismatch");
 
         protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         protected virtual void OnRequestClose(bool? dialogResult) => RequestClose?.Invoke(dialogResult);

@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using AutoEntityGenerator.UI.Services;
+using FluentValidation;
 using System;
 using System.IO;
 using System.Linq;
@@ -19,6 +20,10 @@ namespace AutoEntityGenerator.UI.ViewModels
                 .Must(v => !string.IsNullOrEmpty(v)).WithMessage("Dto name is required")
                 .Must(v => IsValidIdentifier(v)).WithMessage("Invalid Dto name.");
 
+            RuleFor(vm => vm.GeneratedFileName)
+                .Must(v => !v.Any(c => Path.GetInvalidPathChars().Contains(c))).WithMessage("Invalid generated file name.")
+                .Must(v => v.EndsWith(EntityConfigurationViewModel.Extension)).WithMessage("Invalid generated file extension");
+
             RuleFor(vm => vm.DestinationFolder)
                 .Must(v => !string.IsNullOrWhiteSpace(v)).WithMessage("Destination folder is required")
                 .Must(v => !v.Any(c => Path.GetInvalidPathChars().Contains(c))).WithMessage("Invalid Destination folder path.")
@@ -26,11 +31,9 @@ namespace AutoEntityGenerator.UI.ViewModels
 
             RuleFor(vm => vm.Properties)
                 .Must(v => v.Any(p => p.IsSelected)).WithMessage("You must check at least one property.");
-
-            // TODO: Add missing validation rules
         }
 
-        
+
 
         private bool IsValidIdentifier(string identifier)
         {
