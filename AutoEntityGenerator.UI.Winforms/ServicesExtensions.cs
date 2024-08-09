@@ -13,7 +13,7 @@ namespace AutoEntityGenerator.UI.Winforms
             return services;
         }
 
-        public static void AddUIRelatedGlobalExceptionHandling(ILogger<IServices> logger)
+        public static void AddUIRelatedGlobalExceptionHandling(this ILogger<IServices> logger)
         {
             Application.ThreadException += (sender, args) =>
             {
