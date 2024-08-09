@@ -7,6 +7,13 @@
         mc:Ignorable="d"
         Title="EntityConfigurationWindow" Height="600" Width="400" 
         ResizeMode="CanResizeWithGrip" ShowInTaskbar="False">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="VSTheme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="280"/>
