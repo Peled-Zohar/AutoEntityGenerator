@@ -1,5 +1,6 @@
 ﻿using AutoEntityGenerator.CodeGenerator;
 using AutoEntityGenerator.Common.Interfaces;
+using AutoEntityGenerator.UI.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
@@ -48,7 +49,7 @@ namespace AutoEntityGenerator
                 args.SetObserved();
             };
 
-            this.AddUIRelatedGlobalExceptionHandling(logger);
+            logger.AddUIRelatedGlobalExceptionHandling();
         }
 
         private IServices AddLogger()
