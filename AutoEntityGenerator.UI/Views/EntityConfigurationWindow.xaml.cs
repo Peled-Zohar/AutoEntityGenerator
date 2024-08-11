@@ -20,6 +20,7 @@ namespace AutoEntityGenerator.UI.Views
         public EntityConfigurationWindow(EntityConfigurationViewModel viewModel)
         {
             InitializeComponent();
+            Owner = Application.Current.MainWindow;
             _viewModel = viewModel;
             DataContext = _viewModel;
             _viewModel.RequestClose += ViewModel_RequestClose;

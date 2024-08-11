@@ -93,12 +93,13 @@ namespace AutoEntityGenerator.UI.ViewModels
 
                     if (!_allowFileNameMismatch)
                     {
-                        _generatedFileName = _dtoName + Extension;
+                        _generatedFileName = GenerateFileName();
                         OnPropertyChanged(nameof(GeneratedFileName));
                     }
                 }
             }
         }
+
         public string GeneratedFileName
         {
             get => _generatedFileName;
@@ -106,7 +107,7 @@ namespace AutoEntityGenerator.UI.ViewModels
             {
                 if (_generatedFileName != value)
                 {
-                    if (CheckFileNameMismatch())
+                    if (CheckFileNameMismatch(value))
                     {
                         _generatedFileName = value;
                         _allowFileNameMismatch = true;
@@ -115,6 +116,9 @@ namespace AutoEntityGenerator.UI.ViewModels
                 }
             }
         }
+
+        private string GenerateFileName() => _dtoName + Extension;
+
         public IUserInteractionResult Result { get; private set; }
 
         public ICommand SaveCommand { get; }
@@ -173,9 +177,9 @@ namespace AutoEntityGenerator.UI.ViewModels
             return CheckFileNameMismatch();
         }
 
-        public bool CheckFileNameMismatch() 
+        public bool CheckFileNameMismatch(string value = null) 
         {
-            if (!_allowFileNameMismatch)
+            if (!_allowFileNameMismatch && (value ?? _generatedFileName) != GenerateFileName())
             {
                 _allowFileNameMismatch = _dialogService.ShowYesNoDialog(
                 $"Generated file name doesn't match entity name.{Environment.NewLine}Is that Intended?",

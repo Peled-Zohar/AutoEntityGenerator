@@ -1,6 +1,7 @@
 ﻿using AutoEntityGenerator.Common.CodeInfo;
 using AutoEntityGenerator.Common.Interfaces;
 using AutoEntityGenerator.UI.DependencyInjection;
+using System.Windows;
 
 namespace AutoEntityGenerator.UI.Interaction
 {
