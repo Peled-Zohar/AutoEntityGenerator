@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:AutoEntityGenerator.UI.Views"
         mc:Ignorable="d"
         Title="EntityConfigurationWindow" Height="600" Width="400" 
-        ResizeMode="CanResizeWithGrip" ShowInTaskbar="False">
+        ResizeMode="CanResizeWithGrip" ShowInTaskbar="False" MinWidth="400" MinHeight="600">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -25,18 +25,18 @@
         </Grid.ColumnDefinitions>
         <!-- Text boxes -->
         <StackPanel Orientation="Vertical" Margin="10,10,22,10">
-            <Label Content="Mapping Direction:" />
-            <ComboBox x:Name="MappingDirection" Margin="0,0,0,10" 
+            <Label Content="Mapping Direction:" Margin="0" />
+            <ComboBox x:Name="MappingDirection" 
                       ItemsSource="{Binding MappingDirections}"
                       SelectedItem="{Binding SelectedMappingDirection}" 
                       DisplayMemberPath="Name"/>
             <Label Content="DTO name:" />
-            <TextBox Margin="0,0,0,10" Text="{Binding DtoName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBox Text="{Binding DtoName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             <Label Content="Generated file name:" />
-            <TextBox Margin="0,0,0,10" Text="{Binding GeneratedFileName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox Text="{Binding GeneratedFileName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <Label Content="Destination folder:" />
-            <TextBox Margin="0,0,0,10" Text="{Binding DestinationFolder, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            <Button Content="Browes" Command="{Binding BrowesCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Right" Padding="5,2,5,2" Margin="0,0,0,10" />
+            <TextBox Text="{Binding DestinationFolder, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <Button Content="Browes" Command="{Binding BrowesCommand}" HorizontalAlignment="Right" Padding="5,2,5,2" Margin="0,5,0,5" />
         </StackPanel>
         <!-- Data grid -->
         <Grid Grid.Row="1">

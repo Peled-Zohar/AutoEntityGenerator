@@ -5,24 +5,56 @@
                     xmlns:platformUI="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
                     >
 
-    <!-- Global Style for the Window -->
     <Style TargetType="{x:Type Window}">
         <Setter Property="FontFamily" Value="{DynamicResource {x:Static shell:VsFonts.EnvironmentFontFamilyKey}}" />
         <Setter Property="FontSize" Value="{DynamicResource {x:Static shell:VsFonts.EnvironmentFontSizeKey}}" />
-        <Setter Property="Background" Value="{DynamicResource {x:Static shell:VsBrushes.ToolWindowBackgroundKey}}" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static shell:VsBrushes.ToolWindowTextKey}}" />
+        <Setter Property="Background" Value="{DynamicResource {x:Static shell:VsBrushes.ToolboxBackgroundKey}}" />
+        <Setter Property="WindowStyle" Value="None" />
+    </Style>
+    <Style TargetType="{x:Type Grid}">
+        <Setter Property="Background" Value="{DynamicResource {x:Static shell:VsBrushes.ToolboxBackgroundKey}}" />
     </Style>
 
-    <!-- Global Style for Buttons -->
-    <Style TargetType="{x:Type Button}">
-        <Setter Property="Background" Value="{DynamicResource {x:Static shell:VsBrushes.ButtonFaceKey}}" />
-        
+    <Style TargetType="{x:Type Button}"
+           BasedOn="{StaticResource {x:Static shell:VsResourceKeys.ButtonStyleKey}}"/>
+
+    <Style TargetType="{x:Type TextBox}"
+           BasedOn="{StaticResource {x:Static shell:VsResourceKeys.TextBoxStyleKey}}">
+        <Setter Property="Margin" Value="0,2,0,2" />
+        <Setter Property="Padding" Value="0,2,0,2" />
     </Style>
 
-    <!-- Global Style for TextBoxes -->
-    <Style TargetType="{x:Type TextBox}">
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static shell:VsBrushes.ToolWindowTextKey}}" />
-        <Setter Property="Background" Value="{DynamicResource {x:Static shell:VsBrushes.ToolWindowBackgroundKey}}" />
+    <Style TargetType="{x:Type Label}">
+        <Setter Property="Margin" Value="0,10,0,0" />
+        <Setter Property="Background" Value="{DynamicResource {x:Static shell:VsBrushes.ToolboxBackgroundKey}}"/>
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static shell:VsBrushes.CaptionTextKey}}"/>
     </Style>
-    
+
+    <Style TargetType="{x:Type ComboBox}"
+           BasedOn="{StaticResource {x:Static shell:VsResourceKeys.ComboBoxStyleKey}}" />
+
+    <Style TargetType="{x:Type ComboBoxItem}"
+           BasedOn="{StaticResource {x:Static shell:VsResourceKeys.ComboBoxItemStyleKey}}"/>
+
+    <Style TargetType="{x:Type DataGrid}">
+        <Setter Property="Background" Value="{DynamicResource {x:Static shell:VsBrushes.ToolboxBackgroundKey}}"/>
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static shell:VsBrushes.CaptionTextKey}}"/>
+        <Setter Property="RowHeaderWidth" Value="0"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static shell:VsBrushes.ActiveBorderKey}}"/>
+    </Style>
+    <Style TargetType="{x:Type DataGridColumnHeader}">
+        <Setter Property="Background" Value="{DynamicResource {x:Static shell:VsBrushes.ToolboxBackgroundKey}}"/>
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static shell:VsBrushes.CaptionTextKey}}"/>
+    </Style>
+    <Style TargetType="{x:Type DataGridCell}">
+        <Setter Property="Background" Value="{DynamicResource {x:Static shell:VsBrushes.ToolboxBackgroundKey}}"/>
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static shell:VsBrushes.CaptionTextKey}}"/>
+    </Style>
+    <Style TargetType="{x:Type ScrollBar}"
+           BasedOn="{StaticResource {x:Static shell:VsResourceKeys.ScrollBarStyleKey}}" />
+
+
+
+
+
 </ResourceDictionary>
