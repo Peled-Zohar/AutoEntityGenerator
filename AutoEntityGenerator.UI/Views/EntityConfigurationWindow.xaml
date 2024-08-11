@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AutoEntityGenerator.UI.Views"
         mc:Ignorable="d"
-        Title="EntityConfigurationWindow" Height="600" Width="400" 
-        ResizeMode="CanResizeWithGrip" ShowInTaskbar="False" MinWidth="400" MinHeight="600">
+        Title="EntityConfigurationWindow" 
+        MinHeight="600" Height="600" MinWidth="400" Width="400" 
+        ResizeMode="CanResizeWithGrip" ShowInTaskbar="False" WindowStyle="ToolWindow">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -39,10 +40,10 @@
             <Button Content="Browes" Command="{Binding BrowesCommand}" HorizontalAlignment="Right" Padding="5,2,5,2" Margin="0,5,0,5" />
         </StackPanel>
         <!-- Data grid -->
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1" Margin="10,0,10,0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2.2*"/>
-                <ColumnDefinition Width="0.8*"/>
+                <ColumnDefinition Width="2.1*"/>
+                <ColumnDefinition Width="0.9*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition/>
@@ -53,13 +54,15 @@
                 <DataGrid.Columns>
                     <DataGridCheckBoxColumn Header="Select" Binding="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="50">
                         <DataGridCheckBoxColumn.ElementStyle>
-                            <Style TargetType="CheckBox">
+                            <Style TargetType="CheckBox"
+                                   BasedOn="{StaticResource DataGridCheckBoxStyleKey}">
                                 <Setter Property="IsHitTestVisible" Value="True"/>
                                 <Setter Property="HorizontalAlignment" Value="Center"/>
                             </Style>
                         </DataGridCheckBoxColumn.ElementStyle>
                         <DataGridCheckBoxColumn.EditingElementStyle>
-                            <Style TargetType="CheckBox">
+                            <Style TargetType="CheckBox"
+                                   BasedOn="{StaticResource DataGridCheckBoxStyleKey}">
                                 <Setter Property="IsHitTestVisible" Value="True"/>
                                 <Setter Property="HorizontalAlignment" Value="Center"/>
                             </Style>
@@ -68,7 +71,7 @@
                     <DataGridTextColumn IsReadOnly="True" Header="Property Name" Binding="{Binding Name}" Width="*"/>
                 </DataGrid.Columns>
             </DataGrid>
-            <StackPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical" >
+            <StackPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical" Margin="10,0,0,0">
                 <Button Content="Select All" Margin="5" Command="{Binding SelectAllCommand}"/>
                 <Button Content="Unselect All" Margin="5" Command="{Binding UnselectAllCommand}" />
             </StackPanel>

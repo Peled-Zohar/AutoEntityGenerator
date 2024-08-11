@@ -9,7 +9,6 @@
         <Setter Property="FontFamily" Value="{DynamicResource {x:Static shell:VsFonts.EnvironmentFontFamilyKey}}" />
         <Setter Property="FontSize" Value="{DynamicResource {x:Static shell:VsFonts.EnvironmentFontSizeKey}}" />
         <Setter Property="Background" Value="{DynamicResource {x:Static shell:VsBrushes.ToolboxBackgroundKey}}" />
-        <Setter Property="WindowStyle" Value="None" />
     </Style>
     <Style TargetType="{x:Type Grid}">
         <Setter Property="Background" Value="{DynamicResource {x:Static shell:VsBrushes.ToolboxBackgroundKey}}" />
@@ -32,7 +31,6 @@
 
     <Style TargetType="{x:Type ComboBox}"
            BasedOn="{StaticResource {x:Static shell:VsResourceKeys.ComboBoxStyleKey}}" />
-
     <Style TargetType="{x:Type ComboBoxItem}"
            BasedOn="{StaticResource {x:Static shell:VsResourceKeys.ComboBoxItemStyleKey}}"/>
 
@@ -40,21 +38,23 @@
         <Setter Property="Background" Value="{DynamicResource {x:Static shell:VsBrushes.ToolboxBackgroundKey}}"/>
         <Setter Property="Foreground" Value="{DynamicResource {x:Static shell:VsBrushes.CaptionTextKey}}"/>
         <Setter Property="RowHeaderWidth" Value="0"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static shell:VsBrushes.ActiveBorderKey}}"/>
+        <Setter Property="BorderThickness" Value="0"/>
     </Style>
     <Style TargetType="{x:Type DataGridColumnHeader}">
         <Setter Property="Background" Value="{DynamicResource {x:Static shell:VsBrushes.ToolboxBackgroundKey}}"/>
         <Setter Property="Foreground" Value="{DynamicResource {x:Static shell:VsBrushes.CaptionTextKey}}"/>
+        <Setter Property="BorderThickness" Value="0"/>
     </Style>
     <Style TargetType="{x:Type DataGridCell}">
         <Setter Property="Background" Value="{DynamicResource {x:Static shell:VsBrushes.ToolboxBackgroundKey}}"/>
         <Setter Property="Foreground" Value="{DynamicResource {x:Static shell:VsBrushes.CaptionTextKey}}"/>
+        <Setter Property="BorderThickness" Value="0"/>
     </Style>
+    
     <Style TargetType="{x:Type ScrollBar}"
            BasedOn="{StaticResource {x:Static shell:VsResourceKeys.ScrollBarStyleKey}}" />
 
-
-
-
+    <Style x:Key="DataGridCheckBoxStyleKey" TargetType="{x:Type CheckBox}"
+           BasedOn="{StaticResource {x:Static shell:VsResourceKeys.CheckBoxStyleKey}}"/>
 
 </ResourceDictionary>
