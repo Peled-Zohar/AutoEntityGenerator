@@ -1,5 +1,4 @@
-﻿using AutoEntityGenerator.Common.CodeInfo;
-using AutoEntityGenerator.Common.Interfaces;
+﻿using AutoEntityGenerator.Common.Interfaces;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeActions;
 using System.Threading;

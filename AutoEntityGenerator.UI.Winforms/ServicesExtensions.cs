@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using System.Windows.Forms;
 
-namespace AutoEntityGenerator.UI
+namespace AutoEntityGenerator.UI.Winforms
 {
     public static class ServicesExtensions
     {
@@ -13,7 +13,7 @@ namespace AutoEntityGenerator.UI
             return services;
         }
 
-        public static void AddUIRelatedGlobalExceptionHandling(this IServices services, ILogger<IServices> logger)
+        public static void AddUIRelatedGlobalExceptionHandling(this ILogger<IServices> logger)
         {
             Application.ThreadException += (sender, args) =>
             {

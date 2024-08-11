@@ -1,6 +1,4 @@
 using AutoEntityGenerator.Common.CodeInfo;
-using NUnit.Framework.Legacy;
-using System.Reflection.Emit;
 
 namespace AutoEntityGenerator.CodeGenerator.Tests;
 

@@ -1,7 +1,7 @@
 ﻿using AutoEntityGenerator.Common.CodeInfo;
 using System.ComponentModel;
 
-namespace AutoEntityGenerator.UI
+namespace AutoEntityGenerator.UI.Winforms
 {
     internal class SelectablePropertyInfo : Property, INotifyPropertyChanged
     {
