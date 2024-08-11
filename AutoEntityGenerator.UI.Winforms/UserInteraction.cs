@@ -4,7 +4,7 @@ using System;
 using System.Diagnostics;
 using System.Windows.Forms;
 
-namespace AutoEntityGenerator.UI
+namespace AutoEntityGenerator.UI.Winforms
 {
     internal class UserInteraction : IUserInteraction
     {

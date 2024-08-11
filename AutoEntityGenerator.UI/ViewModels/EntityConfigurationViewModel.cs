@@ -174,13 +174,13 @@ namespace AutoEntityGenerator.UI.ViewModels
             return CheckFileNameMismatch();
         }
 
-        public bool CheckFileNameMismatch()
+        public bool CheckFileNameMismatch() 
         {
             if (!_allowFileNameMismatch)
             {
                 _allowFileNameMismatch = _dialogService.ShowYesNoDialog(
-                        $"Generated file name doesn't match entity name.{Environment.NewLine}Is that Intended?",
-                        "File name and entity name mismatch");
+                $"Generated file name doesn't match entity name.{Environment.NewLine}Is that Intended?",
+                "File name and entity name mismatch");
             }
             return _allowFileNameMismatch;
         }

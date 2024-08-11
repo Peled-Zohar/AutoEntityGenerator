@@ -1,6 +1,6 @@
 ﻿using AutoEntityGenerator.Common.CodeInfo;
 
-namespace AutoEntityGenerator.UI
+namespace AutoEntityGenerator.UI.Winforms
 {
     public interface IEntityConfigurationFormFactory
     {

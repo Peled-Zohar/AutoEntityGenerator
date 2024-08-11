@@ -44,7 +44,7 @@ This project is licensed under the MIT License - see the [LICENSE](/AutoEntityGe
 
 ## Target platforms
 
-Currently only supported target is visual studio 2022 community version and visual studio 2019 community version.  
+Currently only supported target is visual studio 2022 community version.  
 I plan to expand that in the future, but I will need to test each target platform before adding them to the supported target list.
 
 ## Usage
