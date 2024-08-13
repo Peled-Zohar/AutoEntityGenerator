@@ -7,6 +7,7 @@ using Microsoft.WindowsAPICodePack.Dialogs;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Input;
@@ -15,6 +16,8 @@ namespace AutoEntityGenerator.UI.ViewModels
 {
     public class EntityConfigurationViewModel : INotifyPropertyChanged
     {
+        #region Fields
+
         private readonly IValidator<EntityConfigurationViewModel> _validator;
         private readonly IDialogService _dialogService;
         private readonly Entity _entity;
@@ -22,6 +25,8 @@ namespace AutoEntityGenerator.UI.ViewModels
         private string _dtoName;
         private string _generatedFileName;
         private bool _allowFileNameMismatch;
+
+        #endregion Fields
 
         public const string Extension = ".cs";
 
@@ -64,15 +69,19 @@ namespace AutoEntityGenerator.UI.ViewModels
             UnselectAllCommand = new RelayCommand(UnselectAll);
         }
 
+        #region Events
+        
         public event Action<bool?> RequestClose;
         public event Action RequestFocus;
         public event PropertyChangedEventHandler PropertyChanged;
 
+        #endregion Events
+
+        #region Properties
+        
         public ObservableCollection<PropertyViewModel> Properties { get; }
         public MappingDirectionViewModel[] MappingDirections { get; }
         public MappingDirectionViewModel SelectedMappingDirection { get; set; }
-
-        public string ProjectFolder { get; private set; }
         public string DestinationFolder
         {
             get => _destinationFolder;
@@ -85,9 +94,6 @@ namespace AutoEntityGenerator.UI.ViewModels
                 }
             }
         }
-
-        public string DestinationPath => Path.Combine(ProjectFolder, DestinationFolder);
-
         public string DtoName
         {
             get => _dtoName;
@@ -123,9 +129,13 @@ namespace AutoEntityGenerator.UI.ViewModels
             }
         }
 
-        private string GenerateFileName() => _dtoName + Extension;
-
+        public string ProjectFolder { get; private set; }
+        public string DestinationPath => Path.Combine(ProjectFolder, DestinationFolder);
         public IUserInteractionResult Result { get; private set; }
+
+        #endregion Properties
+
+        #region Commands
 
         public ICommand SaveCommand { get; }
         public ICommand CancelCommand { get; }
@@ -170,12 +180,17 @@ namespace AutoEntityGenerator.UI.ViewModels
                     }
                     else
                     {
-                        DestinationFolder = Path.GetFileNameWithoutExtension(dialog.FileName).Replace(ProjectFolder, "");
+                        DestinationFolder = dialog.FileName.Replace(ProjectFolder, "");
                     }
                 }
             }
             OnRequestFocus();
         }
+
+        #endregion Commands
+
+        #region Methods
+
         private void ToggleSelectedForAllProperties(bool selected)
         {
             foreach (var property in Properties)
@@ -194,8 +209,8 @@ namespace AutoEntityGenerator.UI.ViewModels
 
             return CheckFileNameMismatch();
         }
-
-        public bool CheckFileNameMismatch(string value = null)
+        private string GenerateFileName() => _dtoName + Extension;
+        private bool CheckFileNameMismatch(string value = null)
         {
             value = value ?? _generatedFileName;
 
@@ -211,6 +226,8 @@ namespace AutoEntityGenerator.UI.ViewModels
         protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         protected virtual void OnRequestClose(bool? dialogResult) => RequestClose?.Invoke(dialogResult);
         protected virtual void OnRequestFocus() => RequestFocus?.Invoke();
+
+        #endregion Methods
     }
 
 }
