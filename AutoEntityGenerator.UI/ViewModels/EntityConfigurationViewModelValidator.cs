@@ -49,7 +49,7 @@ namespace AutoEntityGenerator.UI.ViewModels
 
             RuleFor(vm => vm.DestinationFolder)
                  .Must(v => !v.Any(c => Path.GetInvalidPathChars().Contains(c))).WithMessage("Invalid Destination folder.")
-                 .Must(v => string.IsNullOrWhiteSpace(v) || !Path.IsPathRooted(v)).WithMessage("Destination folder must contain a relative path.");
+                 .Must(v => string.IsNullOrWhiteSpace(v) || !Path.IsPathRooted(v.TrimStart(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar))).WithMessage("Destination folder must contain a relative path.");
 
             RuleFor(vm => vm.DestinationPath)
                 .Must(v => string.IsNullOrWhiteSpace(v) || v.StartsWith(projectFolder)).WithMessage("Destination folder must be a sub folder of the project folder.");

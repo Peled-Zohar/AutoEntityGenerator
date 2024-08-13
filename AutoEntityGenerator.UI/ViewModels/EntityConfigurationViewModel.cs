@@ -40,7 +40,7 @@ namespace AutoEntityGenerator.UI.ViewModels
             DtoName = _entity.Name + "Request";
             ProjectFolder = Path.GetDirectoryName(_entity.Project.FilePath);
             var entityDirectory = Path.GetDirectoryName(entity.SourceFilePath.Replace(ProjectFolder, ""));
-            DestinationFolder = Path.Combine(entityDirectory, "Generated").TrimStart(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+            DestinationFolder = Path.Combine(entityDirectory, "Generated");
 
             MappingDirections = new[]
             {
@@ -130,7 +130,7 @@ namespace AutoEntityGenerator.UI.ViewModels
         }
 
         public string ProjectFolder { get; private set; }
-        public string DestinationPath => Path.Combine(ProjectFolder, DestinationFolder);
+        public string DestinationPath => Path.Combine(ProjectFolder, DestinationFolder.TrimStart(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
         public IUserInteractionResult Result { get; private set; }
 
         #endregion Properties
@@ -181,7 +181,7 @@ namespace AutoEntityGenerator.UI.ViewModels
                     }
                     else
                     {
-                        DestinationFolder = destinationFolder.Replace(ProjectFolder, "").TrimStart(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+                        DestinationFolder = destinationFolder.Replace(ProjectFolder, "");
                     }
                 }
             }
