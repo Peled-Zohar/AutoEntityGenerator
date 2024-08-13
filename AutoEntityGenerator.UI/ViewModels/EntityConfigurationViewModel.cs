@@ -39,7 +39,7 @@ namespace AutoEntityGenerator.UI.ViewModels
             _allowFileNameMismatch = false;
             DtoName = _entity.Name + "Request";
             ProjectFolder = Path.GetDirectoryName(_entity.Project.FilePath);
-            var entityDirectory = Path.GetDirectoryName(entity.SourceFilePath.Replace(ProjectFolder, ""));
+            var entityDirectory = Path.GetDirectoryName(entity.SourceFilePath).Replace(ProjectFolder, "");
             DestinationFolder = Path.Combine(entityDirectory, "Generated");
 
             MappingDirections = new[]

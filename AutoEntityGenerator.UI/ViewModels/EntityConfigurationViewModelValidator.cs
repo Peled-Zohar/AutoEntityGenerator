@@ -3,8 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Xml.Linq;
 
+[assembly:InternalsVisibleTo("AutoEntityGenerator.UI.Tests")]
 namespace AutoEntityGenerator.UI.ViewModels
 {
     internal class EntityConfigurationViewModelValidator : AbstractValidator<EntityConfigurationViewModel>
