@@ -38,9 +38,9 @@ namespace AutoEntityGenerator.UI.ViewModels
 
             _allowFileNameMismatch = false;
             DtoName = _entity.Name + "Request";
-            ProjectFolder = Path.GetDirectoryName(_entity.Project.FilePath) + Path.DirectorySeparatorChar;
+            ProjectFolder = Path.GetDirectoryName(_entity.Project.FilePath);
             var entityDirectory = Path.GetDirectoryName(entity.SourceFilePath.Replace(ProjectFolder, ""));
-            DestinationFolder = Path.Combine(entityDirectory, "Generated");
+            DestinationFolder = Path.Combine(entityDirectory, "Generated").TrimStart(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
 
             MappingDirections = new[]
             {
@@ -163,24 +163,25 @@ namespace AutoEntityGenerator.UI.ViewModels
         private void UnselectAll() => ToggleSelectedForAllProperties(false);
         private void Browes()
         {
+            var targetDirectory = Path.Combine(ProjectFolder, DestinationFolder);
+
             using (var dialog = new CommonOpenFileDialog())
             {
                 dialog.IsFolderPicker = true;
-
-                var targetDirectory = Path.Combine(ProjectFolder, DestinationFolder);
                 dialog.InitialDirectory = Directory.Exists(targetDirectory)
                     ? targetDirectory
                     : ProjectFolder;
                 var dialogResult = dialog.ShowDialog();
                 if (dialogResult == CommonFileDialogResult.Ok)
                 {
-                    if (!dialog.FileName.StartsWith(ProjectFolder))
+                    var destinationFolder = dialog.FileName;
+                    if (destinationFolder != ProjectFolder && !destinationFolder.StartsWith(ProjectFolder))
                     {
                         _dialogService.ShowDialog("Target folder must be a sub folder of the project folder.", "Invalid folder");
                     }
                     else
                     {
-                        DestinationFolder = dialog.FileName.Replace(ProjectFolder, "");
+                        DestinationFolder = destinationFolder.Replace(ProjectFolder, "").TrimStart(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
                     }
                 }
             }
