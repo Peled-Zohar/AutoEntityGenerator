@@ -17,7 +17,7 @@
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="280"/>
+            <RowDefinition Height="320"/>
             <RowDefinition Height="*" />
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
@@ -35,7 +35,7 @@
             <TextBox Text="{Binding DtoName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             <Label Content="Generated file name:" />
             <TextBox Text="{Binding GeneratedFileName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <Label Content="Destination folder:" />
+            <Label Content="Destination folder (relative to project foler):" />
             <TextBox Text="{Binding DestinationFolder, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             <Button Content="Browes" Command="{Binding BrowesCommand}" HorizontalAlignment="Right" Padding="5,2,5,2" Margin="0,5,0,5" />
         </StackPanel>

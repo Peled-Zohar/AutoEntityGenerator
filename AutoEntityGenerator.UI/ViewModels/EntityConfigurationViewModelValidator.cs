@@ -23,9 +23,8 @@ namespace AutoEntityGenerator.UI.ViewModels
                 .Must(v => !v.Any(c => Path.GetInvalidPathChars().Contains(c))).WithMessage("Invalid generated file name.")
                 .Must(v => v.EndsWith(EntityConfigurationViewModel.Extension)).WithMessage("Invalid generated file extension");
 
-            RuleFor(vm => vm.DestinationFolder)
-                .Must(v => !string.IsNullOrWhiteSpace(v)).WithMessage("Destination folder is required")
-                .Must(v => !v.Any(c => Path.GetInvalidPathChars().Contains(c))).WithMessage("Invalid Destination folder path.")
+            RuleFor(vm => vm.DestinationPath)
+                .Must(v => string.IsNullOrWhiteSpace(v) || !v.Any(c => Path.GetInvalidPathChars().Contains(c))).WithMessage("Invalid Destination folder path.")
                 .Must(v => v.StartsWith(_projectDirectory, StringComparison.OrdinalIgnoreCase)).WithMessage("Destination folder must be a subfolder of the project folder.");
 
             RuleFor(vm => vm.Properties)

@@ -33,7 +33,9 @@ namespace AutoEntityGenerator.UI.ViewModels
 
             _allowFileNameMismatch = false;
             DtoName = _entity.Name + "Request";
-            DestinationFolder = Path.Combine(Path.GetDirectoryName(_entity.SourceFilePath), "Generated");
+            ProjectFolder = Path.GetDirectoryName(_entity.Project.FilePath) + Path.DirectorySeparatorChar;
+            var entityDirectory = Path.GetDirectoryName(entity.SourceFilePath.Replace(ProjectFolder, ""));
+            DestinationFolder = Path.Combine(entityDirectory, "Generated");
 
             MappingDirections = new[]
             {
@@ -69,6 +71,8 @@ namespace AutoEntityGenerator.UI.ViewModels
         public ObservableCollection<PropertyViewModel> Properties { get; }
         public MappingDirectionViewModel[] MappingDirections { get; }
         public MappingDirectionViewModel SelectedMappingDirection { get; set; }
+
+        public string ProjectFolder { get; private set; }
         public string DestinationFolder
         {
             get => _destinationFolder;
@@ -81,6 +85,9 @@ namespace AutoEntityGenerator.UI.ViewModels
                 }
             }
         }
+
+        public string DestinationPath => Path.Combine(ProjectFolder, DestinationFolder);
+
         public string DtoName
         {
             get => _dtoName;
@@ -99,7 +106,6 @@ namespace AutoEntityGenerator.UI.ViewModels
                 }
             }
         }
-
         public string GeneratedFileName
         {
             get => _generatedFileName;
@@ -133,7 +139,7 @@ namespace AutoEntityGenerator.UI.ViewModels
 
             Result = new UserInteractionResult(
                 SelectedMappingDirection.Value,
-                DestinationFolder,
+                DestinationPath,
                 DtoName,
                 Properties.Select(p => new Property() { IsReadonly = p.IsReadOnly, Name = p.Name, Type = p.Type }).ToList(),
                 GeneratedFileName);
@@ -150,10 +156,22 @@ namespace AutoEntityGenerator.UI.ViewModels
             using (var dialog = new CommonOpenFileDialog())
             {
                 dialog.IsFolderPicker = true;
-                dialog.InitialDirectory = Path.GetDirectoryName(DestinationFolder);
-                if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+
+                var targetDirectory = Path.Combine(ProjectFolder, DestinationFolder);
+                dialog.InitialDirectory = Directory.Exists(targetDirectory)
+                    ? targetDirectory
+                    : ProjectFolder;
+                var dialogResult = dialog.ShowDialog();
+                if (dialogResult == CommonFileDialogResult.Ok)
                 {
-                    DestinationFolder = dialog.FileName;
+                    if (!dialog.FileName.StartsWith(ProjectFolder))
+                    {
+                        _dialogService.ShowDialog("Target folder must be a sub folder of the project folder.", "Invalid folder");
+                    }
+                    else
+                    {
+                        DestinationFolder = Path.GetFileNameWithoutExtension(dialog.FileName).Replace(ProjectFolder, "");
+                    }
                 }
             }
             OnRequestFocus();
@@ -173,19 +191,21 @@ namespace AutoEntityGenerator.UI.ViewModels
                 _dialogService.ShowDialog(string.Join(Environment.NewLine, validationResult.Errors.Select(e => e.ErrorMessage)), "Invalid input");
                 return false;
             }
-            
+
             return CheckFileNameMismatch();
         }
 
-        public bool CheckFileNameMismatch(string value = null) 
+        public bool CheckFileNameMismatch(string value = null)
         {
-            if (!_allowFileNameMismatch && (value ?? _generatedFileName) != GenerateFileName())
+            value = value ?? _generatedFileName;
+
+            if (!_allowFileNameMismatch && value != GenerateFileName())
             {
                 _allowFileNameMismatch = _dialogService.ShowYesNoDialog(
                 $"Generated file name doesn't match entity name.{Environment.NewLine}Is that Intended?",
                 "File name and entity name mismatch");
             }
-            return _allowFileNameMismatch;
+            return _allowFileNameMismatch || value == GenerateFileName();
         }
 
         protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
