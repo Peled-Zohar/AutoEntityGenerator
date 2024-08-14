@@ -12,17 +12,50 @@ namespace AutoEntityGenerator
     public class Services : IServices
     {
         private readonly ServiceCollection _services;
-        private readonly IServiceProvider _serviceProvider;
-
+        private IServiceProvider _serviceProvider;
+        private int _numberOfservices;
         public Services()
         {
             _services = new ServiceCollection();
             ConfigureServices();
             _serviceProvider = _services.BuildServiceProvider();
             ConfigureGlobalExceptionHandling();
+            _numberOfservices = _services.Count;
         }
 
-        public T GetService<T>() => _serviceProvider.GetService<T>();
+        public T GetService<T>()
+        {
+            if(_services.Count > _numberOfservices)
+            {
+                _serviceProvider = _services.BuildServiceProvider();
+                _numberOfservices = _services.Count;
+            }
+            return _serviceProvider.GetService<T>();
+        }
+
+        public IServices AddSingleton<TService, TImplementation>() where TService : class where TImplementation : class, TService
+        {
+            _services.AddSingleton<TService, TImplementation>();
+            return this;
+        }
+
+        public IServices AddSingleton<TImplementation>() where TImplementation : class
+        {
+            _services.AddSingleton<TImplementation>();
+            return this;
+        }
+
+        public IServices AddSingleton<TImplementation>(TImplementation instance) where TImplementation : class
+        {
+            _services.AddSingleton(instance);
+            return this;
+        }
+
+        public IServices AddTransient<TService, TImplementation>() where TService : class where TImplementation : class, TService
+        {
+            _services.AddTransient<TService, TImplementation>();
+            return this;
+        }
 
         private void ConfigureServices()
         {
@@ -54,7 +87,6 @@ namespace AutoEntityGenerator
 
         private IServices AddLogger()
         {
-
             const string sourceName = nameof(AutoEntityGenerator);
             if (!EventLog.SourceExists(sourceName))
             {
@@ -70,28 +102,5 @@ namespace AutoEntityGenerator
             return this;
         }
 
-        public IServices AddSingleton<TService, TImplementation>() where TService : class where TImplementation : class, TService
-        {
-            _services.AddSingleton<TService, TImplementation>();
-            return this;
-        }
-
-        public IServices AddSingleton<TImplementation>() where TImplementation : class
-        {
-            _services.AddSingleton<TImplementation>();
-            return this;
-        }
-
-        public IServices AddSingleton<TImplementation>(TImplementation instance) where TImplementation : class
-        {
-            _services.AddSingleton(instance);
-            return this;
-        }
-
-        public IServices AddTransient<TService, TImplementation>() where TService : class where TImplementation : class, TService
-        {
-            _services.AddTransient<TService, TImplementation>();
-            return this;
-        }
     }
 }
