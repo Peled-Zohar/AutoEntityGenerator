@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AutoEntityGenerator.UI.Views"
         mc:Ignorable="d"
-        Title="EntityConfigurationWindow" 
+        Title="Configure generated entity" 
         MinHeight="600" Height="600" MinWidth="400" Width="400" 
         ResizeMode="CanResizeWithGrip" ShowInTaskbar="False" WindowStyle="ToolWindow">
     <Window.Resources>
