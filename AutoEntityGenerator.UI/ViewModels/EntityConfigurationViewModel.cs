@@ -70,7 +70,7 @@ namespace AutoEntityGenerator.UI.ViewModels
         }
 
         #region Events
-        
+
         public event Action<bool?> RequestClose;
         public event Action RequestFocus;
         public event PropertyChangedEventHandler PropertyChanged;
@@ -78,7 +78,7 @@ namespace AutoEntityGenerator.UI.ViewModels
         #endregion Events
 
         #region Properties
-        
+
         public ObservableCollection<PropertyViewModel> Properties { get; }
         public MappingDirectionViewModel[] MappingDirections { get; }
         public MappingDirectionViewModel SelectedMappingDirection { get; set; }
@@ -151,7 +151,15 @@ namespace AutoEntityGenerator.UI.ViewModels
                 SelectedMappingDirection.Value,
                 DestinationPath,
                 DtoName,
-                Properties.Select(p => new Property() { IsReadonly = p.IsReadOnly, Name = p.Name, Type = p.Type }).ToList(),
+                Properties
+                    .Where(p => p.IsSelected)
+                    .Select(p => new Property()
+                    {
+                        IsReadonly = p.IsReadOnly,
+                        Name = p.Name,
+                        Type = p.Type
+                    })
+                    .ToList(),
                 GeneratedFileName);
             OnRequestClose(true);
         }
