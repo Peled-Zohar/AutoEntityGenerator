@@ -1,34 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
-	<Metadata>
-		<Identity Id="AutoEntityGenerator..3633938B-4D62-4E7A-92C3-BCBBD5DEEFE6" Version="2.1.1" Language="en-US" Publisher="Zohar Peled" />
-		<DisplayName>AutoEntityGenerator</DisplayName>
-		<Description xml:space="preserve">Automatically generates DTO and mapping classes based on your domain entities.</Description>
-		<MoreInfo>https://github.com/Peled-Zohar/AutoEntityGenerator/blob/main/README.md</MoreInfo>
-		<License>LICENSE.txt</License>
-		<Icon>AutoEntityGenerator.png</Icon>
-		<PreviewImage>AutoEntityGenerator.png</PreviewImage>
-		<Tags>C#, Code Generation, DTO, Mapping</Tags>
-	</Metadata>
-	<Installation>
-		<InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[17.0, 18.0)">
-			<ProductArchitecture>amd64</ProductArchitecture>
-		</InstallationTarget>
-		<InstallationTarget Version="[17.0,18.0)" Id="Microsoft.VisualStudio.Pro">
-			<ProductArchitecture>amd64</ProductArchitecture>
-		</InstallationTarget>
-		<InstallationTarget Version="[17.0,18.0)" Id="Microsoft.VisualStudio.Enterprise">
-			<ProductArchitecture>amd64</ProductArchitecture>
-		</InstallationTarget>
-	</Installation>
-	<Dependencies>
-		<Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.5,)" />
-	</Dependencies>
-	<Assets>
-		<Asset Type="Microsoft.VisualStudio.MefComponent" d:Source="Project" d:ProjectName="AutoEntityGenerator" Path="|AutoEntityGenerator|" />
-	</Assets>
-	<Prerequisites>
-		<Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[15.0,)" DisplayName="Visual Studio core editor" />
-		<Prerequisite Id="Microsoft.VisualStudio.Component.Roslyn.LanguageServices" Version="[15.0,)" DisplayName="Roslyn Language Services" />
-	</Prerequisites>
+    <Metadata>
+        <Identity Id="AutoEntityGenerator..3633938B-4D62-4E7A-92C3-BCBBD5DEEFE6" Version="2.1.2" Language="en-US" Publisher="Zohar Peled" />
+        <DisplayName>AutoEntityGenerator</DisplayName>
+        <Description xml:space="preserve">Automatically generates DTO and mapping classes based on your domain entities.</Description>
+        <MoreInfo>https://github.com/Peled-Zohar/AutoEntityGenerator/blob/main/README.md</MoreInfo>
+        <License>LICENSE.txt</License>
+        <Icon>AutoEntityGenerator.png</Icon>
+        <PreviewImage>AutoEntityGenerator.png</PreviewImage>
+        <Tags>C#, Code Generation, DTO, Mapping</Tags>
+    </Metadata>
+    <Installation>
+        <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[17.0, 18.0)">
+            <ProductArchitecture>amd64</ProductArchitecture>
+        </InstallationTarget>
+        <InstallationTarget Version="[17.0,18.0)" Id="Microsoft.VisualStudio.Pro">
+            <ProductArchitecture>amd64</ProductArchitecture>
+        </InstallationTarget>
+        <InstallationTarget Version="[17.0,18.0)" Id="Microsoft.VisualStudio.Enterprise">
+            <ProductArchitecture>amd64</ProductArchitecture>
+        </InstallationTarget>
+    </Installation>
+    <Dependencies>
+        <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.5,)" />
+    </Dependencies>
+    <Assets>
+        <Asset Type="Microsoft.VisualStudio.MefComponent" d:Source="Project" d:ProjectName="AutoEntityGenerator" Path="|AutoEntityGenerator|" />
+    </Assets>
+    <Prerequisites>
+        <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[15.0,)" DisplayName="Visual Studio core editor" />
+        <Prerequisite Id="Microsoft.VisualStudio.Component.Roslyn.LanguageServices" Version="[15.0,)" DisplayName="Roslyn Language Services" />
+    </Prerequisites>
 </PackageManifest>
