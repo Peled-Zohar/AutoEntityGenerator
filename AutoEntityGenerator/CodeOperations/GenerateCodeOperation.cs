@@ -37,7 +37,7 @@ namespace AutoEntityGenerator.CodeOperations
                 return;
             }
 
-            _logger.LogInformation("Attempting to generate dto {dtoName} and mapping extension.");
+            _logger.LogInformation("Attempting to generate dto {dtoName} and mapping extension.", result.EntityName);
 
             var sourceEntity = _entityProvider.Entity;
             var dtoEntity = _entityGenerator.GenerateFromUIResult(result, sourceEntity);

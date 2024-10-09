@@ -226,7 +226,7 @@ namespace AutoEntityGenerator.UI.ViewModels
             {
                 var validationErrors = string.Join(Environment.NewLine, validationResult.Errors.Select(e => e.ErrorMessage));
                 _dialogService.ShowDialog(validationErrors, "Invalid input");
-                _logger.LogTrace("Failed to validate user input. {ValidationErrors}", validationErrors);
+                _logger.LogTrace("Failed to validate user input. Validation error: {ValidationErrors}", validationErrors);
                 return false;
             }
 
