@@ -1,4 +1,6 @@
 ﻿using AutoEntityGenerator.Common.CodeInfo;
+using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace AutoEntityGenerator.CodeGenerator
@@ -8,29 +10,15 @@ namespace AutoEntityGenerator.CodeGenerator
         string GenerateMappingClassCode(Entity from, Entity to);
     }
 
-    internal class MappingsClassGenerator : CodeGenerator, IMappingsClassGenerator
+    internal class MappingsClassGenerator : CodeGeneratorBase, IMappingsClassGenerator
     {
         public string GenerateMappingClassCode(Entity from, Entity to)
         {
-            var properties = GenerateMappingProperties(from);
+            var indentationLevel = from.Namespace.IsFileScoped ? 3 : 4;
+            var indentation = new string('\t', indentationLevel);
+            var properties = GenerateProperties(from.Properties, p => $"{indentation}{p.Name} = source.{p.Name},");
 
             return GenerateCode(from, to, properties);
-        }
-
-        private string GenerateMappingProperties(Entity from)
-        {
-            const string propertyFormat = "{0} = source.{0},";
-
-            var indentationLevel = from.Namespace.IsFileScoped ? 3 : 4;
-            var propertiesBuilder = new StringBuilder();
-            foreach (var property in from.Properties)
-            {
-                GenerateIndentation(propertiesBuilder, indentationLevel);
-                propertiesBuilder
-                    .AppendFormat(propertyFormat, property.Name)
-                    .AppendLine();
-            }
-            return propertiesBuilder.ToString(0, propertiesBuilder.Length - 2);
         }
 
         private string GenerateCode(Entity from, Entity to, string properties)

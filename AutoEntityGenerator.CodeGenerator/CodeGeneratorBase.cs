@@ -1,10 +1,11 @@
 ﻿using AutoEntityGenerator.Common.CodeInfo;
 using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace AutoEntityGenerator.CodeGenerator
 {
-    internal abstract class CodeGenerator
+    internal abstract class CodeGeneratorBase
     {
         public string Comments =>
     $@"/*
@@ -12,12 +13,14 @@ namespace AutoEntityGenerator.CodeGenerator
     For more information about {nameof(AutoEntityGenerator)}, Visit https://github.com/Peled-Zohar/AutoEntityGenerator
 */
 ";
-        protected void GenerateIndentation(StringBuilder sb, int indentationLevel)
+        protected string GenerateProperties(IEnumerable<Property> properties, Func<Property, string> propertyFormat)
         {
-            for (var i = 0; i < indentationLevel; i++)
+            var propertiesBuilder = new StringBuilder();
+            foreach (var property in properties)
             {
-                sb.Append("\t");
+                propertiesBuilder.AppendLine(propertyFormat(property));
             }
+            return propertiesBuilder.ToString(0, propertiesBuilder.Length - Environment.NewLine.Length);
         }
 
         protected string GenerateTypeParameters(Entity entity)

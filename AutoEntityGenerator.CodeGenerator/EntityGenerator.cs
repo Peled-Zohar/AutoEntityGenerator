@@ -1,6 +1,8 @@
 ﻿using AutoEntityGenerator.Common.CodeInfo;
+using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Xml.Linq;
 
 namespace AutoEntityGenerator.CodeGenerator
 {
@@ -9,7 +11,7 @@ namespace AutoEntityGenerator.CodeGenerator
         string GenerateEntityCode(Entity entity);
     }
 
-    internal class EntityGenerator : CodeGenerator, IEntityGenerator
+    internal class EntityGenerator : CodeGeneratorBase, IEntityGenerator
     {
         public string GenerateEntityCode(Entity entity)
         {
@@ -20,25 +22,12 @@ namespace AutoEntityGenerator.CodeGenerator
                : "class";
 
             var indentationLevel = entity.Namespace.IsFileScoped ? 1 : 2;
-
-            var properties = GenerateProperties(entity.Properties, indentationLevel);
+            var indentation = new string('\t', indentationLevel);
+            var properties = GenerateProperties(entity.Properties, p => $"{indentation}public {p.Type} {p.Name} {{get;set;}}");
 
             return GenerateCode(entity, entityType, properties);
         }
 
-        private string GenerateProperties(IEnumerable<Property> properties, int indentationLevel)
-        {
-            const string propertyFormat = "public {0} {1} {{get;set;}}";
-            var propertiesBuilder = new StringBuilder();
-            foreach (var property in properties)
-            {
-                GenerateIndentation(propertiesBuilder, indentationLevel);
-                propertiesBuilder
-                    .AppendFormat(propertyFormat, property.Type, property.Name)
-                    .AppendLine();
-            }
-            return propertiesBuilder.ToString(0, propertiesBuilder.Length - 2);
-        }
 
         private string GenerateCode(Entity entity, string typeName, string properties)
         {
@@ -52,8 +41,7 @@ $@"{Comments}namespace {entity.Namespace.Name};
 public partial {typeName} {entity.Name}{typeParameters}{genericConstraints}
 {{
 {properties}
-}}
-"
+}}"
                 :
 $@"{Comments}namespace {entity.Namespace.Name}
 {{
@@ -61,10 +49,7 @@ $@"{Comments}namespace {entity.Namespace.Name}
     {{
 {properties}
     }}
-}}
-";
+}}";
         }
-
     }
 }
-
