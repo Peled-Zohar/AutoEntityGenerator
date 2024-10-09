@@ -2,6 +2,7 @@ using AutoEntityGenerator.Common.CodeInfo;
 using AutoEntityGenerator.UI.Services;
 using AutoEntityGenerator.UI.ViewModels;
 using FakeItEasy;
+using Microsoft.Extensions.Logging;
 
 namespace AutoEntityGenerator.UI.Tests;
 
@@ -10,6 +11,7 @@ public class EntityConfigurationViewModelValidatorTests
     EntityConfigurationViewModel _testViewModel;
     EntityConfigurationViewModelValidator _validator;
     IDialogService _dialogService;
+    ILogger<EntityConfigurationViewModel> _logger;
 
     [SetUp]
     public void Setup()
@@ -29,8 +31,9 @@ public class EntityConfigurationViewModelValidatorTests
             TypeParameters = [],
         };
         _dialogService = A.Fake<IDialogService>();
+        _logger = A.Fake<ILogger<EntityConfigurationViewModel>>();
         _validator = new EntityConfigurationViewModelValidator(Path.GetDirectoryName(testEntity.Project.FilePath));
-        _testViewModel = new EntityConfigurationViewModel(_validator, _dialogService, testEntity);
+        _testViewModel = new EntityConfigurationViewModel(_logger, _validator, _dialogService, testEntity);
         foreach (var property in _testViewModel.Properties)
         {
             property.IsSelected = true;
