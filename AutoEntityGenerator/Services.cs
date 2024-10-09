@@ -25,7 +25,7 @@ namespace AutoEntityGenerator
 
         public T GetService<T>()
         {
-            if(_services.Count > _numberOfservices)
+            if (_services.Count > _numberOfservices)
             {
                 _serviceProvider = _services.BuildServiceProvider();
                 _numberOfservices = _services.Count;
@@ -79,6 +79,10 @@ namespace AutoEntityGenerator
             TaskScheduler.UnobservedTaskException += (sender, args) =>
             {
                 logger.LogError(args.Exception, "Unobserved task exception");
+                foreach (var inner in args.Exception.InnerExceptions)
+                {
+                    logger.LogError(inner, "inner exception");
+                }
                 args.SetObserved();
             };
 
@@ -94,8 +98,9 @@ namespace AutoEntityGenerator
             }
 
             _services.AddLogging(buider => buider
-                .SetMinimumLevel(LogLevel.Information)
-                .AddEventLog(settings => {
+                .SetMinimumLevel(LogLevel.Trace)
+                .AddEventLog(settings =>
+                {
                     settings.SourceName = sourceName;
                 })
             );

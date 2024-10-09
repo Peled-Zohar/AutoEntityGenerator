@@ -3,6 +3,8 @@ using AutoEntityGenerator.Common.Interfaces;
 using AutoEntityGenerator.UI.Interaction;
 using AutoEntityGenerator.UI.Services;
 using FluentValidation;
+using Microsoft.Build.Framework;
+using Microsoft.Extensions.Logging;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using System;
 using System.Collections.ObjectModel;
@@ -10,6 +12,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace AutoEntityGenerator.UI.ViewModels
@@ -18,6 +21,7 @@ namespace AutoEntityGenerator.UI.ViewModels
     {
         #region Fields
 
+        private readonly ILogger<EntityConfigurationViewModel> _logger;
         private readonly IValidator<EntityConfigurationViewModel> _validator;
         private readonly IDialogService _dialogService;
         private readonly Entity _entity;
@@ -30,11 +34,14 @@ namespace AutoEntityGenerator.UI.ViewModels
 
         public const string Extension = ".cs";
 
-        public EntityConfigurationViewModel(IValidator<EntityConfigurationViewModel> validator, IDialogService dialogService, Entity entity)
+        public EntityConfigurationViewModel(ILogger<EntityConfigurationViewModel> logger, IValidator<EntityConfigurationViewModel> validator, IDialogService dialogService, Entity entity)
         {
             _validator = validator;
             _dialogService = dialogService;
             _entity = entity;
+            _logger = logger;
+
+            _logger.LogDebug("Initializing UI for entity {entityName}", _entity.Name);
 
             _allowFileNameMismatch = false;
             DtoName = _entity.Name + "Request";
@@ -67,6 +74,8 @@ namespace AutoEntityGenerator.UI.ViewModels
             BrowesCommand = new RelayCommand(Browes);
             SelectAllCommand = new RelayCommand(SelectAll);
             UnselectAllCommand = new RelayCommand(UnselectAll);
+
+            _logger.LogDebug("UI for entity {entityName} is ready.", _entity.Name);
         }
 
         #region Events
@@ -145,7 +154,10 @@ namespace AutoEntityGenerator.UI.ViewModels
 
         private void Save()
         {
-            if (!Validate()) { return; }
+            if (!Validate()) 
+            { 
+                return; 
+            }
 
             Result = new UserInteractionResult(
                 SelectedMappingDirection.Value,
@@ -212,11 +224,18 @@ namespace AutoEntityGenerator.UI.ViewModels
             var validationResult = _validator.Validate(this);
             if (!validationResult.IsValid)
             {
-                _dialogService.ShowDialog(string.Join(Environment.NewLine, validationResult.Errors.Select(e => e.ErrorMessage)), "Invalid input");
+                var validationErrors = string.Join(Environment.NewLine, validationResult.Errors.Select(e => e.ErrorMessage));
+                _dialogService.ShowDialog(validationErrors, "Invalid input");
+                _logger.LogTrace("Failed to validate user input. {ValidationErrors}", validationErrors);
                 return false;
             }
 
-            return CheckFileNameMismatch();
+            var fileNameMismatchResult = CheckFileNameMismatch();
+            if (!fileNameMismatchResult)
+            {
+                _logger.LogTrace("Validation failed because file name {fileName} doesn't match entity name {entityName}.", _generatedFileName, GenerateFileName());
+            }
+            return fileNameMismatchResult;
         }
         private string GenerateFileName() => _dtoName + Extension;
         private bool CheckFileNameMismatch(string value = null)

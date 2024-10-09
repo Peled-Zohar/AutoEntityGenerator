@@ -34,6 +34,7 @@ namespace AutoEntityGenerator.CodeOperations
         {
             _logger.LogDebug("Attempting to generate entity from document");
             Entity = _entityGenerator.GenerateFromDocument(_document, _typeDeclaration, _typeSymbol, cancellationToken);
+            _logger.LogDebug("Entity generated from document");
         }
 
         public Entity Entity { get; private set; }

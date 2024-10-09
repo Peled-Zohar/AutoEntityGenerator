@@ -29,6 +29,9 @@ namespace AutoEntityGenerator
 
         public Entity GenerateFromUIResult(IUserInteractionResult userInteractionResult, Entity sourceEntity)
         {
+
+            _logger.LogDebug("Attempting to create {entityName} entity based on user interaction result source entity.", userInteractionResult.EntityName);
+
             var newNamespace = new Namespace()
             {
                 IsFileScoped = sourceEntity.Namespace.IsFileScoped,
@@ -37,11 +40,9 @@ namespace AutoEntityGenerator
                     .Replace(Path.DirectorySeparatorChar, '.')
                     .Replace(Path.AltDirectorySeparatorChar, '.')
             };
-
-            _logger.LogDebug("Attempting to create entity based on source entity and user interaction result.");
-            return new Entity
+            var entity = new Entity
             {
-                Constructors = Enumerable.Empty<Constructor>().ToList(),
+                Constructors = new List<Constructor>(),
                 Name = userInteractionResult.EntityName,
                 Namespace = newNamespace,
                 Project = sourceEntity.Project,
@@ -50,17 +51,21 @@ namespace AutoEntityGenerator
                 GenericConstraints = sourceEntity.GenericConstraints,
                 TypeParameters = sourceEntity.TypeParameters,
             };
+            _logger.LogDebug("Entity {entityName} created from source entity and user interaction result.", entity.Name);
+            return entity;
         }
 
         public Entity GenerateFromDocument(Document document, TypeDeclarationSyntax typeDeclaration, INamedTypeSymbol typeSymbol, CancellationToken cancellationToken)
         {
+            _logger.LogDebug("Attempting to create entity from document info.");
+
             var typeParameters = typeDeclaration.TypeParameterList is null
                 ? Enumerable.Empty<string>()
                 : typeDeclaration.TypeParameterList.Parameters.Select(p => p.Identifier.Text);
             var genericConstraints = typeDeclaration.ConstraintClauses.Select(c => c.ToString());
 
-            _logger.LogDebug("Attempting to create entity from document info.");
-            return new Entity
+
+            var entity = new Entity
             {
                 Constructors = GenerateConstructors(typeSymbol, cancellationToken),
                 GenericConstraints = genericConstraints.ToList(),
@@ -71,6 +76,8 @@ namespace AutoEntityGenerator
                 SourceFilePath = document.FilePath,
                 TypeParameters = typeParameters.ToList()
             };
+            _logger.LogDebug("Entity {entityName} created from document info.", entity.Name);
+            return entity;
         }
 
         private Namespace GenerateNamespace(TypeDeclarationSyntax typeDeclaration)
@@ -104,6 +111,7 @@ namespace AutoEntityGenerator
             {
                 if (cancellationToken.IsCancellationRequested)
                 {
+                    _logger.LogDebug("Cancellation requested while generating {TypeSymbolName} constructors.", typeSymbol.Name);
                     break;
                 }
 
@@ -130,6 +138,7 @@ namespace AutoEntityGenerator
             {
                 if (cancellationToken.IsCancellationRequested)
                 {
+                    _logger.LogDebug("Cancellation requested while generating {TypeSymbolName} properties.", typeSymbol.Name);
                     break;
                 }
 

@@ -37,7 +37,7 @@ namespace AutoEntityGenerator.CodeOperations
                 return;
             }
 
-            _logger.LogInformation("Attempting to generate dto and mappings.");
+            _logger.LogInformation("Attempting to generate dto {dtoName} and mapping extension.");
 
             var sourceEntity = _entityProvider.Entity;
             var dtoEntity = _entityGenerator.GenerateFromUIResult(result, sourceEntity);
@@ -48,16 +48,21 @@ namespace AutoEntityGenerator.CodeOperations
 
             var dto = _codeGenerator.GenerateEntityCodeFile(dtoEntity);
             var mapping = _codeGenerator.GenerateMappingCodeFile(from, to);
-
+            _logger.LogDebug("Dto and Mapping generated.");
             var dtoDocument = AddDocument(_document, dto.FileName, dto.Content, result.TargetDirectory, sourceEntity);
             var mappingDocument = AddDocument(dtoDocument, mapping.FileName, mapping.Content, result.TargetDirectory, sourceEntity);
 
             _logger.LogDebug("Attempting to save changes.");
             try
             {
-                workspace.TryApplyChanges(mappingDocument.Project.Solution);
-
-                _logger.LogInformation("Dto and mapping extension classes saved to {TargetDirectory}.", result.TargetDirectory);
+                if(workspace.TryApplyChanges(mappingDocument.Project.Solution))
+                {
+                    _logger.LogInformation("Dto and mapping extension class saved to {TargetDirectory}.", result.TargetDirectory);
+                }
+                else
+                {
+                    _logger.LogWarning("TryApplyChanges returned false. Changes was not saved.");
+                }
             }
             catch (Exception ex)
             {
@@ -68,12 +73,15 @@ namespace AutoEntityGenerator.CodeOperations
 
         private Document AddDocument(Document document, string fileName, string code, string targetFolder, Entity sourceEntity)
         {
+            _logger.LogDebug("Attempting to add document {Filename}.", fileName);
             var filePath = Path.Combine(targetFolder, fileName);
             string[] folders = targetFolder == Path.GetDirectoryName(sourceEntity.SourceFilePath)
                 ? null
                 : new[] { targetFolder };
-            _logger.LogDebug("Attempting to add document. {Filename}.", fileName);
-            return document.Project.AddDocument(fileName, code, folders, filePath);
+            
+            var newDocument = document.Project.AddDocument(fileName, code, folders, filePath);
+            _logger.LogDebug("document {Filename} Added.", fileName);
+            return newDocument;
         }
 
     }
