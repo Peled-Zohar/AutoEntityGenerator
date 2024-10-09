@@ -47,9 +47,10 @@ namespace AutoEntityGenerator
                 return;
             }
 
-            _logger.LogDebug("About to register refactoring.");
+            _logger.LogDebug("attempting to register refactoring.");
             var action = _codeActionFactory.CreateEntityGeneratorCodeAction(context.Document, typeDecleration, typeSymbol);
             context.RegisterRefactoring(action);
+            _logger.LogDebug("refactoring registered.");
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using AutoEntityGenerator.CodeOperations;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Logging;
@@ -31,11 +32,10 @@ namespace AutoEntityGenerator
 
         protected override Task<IEnumerable<CodeActionOperation>> ComputeOperationsAsync(CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Attempting to gather type information.");
             var getEntityInfoOperation = _codeActionFactory.CreateGetEntityInfoOperation(_document, _typeDeclaration, _typeSymbol);
             var getUserInputOperation = _codeActionFactory.CreateGetUserInputOperation(getEntityInfoOperation);
             var generateCodeOperation = _codeActionFactory.CreateGenerateCodeOperation(getUserInputOperation, getEntityInfoOperation, _document);
-
+            _logger.LogDebug($"Code action operations created: {nameof(GetEntityInfoOperation)}, {nameof(GetUserInputOperation)}, {nameof(GenerateCodeOperation)}");
             return Task.FromResult<IEnumerable<CodeActionOperation>>(new CodeActionOperation[]
             {
                 getEntityInfoOperation,

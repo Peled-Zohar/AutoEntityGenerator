@@ -94,7 +94,7 @@ namespace AutoEntityGenerator
             }
 
             _services.AddLogging(buider => buider
-                .SetMinimumLevel(LogLevel.Trace)
+                .SetMinimumLevel(LogLevel.Information)
                 .AddEventLog(settings => {
                     settings.SourceName = sourceName;
                 })

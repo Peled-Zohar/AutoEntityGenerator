@@ -33,7 +33,7 @@ namespace AutoEntityGenerator.CodeOperations
             var result = _resultProvider.UserInteractionResult;
             if (!result.IsOk)
             {
-                _logger.LogInformation("The user cancled the operation.");
+                _logger.LogInformation("The user cancelled the operation.");
                 return;
             }
 
@@ -57,7 +57,7 @@ namespace AutoEntityGenerator.CodeOperations
             {
                 workspace.TryApplyChanges(mappingDocument.Project.Solution);
 
-                _logger.LogInformation($"Dto and mapping extension classes saved to {result.TargetDirectory}.");
+                _logger.LogInformation("Dto and mapping extension classes saved to {TargetDirectory}.", result.TargetDirectory);
             }
             catch (Exception ex)
             {
@@ -72,7 +72,7 @@ namespace AutoEntityGenerator.CodeOperations
             string[] folders = targetFolder == Path.GetDirectoryName(sourceEntity.SourceFilePath)
                 ? null
                 : new[] { targetFolder };
-            _logger.LogDebug($"Attempting to add document. File name: {fileName}.");
+            _logger.LogDebug("Attempting to add document. {Filename}.", fileName);
             return document.Project.AddDocument(fileName, code, folders, filePath);
         }
 
