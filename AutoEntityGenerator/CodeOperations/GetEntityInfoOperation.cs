@@ -7,7 +7,6 @@ using System.Threading;
 
 namespace AutoEntityGenerator.CodeOperations
 {
-
     public interface IEntityProvider
     {
         Entity Entity { get; }
@@ -15,7 +14,7 @@ namespace AutoEntityGenerator.CodeOperations
 
     internal class GetEntityInfoOperation : CodeActionOperation, IEntityProvider
     {
-        ILogger<GetEntityInfoOperation> _logger;
+        private readonly ILogger<GetEntityInfoOperation> _logger;
         private readonly Document _document;
         private readonly TypeDeclarationSyntax _typeDeclaration;
         private readonly INamedTypeSymbol _typeSymbol;

@@ -27,7 +27,7 @@ namespace AutoEntityGenerator
             _typeSymbol = typeSymbol;
         }
 
-        // TODO: consider converting the title to a LocalizedString or to a confiruated-value rather than a hardcoded one..
+        // TO Consider: convert the title to a LocalizedString or to a confiruated-value rather than a hardcoded one..
         public override string Title => "🔧 Generate DTO and mapping 🛠️";
 
         protected override Task<IEnumerable<CodeActionOperation>> ComputeOperationsAsync(CancellationToken cancellationToken)

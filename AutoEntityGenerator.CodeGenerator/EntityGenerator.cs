@@ -1,8 +1,4 @@
 ﻿using AutoEntityGenerator.Common.CodeInfo;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml.Linq;
 
 namespace AutoEntityGenerator.CodeGenerator
 {

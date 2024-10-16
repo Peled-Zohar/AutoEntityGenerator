@@ -1,0 +1,41 @@
+﻿<Window x:Class="AutoEntityGenerator.UI.Views.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AutoEntityGenerator.UI.Views"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanResizeWithGrip" ShowInTaskbar="False" WindowStyle="ToolWindow"
+        MinHeight="320" MinWidth="200" Height="320" Width="200"
+        Title="Settings" >
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="VSTheme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <StackPanel Orientation="Vertical">
+            <Label Content="Minimum log level:" Margin="10, 0, 10, 0" />
+            <ComboBox Margin="10, 0, 10, 10" 
+                      SelectedValue="{Binding MinimumLogLevel}"
+                      ItemsSource="{Binding LogLevels}"
+                      />
+            <Label Content="Default destination folder:" Margin="10, 0, 10, 0" />
+            <TextBox Text="{Binding DestinationFolder}" Margin="10, 0, 10, 10" />
+
+            <Label Content="Default request suffix:" Margin="10, 0, 10, 0" />
+            <TextBox Text="{Binding RequestSuffix}" Margin="10, 0, 10, 10" />
+
+            <Label Content="Default response suffix:" Margin="10, 0, 10, 0" />
+            <TextBox Text="{Binding ResponseSuffix}" Margin="10, 0, 10, 10" />
+        </StackPanel>
+        <Grid VerticalAlignment="Bottom" Margin="10">
+            <Button HorizontalAlignment="Right" Content="Save" Padding="5" Command="{Binding SaveCommand}" />
+            <Button HorizontalAlignment="Left"  Content="Cancel" Padding="5" Command="{Binding CancelCommand}" />
+        </Grid>
+    </Grid>
+</Window>

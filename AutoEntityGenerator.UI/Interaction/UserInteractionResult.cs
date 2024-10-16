@@ -6,10 +6,7 @@ namespace AutoEntityGenerator.UI.Interaction
 {
     internal class UserInteractionResult : IUserInteractionResult
     {
-        internal UserInteractionResult()
-        {
-            IsOk = false;
-        }
+        internal UserInteractionResult() => IsOk = false;
 
         internal UserInteractionResult(MappingDirection mappingDirection, string targetDirectory, string entityName, List<Property> entityProperties, string fileName)
         {

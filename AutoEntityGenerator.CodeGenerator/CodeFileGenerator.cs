@@ -20,7 +20,7 @@ namespace AutoEntityGenerator.CodeGenerator
 
         public IGeneratedCodeFile GenerateEntityCodeFile(Entity entityInfo)
         {
-            if (entityInfo == null)
+            if (entityInfo is null)
             {
                 return null;
             }

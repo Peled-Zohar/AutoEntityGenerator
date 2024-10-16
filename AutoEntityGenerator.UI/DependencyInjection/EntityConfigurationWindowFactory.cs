@@ -1,5 +1,7 @@
 ﻿using AutoEntityGenerator.Common.CodeInfo;
+using AutoEntityGenerator.Common.Interfaces;
 using AutoEntityGenerator.UI.Services;
+using AutoEntityGenerator.UI.Validators;
 using AutoEntityGenerator.UI.ViewModels;
 using AutoEntityGenerator.UI.Views;
 using Microsoft.Extensions.Logging;
@@ -16,19 +18,23 @@ namespace AutoEntityGenerator.UI.DependencyInjection
     internal class EntityConfigurationWindowFactory : IEntityConfigurationWindowFactory
     {
         private readonly IDialogService _dialogService;
-        private readonly ILogger<EntityConfigurationViewModel> _viewModelLogger;
+        private readonly ILogger<EntityConfigurationViewModel> _entityConfigurationLogger;
+        private readonly IAppSettings _appSettings;
+        private readonly SettingsViewModel _settingsViewModel;
 
-        public EntityConfigurationWindowFactory(IDialogService dialogService, ILogger<EntityConfigurationViewModel> viewModelLogger)
+        public EntityConfigurationWindowFactory(IDialogService dialogService, ILogger<EntityConfigurationViewModel> entityConfigurationLogger, IAppSettings appSettings, SettingsViewModel settingsViewModel)
         {
             _dialogService = dialogService;
-            _viewModelLogger = viewModelLogger;
+            _entityConfigurationLogger = entityConfigurationLogger;
+            _appSettings = appSettings;
+            _settingsViewModel = settingsViewModel;
         }
 
         public IEntityConfigurationWindow Create(Entity entity)
         {
-            var validator = new EntityConfigurationViewModelValidator(Path.GetDirectoryName(entity.Project.FilePath));
-            var viewModel = new EntityConfigurationViewModel(_viewModelLogger, validator, _dialogService, entity);
-            return new EntityConfigurationWindow(viewModel);
+            var entityConfigurationViewModelValidator = new EntityConfigurationViewModelValidator(Path.GetDirectoryName(entity.Project.FilePath));
+            var entityConfigurationViewModel = new EntityConfigurationViewModel(_appSettings, _entityConfigurationLogger, entityConfigurationViewModelValidator, _dialogService, entity);
+            return new EntityConfigurationWindow(entityConfigurationViewModel, _settingsViewModel);
         }
     }
 

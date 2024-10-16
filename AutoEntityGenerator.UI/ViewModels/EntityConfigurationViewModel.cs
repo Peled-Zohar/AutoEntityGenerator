@@ -3,16 +3,13 @@ using AutoEntityGenerator.Common.Interfaces;
 using AutoEntityGenerator.UI.Interaction;
 using AutoEntityGenerator.UI.Services;
 using FluentValidation;
-using Microsoft.Build.Framework;
 using Microsoft.Extensions.Logging;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace AutoEntityGenerator.UI.ViewModels
@@ -21,6 +18,7 @@ namespace AutoEntityGenerator.UI.ViewModels
     {
         #region Fields
 
+        private readonly IAppSettings _appSettings;
         private readonly ILogger<EntityConfigurationViewModel> _logger;
         private readonly IValidator<EntityConfigurationViewModel> _validator;
         private readonly IDialogService _dialogService;
@@ -29,13 +27,21 @@ namespace AutoEntityGenerator.UI.ViewModels
         private string _dtoName;
         private string _generatedFileName;
         private bool _allowFileNameMismatch;
+        private bool _dtoNameManuallyChanged;
+        private MappingDirectionViewModel selectedMappingDirection;
 
         #endregion Fields
 
         public const string Extension = ".cs";
 
-        public EntityConfigurationViewModel(ILogger<EntityConfigurationViewModel> logger, IValidator<EntityConfigurationViewModel> validator, IDialogService dialogService, Entity entity)
+        public EntityConfigurationViewModel(
+            IAppSettings appSettings,
+            ILogger<EntityConfigurationViewModel> logger,
+            IValidator<EntityConfigurationViewModel> validator,
+            IDialogService dialogService,
+            Entity entity)
         {
+            _appSettings = appSettings;
             _validator = validator;
             _dialogService = dialogService;
             _entity = entity;
@@ -44,10 +50,11 @@ namespace AutoEntityGenerator.UI.ViewModels
             _logger.LogDebug("Initializing UI for entity {entityName}", _entity.Name);
 
             _allowFileNameMismatch = false;
-            DtoName = _entity.Name + "Request";
+            _dtoNameManuallyChanged = false;
+
             ProjectFolder = Path.GetDirectoryName(_entity.Project.FilePath);
-            var entityDirectory = Path.GetDirectoryName(entity.SourceFilePath).Replace(ProjectFolder, "");
-            DestinationFolder = Path.Combine(entityDirectory, "Generated");
+            var entityDirectoryRelativeToProject = Path.GetDirectoryName(entity.SourceFilePath).Replace(ProjectFolder, "");
+            DestinationFolder = Path.Combine(entityDirectoryRelativeToProject, _appSettings.DestinationFolder);
 
             MappingDirections = new[]
             {
@@ -74,7 +81,6 @@ namespace AutoEntityGenerator.UI.ViewModels
             BrowesCommand = new RelayCommand(Browes);
             SelectAllCommand = new RelayCommand(SelectAll);
             UnselectAllCommand = new RelayCommand(UnselectAll);
-
             _logger.LogDebug("UI for entity {entityName} is ready.", _entity.Name);
         }
 
@@ -90,7 +96,26 @@ namespace AutoEntityGenerator.UI.ViewModels
 
         public ObservableCollection<PropertyViewModel> Properties { get; }
         public MappingDirectionViewModel[] MappingDirections { get; }
-        public MappingDirectionViewModel SelectedMappingDirection { get; set; }
+        public MappingDirectionViewModel SelectedMappingDirection
+        {
+            get => selectedMappingDirection;
+            set
+            {
+                if (selectedMappingDirection != value)
+                {
+                    selectedMappingDirection = value;
+                    if (!_dtoNameManuallyChanged)
+                    {
+                        var suffix = selectedMappingDirection.Value == MappingDirection.FromDtoToModel
+                            ? _appSettings.RequestSuffix
+                            : _appSettings.ResponseSuffix;
+
+                        DtoName = _entity.Name + suffix;
+                        _dtoNameManuallyChanged = false;
+                    }
+                }
+            }
+        }
         public string DestinationFolder
         {
             get => _destinationFolder;
@@ -111,6 +136,7 @@ namespace AutoEntityGenerator.UI.ViewModels
                 if (_dtoName != value)
                 {
                     _dtoName = value;
+                    _dtoNameManuallyChanged = true;
                     OnPropertyChanged(nameof(DtoName));
 
                     if (!_allowFileNameMismatch)
@@ -151,12 +177,11 @@ namespace AutoEntityGenerator.UI.ViewModels
         public ICommand BrowesCommand { get; }
         public ICommand SelectAllCommand { get; }
         public ICommand UnselectAllCommand { get; }
-
         private void Save()
         {
-            if (!Validate()) 
-            { 
-                return; 
+            if (!Validate())
+            {
+                return;
             }
 
             Result = new UserInteractionResult(

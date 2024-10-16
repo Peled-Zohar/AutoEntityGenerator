@@ -8,10 +8,8 @@ namespace AutoEntityGenerator.UI.Interaction
     {
         private readonly IEntityConfigurationWindowFactory _entityConfigurationWindowFactory;
 
-        public UserInteraction(IEntityConfigurationWindowFactory entityConfigurationWindowFactory)
-        {
-            _entityConfigurationWindowFactory = entityConfigurationWindowFactory;
-        }
+        public UserInteraction(IEntityConfigurationWindowFactory entityConfigurationWindowFactory) 
+            => _entityConfigurationWindowFactory = entityConfigurationWindowFactory;
 
         public IUserInteractionResult ShowUIForm(Entity entity)
         {

@@ -17,7 +17,10 @@ namespace AutoEntityGenerator.UI.Views
     public partial class EntityConfigurationWindow : Window, IEntityConfigurationWindow
     {
         private readonly EntityConfigurationViewModel _viewModel;
-        public EntityConfigurationWindow(EntityConfigurationViewModel viewModel)
+        private readonly SettingsViewModel _settingsViewModel;
+        private SettingsWindow _settingsView;
+
+        public EntityConfigurationWindow(EntityConfigurationViewModel viewModel, SettingsViewModel settingsViewModel)
         {
             InitializeComponent();
             Owner = Application.Current.MainWindow;
@@ -25,14 +28,12 @@ namespace AutoEntityGenerator.UI.Views
             DataContext = _viewModel;
             _viewModel.RequestClose += ViewModel_RequestClose;
             _viewModel.RequestFocus += ViewModel_RequestFocus;
+            _settingsViewModel = settingsViewModel;
         }
 
         private void ViewModel_RequestFocus()
         {
-            Activate();
-            Topmost = true;
-            Topmost = false;
-            Focus();
+            SetFocus(_settingsView as Window ?? this);
         }
 
         private void ViewModel_RequestClose(bool? dialogResult)
@@ -42,5 +43,22 @@ namespace AutoEntityGenerator.UI.Views
 
         public IUserInteractionResult Result => _viewModel.Result;
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            _settingsView = new SettingsWindow(_settingsViewModel)
+            {
+                Owner = this
+            };
+            _settingsView.ShowDialog();
+            _settingsView = null;
+        }
+
+        private void SetFocus(Window window)
+        {
+            window.Activate();
+            window.Topmost = true;
+            window.Topmost = false;
+            window.Focus();
+        }
     }
 }

@@ -1,22 +1,24 @@
 ﻿using AutoEntityGenerator.Common.CodeInfo;
+using AutoEntityGenerator.Common.Interfaces;
 using AutoEntityGenerator.UI.Services;
+using AutoEntityGenerator.UI.Validators;
 using AutoEntityGenerator.UI.ViewModels;
-using Castle.Core.Logging;
 using FakeItEasy;
 using Microsoft.Extensions.Logging;
-using System.Security.Cryptography.X509Certificates;
 
 namespace AutoEntityGenerator.UI.Tests;
 internal class EntityConfigurationViewModelUnitTests
 {
     EntityConfigurationViewModel _testViewModel;
     EntityConfigurationViewModelValidator _validator;
-    IDialogService _dialogService;
-    ILogger<EntityConfigurationViewModel> _logger;
+    IDialogService _fakeDialogService;
+    ILogger<EntityConfigurationViewModel> _fakeLogger;
+    IAppSettings _fakeAppSettings;
 
     [SetUp]
     public void Setup()
     {
+        
         var testEntity = new Entity()
         {
             Constructors = [],
@@ -33,10 +35,11 @@ internal class EntityConfigurationViewModelUnitTests
             SourceFilePath = "C:/TestProject/TestEntities/TestEntity.cs",
             TypeParameters = [],
         };
-        _logger = A.Fake<ILogger<EntityConfigurationViewModel>>();
-        _dialogService = A.Fake<IDialogService>();
+        _fakeLogger = A.Fake<ILogger<EntityConfigurationViewModel>>();
+        _fakeDialogService = A.Fake<IDialogService>();
+        _fakeAppSettings = A.Fake<IAppSettings>();
         _validator = new EntityConfigurationViewModelValidator(Path.GetDirectoryName(testEntity.Project.FilePath));
-        _testViewModel = new EntityConfigurationViewModel(_logger, _validator, _dialogService, testEntity);
+        _testViewModel = new EntityConfigurationViewModel(_fakeAppSettings, _fakeLogger, _validator, _fakeDialogService, testEntity);
         foreach (var property in _testViewModel.Properties)
         {
             property.IsSelected = true;

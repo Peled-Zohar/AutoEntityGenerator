@@ -22,14 +22,10 @@ namespace AutoEntityGenerator
     {
         private readonly ILogger<EntityGenerator> _logger;
 
-        public EntityGenerator(ILogger<EntityGenerator> logger)
-        {
-            _logger = logger;
-        }
+        public EntityGenerator(ILogger<EntityGenerator> logger) => _logger = logger;
 
         public Entity GenerateFromUIResult(IUserInteractionResult userInteractionResult, Entity sourceEntity)
         {
-
             _logger.LogDebug("Attempting to create {entityName} entity based on user interaction result source entity.", userInteractionResult.EntityName);
 
             var newNamespace = new Namespace()

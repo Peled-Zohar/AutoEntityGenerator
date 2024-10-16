@@ -25,8 +25,20 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
+        
+        <Button HorizontalAlignment="Right" VerticalAlignment="Top" Click="Button_Click">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="Content">
+                        <Setter.Value>
+                            <Image Width="16" Source="/AutoEntityGenerator.UI;component/Views/Settings.png" />
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Style>
+        </Button>
         <!-- Text boxes -->
-        <StackPanel Orientation="Vertical" Margin="10,10,22,10">
+        <StackPanel Orientation="Vertical" Margin="10,0,22,10">
             <Label Content="Mapping Direction:" Margin="0" />
             <ComboBox x:Name="MappingDirection" 
                       ItemsSource="{Binding MappingDirections}"

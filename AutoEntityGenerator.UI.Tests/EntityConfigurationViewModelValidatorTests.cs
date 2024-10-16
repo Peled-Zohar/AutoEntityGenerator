@@ -1,5 +1,7 @@
 using AutoEntityGenerator.Common.CodeInfo;
+using AutoEntityGenerator.Common.Interfaces;
 using AutoEntityGenerator.UI.Services;
+using AutoEntityGenerator.UI.Validators;
 using AutoEntityGenerator.UI.ViewModels;
 using FakeItEasy;
 using Microsoft.Extensions.Logging;
@@ -10,8 +12,9 @@ public class EntityConfigurationViewModelValidatorTests
 {
     EntityConfigurationViewModel _testViewModel;
     EntityConfigurationViewModelValidator _validator;
-    IDialogService _dialogService;
-    ILogger<EntityConfigurationViewModel> _logger;
+    IDialogService _fakeDialogService;
+    ILogger<EntityConfigurationViewModel> _fakeLogger;
+    IAppSettings _fakeAppSettings;
 
     [SetUp]
     public void Setup()
@@ -30,10 +33,11 @@ public class EntityConfigurationViewModelValidatorTests
             SourceFilePath = "C:/TestProject/TestEntities/TestEntity.cs",
             TypeParameters = [],
         };
-        _dialogService = A.Fake<IDialogService>();
-        _logger = A.Fake<ILogger<EntityConfigurationViewModel>>();
+        _fakeDialogService = A.Fake<IDialogService>();
+        _fakeLogger = A.Fake<ILogger<EntityConfigurationViewModel>>();
+        _fakeAppSettings = A.Fake<IAppSettings>();
         _validator = new EntityConfigurationViewModelValidator(Path.GetDirectoryName(testEntity.Project.FilePath));
-        _testViewModel = new EntityConfigurationViewModel(_logger, _validator, _dialogService, testEntity);
+        _testViewModel = new EntityConfigurationViewModel(_fakeAppSettings, _fakeLogger, _validator, _fakeDialogService, testEntity);
         foreach (var property in _testViewModel.Properties)
         {
             property.IsSelected = true;
@@ -66,7 +70,7 @@ public class EntityConfigurationViewModelValidatorTests
     [TestCase("SomeValidFileName.cs", true)] // A valid file name
     public void Valiidate_GeneratedFileName_ReturnExpectedResult(string generatedFileName, bool expected)
     {
-        A.CallTo(() => _dialogService.ShowYesNoDialog(A<string>.Ignored, A<string>.Ignored)).Returns(true);
+        A.CallTo(() => _fakeDialogService.ShowYesNoDialog(A<string>.Ignored, A<string>.Ignored)).Returns(true);
         _testViewModel.GeneratedFileName = generatedFileName;
         var validationResult = _validator.Validate(_testViewModel);
 

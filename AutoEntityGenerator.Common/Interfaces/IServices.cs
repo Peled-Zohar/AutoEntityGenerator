@@ -7,9 +7,9 @@
         IServices AddSingleton<TService, TImplementation>()
             where TService : class
             where TImplementation : class, TService;
-        IServices AddTransient<TService, TImplementation>()
-            where TService : class
-            where TImplementation : class, TService;
+
+        IServices AddTransient<TService>() where TService : class;
+
         T GetService<T>();
     }
 }

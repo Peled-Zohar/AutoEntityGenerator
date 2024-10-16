@@ -1,10 +1,12 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using AutoEntityGenerator.Common.Interfaces;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeRefactorings;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Logging;
 using System.Composition;
 using System.Linq;
 using System.Threading.Tasks;
+
 
 namespace AutoEntityGenerator
 {
@@ -13,11 +15,11 @@ namespace AutoEntityGenerator
     {
         private readonly ILogger<AutoEntityGeneratorCodeRefactoringProvider> _logger;
         private readonly ICodeActionFactory _codeActionFactory;
-        private readonly Services _services;
+        private readonly IServices _services;
 
         public AutoEntityGeneratorCodeRefactoringProvider()
         {
-            _services = new Services();
+            _services = Services.Instance;
             _logger = _services.GetService<ILogger<AutoEntityGeneratorCodeRefactoringProvider>>();
             _codeActionFactory = _services.GetService<ICodeActionFactory>();
             _logger.LogInformation("AutoEntityGenerator started.");
