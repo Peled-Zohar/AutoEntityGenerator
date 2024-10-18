@@ -4,8 +4,9 @@
 
 # AutoEntityGenerator
 
-AutoEntityGenerator is a Visual Studio extension that simplifies the process of generating Data Transfer Objects (DTOs) and mapping extensions based on existing domain entity classes.
+**AutoEntityGenerator** is a Visual Studio extension that simplifies the process of generating Data Transfer Objects (DTOs) and mapping extensions based on existing domain entity classes.
 This extension helps developers quickly create and maintain supporting classes, enhancing productivity and reducing manual coding errors.
+**AutoEntityGenerator** logs to event log, meaning you can view the logs using windows Event Viewer, under "Windows logs" -> "Application" with the source "AutoEntityGenerator".
 
 ## Features
 
@@ -34,7 +35,7 @@ This project is licensed under the MIT License - see the [LICENSE](/AutoEntityGe
 
 #### &nbsp;&nbsp; From Visual Studio Marketplace
 
-&nbsp;&nbsp; You can install the AutoEntityGenerator extension directly from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=ZoharPeled.AutoEntityGenerator).  
+&nbsp;&nbsp; You can install the **AutoEntityGenerator** extension directly from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=ZoharPeled.AutoEntityGenerator).  
 &nbsp;&nbsp; Simply navigate to the extension's page and click on "Install" to add it to your Visual Studio environment.
 
 #### &nbsp;&nbsp; Manual Installation
@@ -44,8 +45,7 @@ This project is licensed under the MIT License - see the [LICENSE](/AutoEntityGe
 
 ## Target platforms
 
-Currently only supported target is visual studio 2022 community version.  
-I plan to expand that in the future, but I will need to test each target platform before adding them to the supported target list.
+Supported targets are visual studio 2022 - Community, Professinal and Enterprise editions.  
 
 ## Usage
 
@@ -58,13 +58,21 @@ I plan to expand that in the future, but I will need to test each target platfor
 
 ## Configuration
 
-AutoEntityGenerator allows you to configure various aspects of the code generation process, including:
+**AutoEntityGenerator** allows you to configure various aspects of the code generation process, including:
 
 - The target folder (and namespace) for the generated classes.
 - The properties required in the generated DTO.
 - The generated DTO name
 - The generated file name
 - The generated mapping direction (from DTO to Model or from Model to DTO)
+
+## Default condiguration
+
+**AutoEntityGenerator** allows you to configure some default values for the extension:
+
+- The minimum log level
+- The default destination folder
+- The default suffix for request and response DTOs
 
 ## Example
 
