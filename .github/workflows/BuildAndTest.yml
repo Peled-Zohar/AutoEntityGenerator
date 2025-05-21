@@ -28,7 +28,6 @@ jobs:
     - name: Setup NuGet.exe for use with actions
       uses: NuGet/setup-nuget@v2.0.0
 
-    
     - name: Restore dependencies
       run: nuget restore AutoEntityGenerator.sln
 
@@ -36,7 +35,7 @@ jobs:
       run: msbuild AutoEntityGenerator.sln /p:Configuration=Release
     
     - name: Test with coverage
-      run: dotnet test --no-build --verbosity normal --collect:"XPlat Code Coverage"
+      run: dotnet test --no-build --configuration Release --verbosity normal --collect:"XPlat Code Coverage"
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v4
