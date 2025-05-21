@@ -30,7 +30,7 @@ jobs:
 
     
     - name: Restore dependencies
-      run: nutet restore AutoEntityGenerator.sln
+      run: nuget restore AutoEntityGenerator.sln
 
     - name: Build
       run: msbuild AutoEntityGenerator.sln /p:Configuration=Release
