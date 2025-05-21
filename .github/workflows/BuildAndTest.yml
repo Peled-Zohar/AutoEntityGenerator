@@ -37,9 +37,26 @@ jobs:
     - name: Test with coverage
       run: dotnet test --no-build --configuration Release --verbosity normal --collect:"XPlat Code Coverage"
 
-    - name: Upload coverage to Codecov
+    - name: Upload coverage to Codecov (AutoEntityGenerator.Tests)
       uses: codecov/codecov-action@v4
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
-        files: '**/coverage.cobertura.xml'
+        file: AutoEntityGenerator.Tests/TestResults/**/coverage.cobertura.xml
+        flags: AutoEntityGenerator.Tests
+        fail_ci_if_error: true
+
+    - name: Upload coverage to Codecov (AutoEntityGenerator.UI.Tests)
+      uses: codecov/codecov-action@v4
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        file: AutoEntityGenerator.UI.Tests/TestResults/**/coverage.cobertura.xml
+        flags: AutoEntityGenerator.UI.Tests
+        fail_ci_if_error: true
+
+    - name: Upload coverage to Codecov (AutoEntityGenerator.CodeGenerator.Tests)
+      uses: codecov/codecov-action@v4
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        file: AutoEntityGenerator.CodeGenerator.Tests/TestResults/**/coverage.cobertura.xml
+        flags: AutoEntityGenerator.CodeGenerator.Tests
         fail_ci_if_error: true
