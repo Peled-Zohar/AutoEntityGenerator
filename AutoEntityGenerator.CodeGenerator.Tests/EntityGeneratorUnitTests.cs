@@ -17,7 +17,7 @@ public class EntityGeneratorUnitTests
             Constructors = [],
             GenericConstraints = [],
             Project = new() { DefaultNamespace = "TestNamespace", FilePath = "C:/TestProject", CSharpVersion = CSharpVersion.Default },
-            Properties = new() { new() { IsReadonly = false, Name = "TestProperty", Type = "int" } },
+            Properties = [new() { IsReadonly = false, Name = "TestProperty", Type = "int" }],
             Name = "Test",
             Namespace = new() { Name = "TestNamespace", IsFileScoped = false },
             SourceFilePath = "C:/TestProject/TestEntity",
