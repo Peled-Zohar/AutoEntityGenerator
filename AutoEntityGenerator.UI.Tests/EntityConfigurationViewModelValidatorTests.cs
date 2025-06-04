@@ -45,13 +45,13 @@ public class EntityConfigurationViewModelValidatorTests
     }
 
 
-    [TestCase("", false)] // empty
-    [TestCase("  ", false)] // white space
-    [TestCase("4asdf", false)] // starts with a digit
-    [TestCase("Asdf-erg", false)] // contains invalid chars
-    [TestCase("false", false)] // is a keyword
-    [TestCase("int", false)] // is a primitive
-    [TestCase("AValidTypeName", true)] // A valid type identifier
+    [TestCase("", false)] 
+    [TestCase("  ", false)] 
+    [TestCase("4asdf", false)] 
+    [TestCase("Asdf-erg", false)] 
+    [TestCase("false", false)] 
+    [TestCase("int", false)] 
+    [TestCase("AValidTypeName", true)] 
     public void Valiidate_DtoName_ReturnExpectedResult(string dtoName, bool expected)
     {
         _testViewModel.DtoName = dtoName;
@@ -60,14 +60,12 @@ public class EntityConfigurationViewModelValidatorTests
         Assert.That(expected, Is.EqualTo(validationResult.IsValid));
     }
 
-
-    // GeneratedFileName
-    [TestCase("", false)] // empty
-    [TestCase("  ", false)] // white space
-    [TestCase("contains an invalid char (\b)", false)] // Contains and invalid char
-    [TestCase("fileName", false)] // no extension
-    [TestCase("fileName.vb" ,false)] // wrong extension
-    [TestCase("SomeValidFileName.cs", true)] // A valid file name
+    [TestCase("", false)]
+    [TestCase("  ", false)] 
+    [TestCase("contains an invalid char (\b)", false)] 
+    [TestCase("fileName", false)] 
+    [TestCase("fileName.vb" ,false)] 
+    [TestCase("SomeValidFileName.cs", true)] 
     public void Valiidate_GeneratedFileName_ReturnExpectedResult(string generatedFileName, bool expected)
     {
         A.CallTo(() => _fakeDialogService.ShowYesNoDialog(A<string>.Ignored, A<string>.Ignored)).Returns(true);
@@ -78,9 +76,9 @@ public class EntityConfigurationViewModelValidatorTests
     }
 
 
-    [TestCase("C:/SomeAbsoulutePath", false)] // A rooted path
-    [TestCase("Directory with an invalid char (\t)", false)] // Contains and invalid char
-    [TestCase("Directory", true)] // A valid directory name
+    [TestCase("C:/SomeAbsoulutePath", false)] 
+    [TestCase("Directory with an invalid char (\t)", false)] 
+    [TestCase("Directory", true)] 
     public void Valiidate_DestinationFolder_ReturnExpectedResult(string destinationFolder, bool expected)
     {
         _testViewModel.DestinationFolder = destinationFolder;
@@ -90,8 +88,8 @@ public class EntityConfigurationViewModelValidatorTests
     }
 
 
-    [TestCase(false, false)] // unselect all properties
-    [TestCase(true, true)] // select at least one property
+    [TestCase(false, false)] 
+    [TestCase(true, true)] 
     public void Valiidate_SelectedProperties_ReturnExpectedResult(bool selectAtLeastOne, bool expected)
     {
         foreach (var property in _testViewModel.Properties)
