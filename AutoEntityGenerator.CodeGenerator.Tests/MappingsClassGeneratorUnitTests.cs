@@ -53,13 +53,25 @@ public class MappingsClassGeneratorUnitTests
         };
     }
 
+    [TestCase("", "TestMapping", "TestMapping")]
+    [TestCase("TargetNamespace", "TargetClass", "TargetNamespace.TargetClass")]
+    public void GenerateMappingClassCode_TargetNamespaceNameMissing_MappingMethodReturnTypeWithoutNamespace(string targetNamespaceName, string targetName, string fullTargetName)
+    {
+        _testMappingTargetEntity.Name = targetName;
+        _testMappingTargetEntity.Namespace.Name = targetNamespaceName;
+
+        var expectedMethodDeclarationString = $@"public static {fullTargetName} To{_testMappingTargetEntity.Name}(this {_testEntity.Name} source)";
+        var result = _mappingsClassGenerator.GenerateMappingClassCode(_testEntity, _testMappingTargetEntity);
+        Assert.That(result, Does.Contain(expectedMethodDeclarationString));
+    }
+
     [TestCase("")]
     [TestCase("T")]
     [TestCase("T1", "T2")]
     public void GenerateMappingClassCode_TypeParameters_IncludeTypeParametersInMappingCode(params string[] typeParams)
     {
 
-        _testMappingTargetEntity.TypeParameters = string.IsNullOrEmpty(typeParams[0]) ? [] : typeParams.ToList();
+        _testMappingTargetEntity.TypeParameters = string.IsNullOrEmpty(typeParams[0]) ? [] : [.. typeParams];
         var typeParam = string.IsNullOrEmpty(typeParams[0])? "" : $"<{string.Join(", ", typeParams)}>";
         var expectedMethodDeclarationString = $@"public static {_testMappingTargetEntity.Namespace.Name}.{_testMappingTargetEntity.Name}{typeParam} To{_testMappingTargetEntity.Name}{typeParam}(this {_testEntity.Name}{typeParam} source)";
 
