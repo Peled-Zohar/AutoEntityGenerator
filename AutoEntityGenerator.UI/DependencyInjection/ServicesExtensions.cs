@@ -13,11 +13,11 @@ namespace AutoEntityGenerator.UI.DependencyInjection
     {
         public static IServices AddUI(this IServices services)
         {
-            services.AddSingleton<IUserInteraction, UserInteraction>()
-                .AddSingleton<IEntityConfigurationWindowFactory, EntityConfigurationWindowFactory>()
-                .AddSingleton<IDialogService, DialogService>()
-                .AddTransient<SettingsViewModel>()
-                .AddSingleton<IValidator<IAppSettings>, AppSettingslValidator>();
+            services.AddSingleton<IUserInteraction, UserInteraction>();
+            services.AddSingleton<IEntityConfigurationWindowFactory, EntityConfigurationWindowFactory>();
+            services.AddSingleton<IDialogService, DialogService>();
+            services.AddTransient<SettingsViewModel>();
+            services.AddSingleton<IValidator<IAppSettings>, AppSettingslValidator>();
             return services;
         }
 
