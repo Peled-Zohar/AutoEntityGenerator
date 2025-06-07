@@ -45,7 +45,7 @@ public static partial class {from.Name}MappingExtensions
                 :
 $@"{Comments}namespace {from.Namespace.Name}
 {{
-    public static partial class {from.Name}MappingExtension
+    public static partial class {from.Name}MappingExtensions
     {{
         public static {toFullName}{typeParameters} To{to.Name}{typeParameters}(this {from.Name}{typeParameters} source){genericConstraints}
         {{
