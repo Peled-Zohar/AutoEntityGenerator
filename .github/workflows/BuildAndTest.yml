@@ -1,0 +1,62 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: .NET
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+
+    - name: Setup msbuild
+      uses: microsoft/setup-msbuild@v2
+
+    - name: Setup NuGet.exe for use with actions
+      uses: NuGet/setup-nuget@v2.0.0
+
+    - name: Restore dependencies
+      run: nuget restore AutoEntityGenerator.sln
+
+    - name: Build
+      run: msbuild AutoEntityGenerator.sln /p:Configuration=Release
+    
+    - name: Test with coverage
+      run: dotnet test --no-build --configuration Release --verbosity normal --collect:"XPlat Code Coverage"
+
+    - name: Upload coverage to Codecov (AutoEntityGenerator.Tests)
+      uses: codecov/codecov-action@v4
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        file: AutoEntityGenerator.Tests/TestResults/**/coverage.cobertura.xml
+        flags: AutoEntityGenerator.Tests
+        fail_ci_if_error: true
+
+    - name: Upload coverage to Codecov (AutoEntityGenerator.UI.Tests)
+      uses: codecov/codecov-action@v4
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        file: AutoEntityGenerator.UI.Tests/TestResults/**/coverage.cobertura.xml
+        flags: AutoEntityGenerator.UI.Tests
+        fail_ci_if_error: true
+
+    - name: Upload coverage to Codecov (AutoEntityGenerator.CodeGenerator.Tests)
+      uses: codecov/codecov-action@v4
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        file: AutoEntityGenerator.CodeGenerator.Tests/TestResults/**/coverage.cobertura.xml
+        flags: AutoEntityGenerator.CodeGenerator.Tests
+        fail_ci_if_error: true
