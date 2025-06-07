@@ -1,5 +1,4 @@
 ﻿using AutoEntityGenerator.Common.Interfaces;
-using AutoEntityGenerator.UI.ViewModels;
 using FluentValidation;
 using System;
 using System.IO;
