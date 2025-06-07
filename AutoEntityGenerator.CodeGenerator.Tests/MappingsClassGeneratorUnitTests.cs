@@ -52,4 +52,70 @@ public class MappingsClassGeneratorUnitTests
             TypeParameters = [],
         };
     }
+
+    [TestCase("")]
+    [TestCase("T")]
+    [TestCase("T1", "T2")]
+    public void GenerateMappingClassCode_TypeParameters_IncludeTypeParametersInMappingCode(params string[] typeParams)
+    {
+
+        _testMappingTargetEntity.TypeParameters = string.IsNullOrEmpty(typeParams[0]) ? [] : typeParams.ToList();
+        var typeParam = string.IsNullOrEmpty(typeParams[0])? "" : $"<{string.Join(", ", typeParams)}>";
+        var expectedMethodDeclarationString = $@"public static {_testMappingTargetEntity.Namespace.Name}.{_testMappingTargetEntity.Name}{typeParam} To{_testMappingTargetEntity.Name}{typeParam}(this {_testEntity.Name}{typeParam} source)";
+
+        var result = _mappingsClassGenerator.GenerateMappingClassCode(_testEntity, _testMappingTargetEntity);
+
+        Assert.That(result, Does.Contain(expectedMethodDeclarationString));
+    }
+
+    [Test]
+    public void GenerateMappingClassCode_GenericConstraints_IncludeGenericConstraintsInMappingCode()
+    {
+        _testMappingTargetEntity.TypeParameters = ["T"];
+        
+        _testMappingTargetEntity.GenericConstraints = ["where T : class"];
+
+        var typeParam = "<T>";
+        var genericConstraintsString = " where T : class";
+        var expectedMethodDeclarationString = $@"public static {_testMappingTargetEntity.Namespace.Name}.{_testMappingTargetEntity.Name}{typeParam} To{_testMappingTargetEntity.Name}{typeParam}(this {_testEntity.Name}{typeParam} source){genericConstraintsString}";
+
+        var result = _mappingsClassGenerator.GenerateMappingClassCode(_testEntity, _testMappingTargetEntity);
+
+        Assert.That(result, Does.Contain(expectedMethodDeclarationString));
+    }
+
+    [TestCase(true)]
+    [TestCase(false)]
+    public void GenerateMappingClassCode_DifferentScopeNamespace_ReturnsCorrectlyIndentedCode(bool isFileScoped)
+    {
+        _testEntity.Namespace.IsFileScoped = isFileScoped;
+
+        var propertyListIndendaion = isFileScoped ? "\t\t\t" : "\t\t\t\t";
+
+        var expectedNamespaceString = isFileScoped
+    ? @"
+namespace TestNamespace;
+"
+    : @"
+namespace TestNamespace
+{";
+
+        var expectedClassDeclarationString = $"public static partial class {_testEntity.Name}MappingExtensions";
+
+        var expectedMethodDeclarationString = $"    public static {_testMappingTargetEntity.Namespace.Name}.{_testMappingTargetEntity.Name} To{_testMappingTargetEntity.Name}(this {_testEntity.Name} source)";
+
+        var expectedFirstPropertyString = $"{propertyListIndendaion}A = source.A,";
+
+        if (!isFileScoped)
+        {
+            expectedClassDeclarationString = "  " + expectedClassDeclarationString;
+            expectedMethodDeclarationString = " " + expectedMethodDeclarationString;
+        }
+
+        var result = _mappingsClassGenerator.GenerateMappingClassCode(_testEntity, _testMappingTargetEntity);
+        Assert.That(result, Does.Contain(expectedNamespaceString));
+        Assert.That(result, Does.Contain(expectedClassDeclarationString));
+        Assert.That(result, Does.Contain(expectedMethodDeclarationString));
+        Assert.That(result, Does.Contain(expectedFirstPropertyString));
+    }
 }
