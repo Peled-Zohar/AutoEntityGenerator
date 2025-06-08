@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Windows;
 
 namespace AutoEntityGenerator.UI.Services
 {
@@ -8,6 +9,7 @@ namespace AutoEntityGenerator.UI.Services
         void ShowDialog(string message, string caption);
     }
 
+    [ExcludeFromCodeCoverage] // There's no logic to test here...
     internal class DialogService : IDialogService
     {
         public bool ShowYesNoDialog(string message, string caption)

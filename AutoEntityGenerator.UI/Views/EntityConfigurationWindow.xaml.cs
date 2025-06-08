@@ -1,5 +1,6 @@
 ﻿using AutoEntityGenerator.Common.Interfaces;
 using AutoEntityGenerator.UI.ViewModels;
+using System.Diagnostics.CodeAnalysis;
 using System.Windows;
 
 namespace AutoEntityGenerator.UI.Views
@@ -14,6 +15,7 @@ namespace AutoEntityGenerator.UI.Views
     /// <summary>
     /// Interaction logic for EntityConfigurationWindow.xaml
     /// </summary>
+    [ExcludeFromCodeCoverage] // There's no logic to test here...
     public partial class EntityConfigurationWindow : Window, IEntityConfigurationWindow
     {
         private readonly EntityConfigurationViewModel _viewModel;

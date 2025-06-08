@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Windows.Input;
 
 namespace AutoEntityGenerator.UI.ViewModels
 {
+    [ExcludeFromCodeCoverage] // There's no logic to test here...
     public class RelayCommand : ICommand
     {
         private readonly Action _execute;

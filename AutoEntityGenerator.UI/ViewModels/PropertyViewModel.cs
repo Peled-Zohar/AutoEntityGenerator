@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 
 namespace AutoEntityGenerator.UI.ViewModels
 {
+    [ExcludeFromCodeCoverage] // There's no logic to test here...
     public class PropertyViewModel : INotifyPropertyChanged
     {
         private bool _isSelected;

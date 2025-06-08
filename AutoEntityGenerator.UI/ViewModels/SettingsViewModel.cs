@@ -35,7 +35,11 @@ namespace AutoEntityGenerator.UI.ViewModels
             _settingsViewModelValidator = settingsViewModelValidator;
             _configurationSaver = configurationSaver;
 
-            LogLevels = Enum.GetValues(typeof(LogLevel)).Cast<LogLevel>().Where(l => l != LogLevel.Trace).ToList();
+            LogLevels = Enum
+                .GetValues(typeof(LogLevel))
+                .Cast<LogLevel>()
+                .Where(l => l != LogLevel.Trace)
+                .ToList();
 
             MinimumLogLevel = _appSettings.MinimumLogLevel;
             DestinationFolder = _appSettings.DestinationFolder;
