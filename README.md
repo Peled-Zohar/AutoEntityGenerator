@@ -1,13 +1,21 @@
-<p align="center">
+<div align="center">
   <img  src="/AutoEntityGenerator.Manifest/AutoEntityGenerator.png" />
-</p>
 
 # AutoEntityGenerator
+
+</div>
 
 **AutoEntityGenerator** is a Visual Studio extension that simplifies the process of generating Data Transfer Objects (DTOs) and mapping extensions based on existing domain entity classes.
 This extension helps developers quickly create and maintain supporting classes, enhancing productivity and reducing manual coding errors.
 **AutoEntityGenerator** logs to event log, meaning you can view the logs using windows Event Viewer, under "Windows logs" -> "Application" with the source "AutoEntityGenerator".
+<div align="center">
+  
+[![Downloads](https://img.shields.io/visual-studio-marketplace/d/ZoharPeled.AutoEntityGenerator)](https://img.shields.io/visual-studio-marketplace/d/ZoharPeled.AutoEntityGenerator)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE) 
+[![Build Status](https://github.com/Peled-Zohar/AutoEntityGenerator/actions/workflows/BuildAndTest.yml/badge.svg)](https://github.com/Peled-Zohar/AutoEntityGenerator/actions/workflows/BuildAndTest.yml/badge.svg) 
+[![codecov](https://codecov.io/gh/Peled-Zohar/AutoEntityGenerator/graph/badge.svg?token=H3FNKNP6EL)](https://codecov.io/gh/Peled-Zohar/AutoEntityGenerator)  
 
+</div>
 ## Features
 
 - Automatically generates DTOs from domain entity classes or records.
