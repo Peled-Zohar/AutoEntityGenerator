@@ -16,6 +16,7 @@ This extension helps developers quickly create and maintain supporting classes, 
 [![codecov](https://codecov.io/gh/Peled-Zohar/AutoEntityGenerator/graph/badge.svg?token=H3FNKNP6EL)](https://codecov.io/gh/Peled-Zohar/AutoEntityGenerator)  
 
 </div>
+
 ## Features
 
 - Automatically generates DTOs from domain entity classes or records.
