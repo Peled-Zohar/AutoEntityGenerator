@@ -5,6 +5,7 @@ using AutoEntityGenerator.UI.Validators;
 using AutoEntityGenerator.UI.ViewModels;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
+using System.Diagnostics.CodeAnalysis;
 using System.Windows;
 
 namespace AutoEntityGenerator.UI.DependencyInjection
@@ -21,6 +22,7 @@ namespace AutoEntityGenerator.UI.DependencyInjection
             return services;
         }
 
+        [ExcludeFromCodeCoverage] // There's no logic to test here...
         public static void AddUIRelatedGlobalExceptionHandling(this ILogger<IServices> logger)
         {
             Application.Current.DispatcherUnhandledException += (sender, args) =>

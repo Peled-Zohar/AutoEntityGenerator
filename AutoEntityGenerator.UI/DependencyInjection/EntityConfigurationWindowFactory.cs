@@ -5,6 +5,7 @@ using AutoEntityGenerator.UI.Validators;
 using AutoEntityGenerator.UI.ViewModels;
 using AutoEntityGenerator.UI.Views;
 using Microsoft.Extensions.Logging;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 
 namespace AutoEntityGenerator.UI.DependencyInjection
@@ -15,6 +16,7 @@ namespace AutoEntityGenerator.UI.DependencyInjection
         IEntityConfigurationWindow Create(Entity entity);
     }
 
+    [ExcludeFromCodeCoverage] // There's no logic to test here...
     internal class EntityConfigurationWindowFactory : IEntityConfigurationWindowFactory
     {
         private readonly IDialogService _dialogService;
