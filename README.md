@@ -3,8 +3,9 @@
 
 # AutoEntityGenerator
 
-[![Downloads](https://img.shields.io/visual-studio-marketplace/d/ZoharPeled.AutoEntityGenerator)](https://img.shields.io/visual-studio-marketplace/d/ZoharPeled.AutoEntityGenerator)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE) 
+
+[![Downloads](https://img.shields.io/visual-studio-marketplace/d/zoharpeled.AutoEntityGenerator)](https://marketplace.visualstudio.com/items?itemName=ZoharPeled.AutoEntityGenerator)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)  
 [![Build Status](https://github.com/Peled-Zohar/AutoEntityGenerator/actions/workflows/BuildAndTest.yml/badge.svg)](https://github.com/Peled-Zohar/AutoEntityGenerator/actions/workflows/BuildAndTest.yml/badge.svg) 
 [![codecov](https://codecov.io/gh/Peled-Zohar/AutoEntityGenerator/graph/badge.svg?token=H3FNKNP6EL)](https://codecov.io/gh/Peled-Zohar/AutoEntityGenerator)  
 
