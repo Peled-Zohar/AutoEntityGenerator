@@ -1,9 +1,11 @@
 ﻿using AutoEntityGenerator.Common.CodeInfo;
 using AutoEntityGenerator.Common.Interfaces;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace AutoEntityGenerator.UI.Interaction
 {
+    [ExcludeFromCodeCoverage] // There's no logic to test here...
     internal class UserInteractionResult : IUserInteractionResult
     {
         internal UserInteractionResult() => IsOk = false;
