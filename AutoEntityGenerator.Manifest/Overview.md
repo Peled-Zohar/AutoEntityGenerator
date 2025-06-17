@@ -26,18 +26,8 @@ Your feedback is valuable, whether it’s positive or critical, and will help sh
 ##
 Changes from previous version:
 
-1 **Updated behavior of the entity configuration form.**  
-In this version, when you choose a value in the mapping direction drop-down, it affects the generated DTO's name unless you manually change the value of the textbox.  
-Default values are: `<entityName>Request` for mapping from DTO to Model,   
-and `<entityName>Response` for mapping from Model to DTO.
+1 fixed a minor typo in UI -> ("Browes" to "Browse")
 
-2 **New configuration settings window.**  
-Users can now control various configuration settings. Current configurable values are:
-
-- Minimum log level (default: "Information")
-- Destination folder (default: "Generated")
-- Request suffix (default: "Request")
-- Response suffix (default: "Response")
 
 ## How to use
 
