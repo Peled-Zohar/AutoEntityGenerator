@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using Microsoft.WindowsAPICodePack.Dialogs;
+using System.Diagnostics.CodeAnalysis;
 using System.Windows;
 
 namespace AutoEntityGenerator.UI.Services
@@ -7,6 +8,8 @@ namespace AutoEntityGenerator.UI.Services
     {
         bool ShowYesNoDialog(string message, string caption);
         void ShowDialog(string message, string caption);
+
+        (bool result, string folderName) ShowFolderPickerDialog(string initialDirectory);
     }
 
     [ExcludeFromCodeCoverage] // There's no logic to test here...
@@ -17,5 +20,16 @@ namespace AutoEntityGenerator.UI.Services
 
         public void ShowDialog(string message, string caption)
             => MessageBox.Show(message, caption);
+
+        public (bool result, string folderName) ShowFolderPickerDialog(string initialDirectory)
+        {
+            using (var dialog = new CommonOpenFileDialog())
+            {
+                dialog.IsFolderPicker = true;
+                dialog.InitialDirectory = initialDirectory;
+                var dialogResult = dialog.ShowDialog();
+                return (dialogResult == CommonFileDialogResult.Ok, dialog.FileName);
+            }
+        }
     }
 }

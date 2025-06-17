@@ -8,6 +8,7 @@ using Microsoft.WindowsAPICodePack.Dialogs;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Windows.Input;
@@ -78,7 +79,7 @@ namespace AutoEntityGenerator.UI.ViewModels
 
             SaveCommand = new RelayCommand(Save);
             CancelCommand = new RelayCommand(Cancel);
-            BrowesCommand = new RelayCommand(Browes);
+            BrowseCommand = new RelayCommand(Browse);
             SelectAllCommand = new RelayCommand(SelectAll);
             UnselectAllCommand = new RelayCommand(UnselectAll);
             _logger.LogDebug("UI for entity {entityName} is ready.", _entity.Name);
@@ -163,8 +164,7 @@ namespace AutoEntityGenerator.UI.ViewModels
                 }
             }
         }
-
-        public string ProjectFolder { get; private set; }
+        public string ProjectFolder { get;  }
         public string DestinationPath => Path.Combine(ProjectFolder, DestinationFolder.TrimStart(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
         public IUserInteractionResult Result { get; private set; }
 
@@ -174,7 +174,7 @@ namespace AutoEntityGenerator.UI.ViewModels
 
         public ICommand SaveCommand { get; }
         public ICommand CancelCommand { get; }
-        public ICommand BrowesCommand { get; }
+        public ICommand BrowseCommand { get; }
         public ICommand SelectAllCommand { get; }
         public ICommand UnselectAllCommand { get; }
         private void Save()
@@ -200,36 +200,38 @@ namespace AutoEntityGenerator.UI.ViewModels
                 GeneratedFileName);
             OnRequestClose(true);
         }
+
+        [ExcludeFromCodeCoverage] // There's no logic to test here...
         private void Cancel()
         {
             OnRequestClose(false);
         }
         private void SelectAll() => ToggleSelectedForAllProperties(true);
         private void UnselectAll() => ToggleSelectedForAllProperties(false);
-        private void Browes()
+        private void Browse()
         {
             var targetDirectory = Path.Combine(ProjectFolder, DestinationFolder);
 
-            using (var dialog = new CommonOpenFileDialog())
-            {
-                dialog.IsFolderPicker = true;
-                dialog.InitialDirectory = Directory.Exists(targetDirectory)
+            var initialDirectory = Directory.Exists(targetDirectory)
                     ? targetDirectory
                     : ProjectFolder;
-                var dialogResult = dialog.ShowDialog();
-                if (dialogResult == CommonFileDialogResult.Ok)
+            
+            var (openFileResult, destinationFolder) = _dialogService.ShowFolderPickerDialog(initialDirectory);
+
+            if (openFileResult)
+            {
+                if (destinationFolder != ProjectFolder && !destinationFolder.StartsWith(ProjectFolder))
                 {
-                    var destinationFolder = dialog.FileName;
-                    if (destinationFolder != ProjectFolder && !destinationFolder.StartsWith(ProjectFolder))
-                    {
-                        _dialogService.ShowDialog("Target folder must be a sub folder of the project folder.", "Invalid folder");
-                    }
-                    else
-                    {
-                        DestinationFolder = destinationFolder.Replace(ProjectFolder, "");
-                    }
+                    _dialogService.ShowDialog("Target folder must be a sub folder of the project folder.", "Invalid folder");
+                }
+                else
+                {
+                    DestinationFolder = destinationFolder
+                        .Replace(ProjectFolder, "")
+                        .TrimStart(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
                 }
             }
+
             OnRequestFocus();
         }
 
