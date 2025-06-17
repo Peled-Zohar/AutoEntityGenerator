@@ -14,12 +14,13 @@ internal class EntityConfigurationViewModelUnitTests
     IDialogService _fakeDialogService;
     ILogger<EntityConfigurationViewModel> _fakeLogger;
     IAppSettings _fakeAppSettings;
+    Entity _testEntity;
 
     [SetUp]
     public void Setup()
     {
         
-        var testEntity = new Entity()
+        _testEntity = new Entity()
         {
             Constructors = [],
             GenericConstraints = [],
@@ -38,8 +39,10 @@ internal class EntityConfigurationViewModelUnitTests
         _fakeLogger = A.Fake<ILogger<EntityConfigurationViewModel>>();
         _fakeDialogService = A.Fake<IDialogService>();
         _fakeAppSettings = A.Fake<IAppSettings>();
-        _validator = new EntityConfigurationViewModelValidator(Path.GetDirectoryName(testEntity.Project.FilePath));
-        _testViewModel = new EntityConfigurationViewModel(_fakeAppSettings, _fakeLogger, _validator, _fakeDialogService, testEntity);
+        A.CallTo(() => _fakeAppSettings.DestinationFolder)
+            .Returns("/Generated");
+        _validator = new EntityConfigurationViewModelValidator(Path.GetDirectoryName(_testEntity.Project.FilePath));
+        _testViewModel = new EntityConfigurationViewModel(_fakeAppSettings, _fakeLogger, _validator, _fakeDialogService, _testEntity);
         foreach (var property in _testViewModel.Properties)
         {
             property.IsSelected = true;
@@ -67,6 +70,73 @@ internal class EntityConfigurationViewModelUnitTests
         Assert.That(propertiesToSelect.SequenceEqual(_testViewModel.Result.EntityProperties.Select(p => p.Name)), Is.True);
             
     }
+
+    [Test]
+    public void Save_InvalidInput_ShowValidationErrors()
+    {
+        _testViewModel.DtoName = "345-InvalidName";
+        _testViewModel.SaveCommand.Execute(null);
+
+        A.CallTo(() => _fakeDialogService.ShowDialog(A<string>._, A<string>._))
+            .MustHaveHappened();
+    }
+
+
+    [Test]
+    public void SelectAllCommand_Execute_AllPropertiesSelected()
+    {
+        _testViewModel.SelectAllCommand.Execute(null);
+        Assert.That(_testViewModel.Properties.All(p => p.IsSelected), Is.True);
+    }
+
+    [Test]
+    public void UnselectAllCommand_Execute_AllPropertiesNotSelected()
+    {
+        _testViewModel.UnselectAllCommand.Execute(null);
+        Assert.That(_testViewModel.Properties.All(p => p.IsSelected), Is.False);
+    }
+
+    [Test]
+    public void Browse_FolderPickerDialogCanceled_DestinationFolderUnchanged()
+    {
+        var initialDestinationFolder = _testViewModel.DestinationFolder;
+        A.CallTo(() => _fakeDialogService.ShowFolderPickerDialog(A<string>._))
+            .Returns((false, ""));
+
+        _testViewModel.BrowseCommand.Execute(null);
+
+        Assert.That(_testViewModel.DestinationFolder, Is.EqualTo(initialDestinationFolder));
+    }
+
+    [Test]
+    public void Browse_FolderPickerDialogReturnedInvalidPath_DestinationFolderUnchanged()
+    {
+        var initialDestinationFolder = _testViewModel.DestinationFolder;
+        A.CallTo(() => _fakeDialogService.ShowFolderPickerDialog(A<string>._))
+            .Returns((true, "C:/This_path_is_not_in_the_project_path_and_therefor_invalid"));
+
+        _testViewModel.BrowseCommand.Execute(null);
+        A.CallTo(() => _fakeDialogService.ShowDialog(A<string>._, A<string>._))
+            .MustHaveHappened();
+        Assert.That(_testViewModel.DestinationFolder, Is.EqualTo(initialDestinationFolder));
+    }
+
+    [Test]
+    public void Browse_FolderPickerDialogReturnedValidPath_DestinationFolderUpdated()
+    {
+        var projectPath = Path.GetDirectoryName(_testEntity.Project.FilePath)!;
+        var targetDirectory = "SomeDirectory";
+        var returnedPath = Path.Combine(projectPath, targetDirectory);
+        var initialDestinationFolder = _testViewModel.DestinationFolder;
+        A.CallTo(() => _fakeDialogService.ShowFolderPickerDialog(A<string>._))
+            .Returns((true, returnedPath));
+
+        _testViewModel.BrowseCommand.Execute(null);
+
+        Assert.That(_testViewModel.DestinationFolder, Is.EqualTo(targetDirectory));
+    }
+
+
 
 
 }

@@ -251,7 +251,7 @@
     <Compile Include="ViewModels\PropertyViewModel.cs" />
     <Compile Include="ViewModels\RelayCommand.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
-    <Compile Include="Validators\AppSettingslValidator.cs" />
+    <Compile Include="Validators\SettingsValidator.cs" />
     <Compile Include="Views\EntityConfigurationWindow.xaml.cs">
       <DependentUpon>EntityConfigurationWindow.xaml</DependentUpon>
     </Compile>

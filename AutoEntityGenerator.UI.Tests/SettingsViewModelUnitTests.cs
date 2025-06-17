@@ -15,14 +15,6 @@ class SettingsViewModelUnitTests
     private IValidator<IAppSettings> _validator;
     private IConfigurationSaver _configurationSaver;
 
-    private class AppSettingsImplementation : IAppSettings
-    {
-        public LogLevel MinimumLogLevel { get; set; }
-        public required string DestinationFolder { get; set; }
-        public required string RequestSuffix { get; set; }
-        public required string ResponseSuffix { get; set; }
-    }
-
     [SetUp]
     public void Setup()
     {
@@ -141,4 +133,12 @@ class SettingsViewModelUnitTests
 
         A.CallTo(() => _configurationSaver.Save(_appSettings)).MustNotHaveHappened();
     }
+}
+
+internal class AppSettingsImplementation : IAppSettings
+{
+    public LogLevel MinimumLogLevel { get; set; }
+    public required string DestinationFolder { get; set; }
+    public required string RequestSuffix { get; set; }
+    public required string ResponseSuffix { get; set; }
 }

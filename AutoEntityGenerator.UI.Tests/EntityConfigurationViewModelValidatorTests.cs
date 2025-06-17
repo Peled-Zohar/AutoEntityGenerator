@@ -78,7 +78,9 @@ public class EntityConfigurationViewModelValidatorTests
 
     [TestCase("C:/SomeAbsoulutePath", false)] 
     [TestCase("Directory with an invalid char (\t)", false)] 
-    [TestCase("Directory", true)] 
+    [TestCase("Directory", true)]
+    [TestCase("", true)]
+    [TestCase(" ", true)]
     public void Valiidate_DestinationFolder_ReturnExpectedResult(string destinationFolder, bool expected)
     {
         _testViewModel.DestinationFolder = destinationFolder;

@@ -18,7 +18,7 @@ namespace AutoEntityGenerator.UI.DependencyInjection
             services.AddSingleton<IEntityConfigurationWindowFactory, EntityConfigurationWindowFactory>();
             services.AddSingleton<IDialogService, DialogService>();
             services.AddTransient<SettingsViewModel>();
-            services.AddSingleton<IValidator<IAppSettings>, AppSettingslValidator>();
+            services.AddSingleton<IValidator<IAppSettings>, SettingsValidator>();
             return services;
         }
 
