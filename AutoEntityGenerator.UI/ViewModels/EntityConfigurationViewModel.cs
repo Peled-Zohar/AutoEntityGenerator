@@ -4,7 +4,6 @@ using AutoEntityGenerator.UI.Interaction;
 using AutoEntityGenerator.UI.Services;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
-using Microsoft.WindowsAPICodePack.Dialogs;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
