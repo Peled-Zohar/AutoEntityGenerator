@@ -12,13 +12,14 @@ class SettingsViewModelUnitTests
 {
     private SettingsViewModel _settingsViewModel;
     private IAppSettings _appSettings, _updatedAppSettings;
-    private IValidator<IAppSettings> _validator;
-    private IConfigurationSaver _configurationSaver;
+    private IValidator<IAppSettings> _fakeValidator;
+    private IConfigurationSaver _fakeConfigurationSaver;
+    private IDialogService _fakeDialogService;
 
     [SetUp]
     public void Setup()
     {
-        _appSettings = new AppSettingsImplementation()
+        _appSettings = new AppSettingsImplementation
         { 
             MinimumLogLevel = LogLevel.Information,
             DestinationFolder = "DefaultDestinationFolder",
@@ -34,15 +35,16 @@ class SettingsViewModelUnitTests
         };
 
 
-        _validator = A.Fake<IValidator<IAppSettings>>();
-        _configurationSaver = A.Fake<IConfigurationSaver>();
+        _fakeDialogService = A.Fake<IDialogService>();
+        _fakeValidator = A.Fake<IValidator<IAppSettings>>();
+        _fakeConfigurationSaver = A.Fake<IConfigurationSaver>();
 
         _settingsViewModel = new SettingsViewModel(
             _appSettings,
             A.Fake<ILogger<SettingsViewModel>>(),
-            _validator,
-            _configurationSaver,
-            A.Fake<IDialogService>()
+            _fakeValidator,
+            _fakeConfigurationSaver,
+            _fakeDialogService
         );
     }
 
@@ -76,21 +78,20 @@ class SettingsViewModelUnitTests
         Assert.That(_settingsViewModel.ResponseSuffix, Is.EqualTo(responseSuffix));
     }
 
-
     [Test]
     public void ExecuteSaveCommand_MustValidateSettings()
     {
         
         _settingsViewModel.SaveCommand.Execute(null);
 
-        A.CallTo(() => _validator.Validate(A<IAppSettings>.Ignored)).MustHaveHappenedOnceExactly();
+        A.CallTo(() => _fakeValidator.Validate(A<IAppSettings>.Ignored)).MustHaveHappenedOnceExactly();
     }
 
     [Test]
     public void ExecuteSaveCommand_ValidSettings_MustUpdateAppSettingsProperties()
     {
 
-        A.CallTo(() => _validator.Validate(A<IAppSettings>.Ignored))
+        A.CallTo(() => _fakeValidator.Validate(A<IAppSettings>.Ignored))
             .Returns(new ValidationResult());
 
         _settingsViewModel.MinimumLogLevel = _updatedAppSettings.MinimumLogLevel;
@@ -115,24 +116,40 @@ class SettingsViewModelUnitTests
     [Test]
     public void ExecuteSaveCommand_ValidSettings_SavesSettings()
     {
-        A.CallTo(() => _validator.Validate(A<IAppSettings>.Ignored))
+        A.CallTo(() => _fakeValidator.Validate(A<IAppSettings>.Ignored))
             .Returns(new ValidationResult());
 
         _settingsViewModel.SaveCommand.Execute(null);
 
-        A.CallTo(() => _configurationSaver.Save(_appSettings)).MustHaveHappenedOnceExactly();
+        A.CallTo(() => _fakeConfigurationSaver.Save(_appSettings)).MustHaveHappenedOnceExactly();
     }
 
     [Test]
     public void ExecuteSaveCommand_InvalidSettings_MustNotSaveSettings()
     {
-        A.CallTo(() => _validator.Validate(A<IAppSettings>.Ignored))
-            .Returns(new FluentValidation.Results.ValidationResult([new ValidationFailure()]));
+        A.CallTo(() => _fakeValidator.Validate(A<IAppSettings>.Ignored))
+            .Returns(new ValidationResult([new ValidationFailure()]));
 
         _settingsViewModel.SaveCommand.Execute(null);
 
-        A.CallTo(() => _configurationSaver.Save(_appSettings)).MustNotHaveHappened();
+        A.CallTo(() => _fakeConfigurationSaver.Save(_appSettings)).MustNotHaveHappened();
     }
+
+    [Test]
+    public void ExecuteSaveCommand_ConfigurationSaverThrows_ExceptionDisplayedToUser()
+    {
+        A.CallTo(() => _fakeValidator.Validate(A<IAppSettings>.Ignored))
+            .Returns(new ValidationResult());
+
+        A.CallTo(() => _fakeConfigurationSaver.Save(A<IAppSettings>._))
+            .Throws(new Exception("Test exception"));
+
+        _settingsViewModel.SaveCommand.Execute(null);
+
+        A.CallTo(() => _fakeDialogService.ShowDialog(A<string>._, A<string>._))
+            .MustHaveHappened();
+    }
+
 }
 
 internal class AppSettingsImplementation : IAppSettings

@@ -302,14 +302,16 @@ namespace AutoEntityGenerator.UI.ViewModels
         
         private void SetDtoName()
         {
-            if (!_dtoNameManuallyChanged)
+            if (_dtoNameManuallyChanged)
             {
-                var suffix = SelectedMappingDirection.Value == MappingDirection.FromDtoToModel
-                    ? _appSettings.RequestSuffix
-                    : _appSettings.ResponseSuffix;
-                DtoName = _entity.Name + suffix;
-                _dtoNameManuallyChanged = false;
+                return;
             }
+
+            var suffix = SelectedMappingDirection.Value == MappingDirection.FromDtoToModel
+                ? _appSettings.RequestSuffix
+                : _appSettings.ResponseSuffix;
+            DtoName = _entity.Name + suffix;
+            _dtoNameManuallyChanged = false;
         }
         private void SetDestinationFolder()
         {
@@ -324,11 +326,13 @@ namespace AutoEntityGenerator.UI.ViewModels
         }
         private void SetOpenGeneratedFiles()
         {
-            if (!_openGeneratedFilesManuallyChanged)
+            if (_openGeneratedFilesManuallyChanged)
             {
-                OpenGeneratedFiles = _appSettings.OpenGeneratedFiles;
-                _openGeneratedFilesManuallyChanged = false;
+                return;
             }
+
+            OpenGeneratedFiles = _appSettings.OpenGeneratedFiles;
+            _openGeneratedFilesManuallyChanged = false;
         }
 
         protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

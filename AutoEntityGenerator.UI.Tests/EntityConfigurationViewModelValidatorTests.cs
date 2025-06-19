@@ -35,7 +35,9 @@ public class EntityConfigurationViewModelValidatorTests
         };
         _fakeDialogService = A.Fake<IDialogService>();
         _fakeLogger = A.Fake<ILogger<EntityConfigurationViewModel>>();
+        
         _fakeAppSettings = A.Fake<IAppSettings>();
+
         _validator = new EntityConfigurationViewModelValidator(Path.GetDirectoryName(testEntity.Project.FilePath));
         _testViewModel = new EntityConfigurationViewModel(_fakeAppSettings, _fakeLogger, _validator, _fakeDialogService, testEntity);
         foreach (var property in _testViewModel.Properties)

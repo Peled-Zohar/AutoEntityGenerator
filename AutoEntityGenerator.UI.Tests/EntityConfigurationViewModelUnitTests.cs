@@ -13,7 +13,7 @@ internal class EntityConfigurationViewModelUnitTests
     EntityConfigurationViewModelValidator _validator;
     IDialogService _fakeDialogService;
     ILogger<EntityConfigurationViewModel> _fakeLogger;
-    IAppSettings _fakeAppSettings;
+    IAppSettings _appSettings;
     Entity _testEntity;
 
     [SetUp]
@@ -38,11 +38,17 @@ internal class EntityConfigurationViewModelUnitTests
         };
         _fakeLogger = A.Fake<ILogger<EntityConfigurationViewModel>>();
         _fakeDialogService = A.Fake<IDialogService>();
-        _fakeAppSettings = A.Fake<IAppSettings>();
-        A.CallTo(() => _fakeAppSettings.DestinationFolder)
-            .Returns("/Generated");
+        _appSettings = new AppSettingsImplementation
+        {
+            DestinationFolder = "Generated",
+            MinimumLogLevel = LogLevel.Information,
+            OpenGeneratedFiles = false,
+            RequestSuffix = "Request",
+            ResponseSuffix = "Response",
+        };
+
         _validator = new EntityConfigurationViewModelValidator(Path.GetDirectoryName(_testEntity.Project.FilePath));
-        _testViewModel = new EntityConfigurationViewModel(_fakeAppSettings, _fakeLogger, _validator, _fakeDialogService, _testEntity);
+        _testViewModel = new EntityConfigurationViewModel(_appSettings, _fakeLogger, _validator, _fakeDialogService, _testEntity);
         foreach (var property in _testViewModel.Properties)
         {
             property.IsSelected = true;
@@ -136,7 +142,39 @@ internal class EntityConfigurationViewModelUnitTests
         Assert.That(_testViewModel.DestinationFolder, Is.EqualTo(targetDirectory));
     }
 
+    [Test]
+    public void SettingsChanged_ValuesWhereNotChangedByTheUser_ValuesChanged()
+    {
+        var openGeneratedFiles = _testViewModel.OpenGeneratedFiles;
+        var destinationFolder = _testViewModel.DestinationFolder;   
+        _appSettings.OpenGeneratedFiles = !openGeneratedFiles;
+        _appSettings.DestinationFolder += "some string";
 
+        _testViewModel.SettingsChanged();
+
+        Assert.That(_testViewModel.OpenGeneratedFiles, Is.Not.EqualTo(openGeneratedFiles));
+        Assert.That(_testViewModel.DestinationFolder, Is.Not.EqualTo(destinationFolder));
+    }
+
+    [Test]
+    public void SettingsChanged_ValuesChangedByTheUser_ValuesStayAsUserEntered()
+    {
+        var openGeneratedFiles = _testViewModel.OpenGeneratedFiles;
+        var expectedDestinationFolder = "some different destination folder";
+
+
+        _testViewModel.OpenGeneratedFiles = !openGeneratedFiles;
+        _testViewModel.OpenGeneratedFiles = openGeneratedFiles;
+        _testViewModel.DestinationFolder = expectedDestinationFolder;
+
+        _appSettings.OpenGeneratedFiles = !openGeneratedFiles;
+        _appSettings.DestinationFolder += "some string";
+
+        _testViewModel.SettingsChanged();
+
+        Assert.That(_testViewModel.OpenGeneratedFiles, Is.EqualTo(openGeneratedFiles));
+        Assert.That(_testViewModel.DestinationFolder, Is.EqualTo(expectedDestinationFolder));
+    }
 
 
 }
