@@ -26,8 +26,12 @@ namespace AutoEntityGenerator.UI.ViewModels
         private string _destinationFolder;
         private string _dtoName;
         private string _generatedFileName;
+        private bool _openGeneratedFiles;
         private bool _allowFileNameMismatch;
         private bool _dtoNameManuallyChanged;
+        private bool _destinationFolderManuallyChanged;
+        private bool _openGeneratedFilesManuallyChanged;
+
         private MappingDirectionViewModel selectedMappingDirection;
 
         #endregion Fields
@@ -51,10 +55,13 @@ namespace AutoEntityGenerator.UI.ViewModels
 
             _allowFileNameMismatch = false;
             _dtoNameManuallyChanged = false;
+            _destinationFolderManuallyChanged = false;
+            _openGeneratedFilesManuallyChanged = false;
 
             ProjectFolder = Path.GetDirectoryName(_entity.Project.FilePath);
-            var entityDirectoryRelativeToProject = Path.GetDirectoryName(entity.SourceFilePath).Replace(ProjectFolder, "");
-            DestinationFolder = Path.Combine(entityDirectoryRelativeToProject, _appSettings.DestinationFolder);
+
+            SetDestinationFolder();
+            SetOpenGeneratedFiles();
 
             MappingDirections = new[]
             {
@@ -104,18 +111,11 @@ namespace AutoEntityGenerator.UI.ViewModels
                 if (selectedMappingDirection != value)
                 {
                     selectedMappingDirection = value;
-                    if (!_dtoNameManuallyChanged)
-                    {
-                        var suffix = selectedMappingDirection.Value == MappingDirection.FromDtoToModel
-                            ? _appSettings.RequestSuffix
-                            : _appSettings.ResponseSuffix;
-
-                        DtoName = _entity.Name + suffix;
-                        _dtoNameManuallyChanged = false;
-                    }
+                    SetDtoName();
                 }
             }
         }
+
         public string DestinationFolder
         {
             get => _destinationFolder;
@@ -124,10 +124,12 @@ namespace AutoEntityGenerator.UI.ViewModels
                 if (_destinationFolder != value)
                 {
                     _destinationFolder = value;
+                    _destinationFolderManuallyChanged = true;
                     OnPropertyChanged(nameof(DestinationFolder));
                 }
             }
         }
+
         public string DtoName
         {
             get => _dtoName;
@@ -163,9 +165,22 @@ namespace AutoEntityGenerator.UI.ViewModels
                 }
             }
         }
-        public string ProjectFolder { get;  }
+        public string ProjectFolder { get; }
         public string DestinationPath => Path.Combine(ProjectFolder, DestinationFolder.TrimStart(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
         public IUserInteractionResult Result { get; private set; }
+        public bool OpenGeneratedFiles
+        {
+            get => _openGeneratedFiles;
+            set
+            {
+                if (_openGeneratedFiles != value)
+                {
+                    _openGeneratedFiles = value;
+                    _openGeneratedFilesManuallyChanged = true;
+                    OnPropertyChanged(nameof(OpenGeneratedFiles));
+                }
+            }
+        }
 
         #endregion Properties
 
@@ -196,7 +211,8 @@ namespace AutoEntityGenerator.UI.ViewModels
                         Type = p.Type
                     })
                     .ToList(),
-                GeneratedFileName);
+                GeneratedFileName,
+                OpenGeneratedFiles);
             OnRequestClose(true);
         }
 
@@ -214,7 +230,7 @@ namespace AutoEntityGenerator.UI.ViewModels
             var initialDirectory = Directory.Exists(targetDirectory)
                     ? targetDirectory
                     : ProjectFolder;
-            
+
             var (openFileResult, destinationFolder) = _dialogService.ShowFolderPickerDialog(initialDirectory);
 
             if (openFileResult)
@@ -237,6 +253,13 @@ namespace AutoEntityGenerator.UI.ViewModels
         #endregion Commands
 
         #region Methods
+
+        internal void SettingsChanged()
+        {
+            SetDtoName();
+            SetDestinationFolder();
+            SetOpenGeneratedFiles();
+        }
 
         private void ToggleSelectedForAllProperties(bool selected)
         {
@@ -275,6 +298,37 @@ namespace AutoEntityGenerator.UI.ViewModels
                 "File name and entity name mismatch");
             }
             return _allowFileNameMismatch || value == GenerateFileName();
+        }
+        
+        private void SetDtoName()
+        {
+            if (!_dtoNameManuallyChanged)
+            {
+                var suffix = SelectedMappingDirection.Value == MappingDirection.FromDtoToModel
+                    ? _appSettings.RequestSuffix
+                    : _appSettings.ResponseSuffix;
+                DtoName = _entity.Name + suffix;
+                _dtoNameManuallyChanged = false;
+            }
+        }
+        private void SetDestinationFolder()
+        {
+            if (_destinationFolderManuallyChanged)
+            {
+                return;
+            }
+
+            var entityDirectoryRelativeToProject = Path.GetDirectoryName(_entity.SourceFilePath).Replace(ProjectFolder, "");
+            DestinationFolder = Path.Combine(entityDirectoryRelativeToProject, _appSettings.DestinationFolder);
+            _destinationFolderManuallyChanged = false;
+        }
+        private void SetOpenGeneratedFiles()
+        {
+            if (!_openGeneratedFilesManuallyChanged)
+            {
+                OpenGeneratedFiles = _appSettings.OpenGeneratedFiles;
+                _openGeneratedFilesManuallyChanged = false;
+            }
         }
 
         protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

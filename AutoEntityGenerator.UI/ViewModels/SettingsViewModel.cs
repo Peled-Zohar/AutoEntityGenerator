@@ -53,6 +53,7 @@ namespace AutoEntityGenerator.UI.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
         public event Action RequestClose;
+        public event Action SettingsSaved;
 
         public List<LogLevel> LogLevels { get; }
 
@@ -108,6 +109,19 @@ namespace AutoEntityGenerator.UI.ViewModels
             }
         }
 
+        public bool OpenGeneratedFiles
+        {
+            get => _appSettings.OpenGeneratedFiles;
+            set
+            {
+                if (_appSettings.OpenGeneratedFiles != value)
+                {
+                    _appSettings.OpenGeneratedFiles = value;
+                    OnPropertyChanged(nameof(OpenGeneratedFiles));
+                }
+            }
+        }
+
         public ICommand SaveCommand { get; }
         public ICommand CancelCommand { get; }
         private void Save()
@@ -120,10 +134,13 @@ namespace AutoEntityGenerator.UI.ViewModels
             _appSettings.DestinationFolder = DestinationFolder;
             _appSettings.RequestSuffix = RequestSuffix;
             _appSettings.ResponseSuffix = ResponseSuffix;
+            _appSettings.OpenGeneratedFiles = OpenGeneratedFiles;
 
             try
             {
                 _configurationSaver.Save(_appSettings);
+                _logger.LogInformation("Configuration saved successfully.");
+                OnSettingsSaved();
                 OnRequestClose();
             }
             catch (Exception ex)
@@ -157,5 +174,6 @@ namespace AutoEntityGenerator.UI.ViewModels
 
         protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         protected virtual void OnRequestClose() => RequestClose?.Invoke();
+        protected virtual void OnSettingsSaved() => SettingsSaved?.Invoke();
     }
 }

@@ -9,6 +9,6 @@ namespace AutoEntityGenerator
         public string DestinationFolder { get; set; }
         public string RequestSuffix { get; set; }
         public string ResponseSuffix { get; set; }
-
+        public bool OpenGeneratedFiles { get; set; }
     }
 }

@@ -229,6 +229,7 @@
   <ItemGroup>
     <Compile Include="DependencyInjection\EntityConfigurationWindowFactory.cs" />
     <Compile Include="DependencyInjection\ServicesExtensions.cs" />
+    <Compile Include="Interaction\DocumentOpener.cs" />
     <Compile Include="Interaction\UserInteraction.cs" />
     <Compile Include="Interaction\UserInteractionResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

@@ -10,7 +10,7 @@ namespace AutoEntityGenerator.UI.Interaction
     {
         internal UserInteractionResult() => IsOk = false;
 
-        internal UserInteractionResult(MappingDirection mappingDirection, string targetDirectory, string entityName, List<Property> entityProperties, string fileName)
+        internal UserInteractionResult(MappingDirection mappingDirection, string targetDirectory, string entityName, List<Property> entityProperties, string fileName, bool openFiles)
         {
             IsOk = true;
             MappingDirection = mappingDirection;
@@ -18,6 +18,7 @@ namespace AutoEntityGenerator.UI.Interaction
             EntityName = entityName;
             EntityProperties = entityProperties;
             FileName = fileName;
+            OpenFiles = openFiles;
         }
 
         public bool IsOk { get; }
@@ -26,5 +27,6 @@ namespace AutoEntityGenerator.UI.Interaction
         public string EntityName { get; }
         public List<Property> EntityProperties { get; }
         public string FileName { get; }
+        public bool OpenFiles { get; }
     }
 }

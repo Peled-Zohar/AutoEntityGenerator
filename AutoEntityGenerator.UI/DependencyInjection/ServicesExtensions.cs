@@ -19,6 +19,7 @@ namespace AutoEntityGenerator.UI.DependencyInjection
             services.AddSingleton<IDialogService, DialogService>();
             services.AddTransient<SettingsViewModel>();
             services.AddSingleton<IValidator<IAppSettings>, SettingsValidator>();
+            services.AddSingleton<IDocumentOpener, DocumentOpener>();
             return services;
         }
 

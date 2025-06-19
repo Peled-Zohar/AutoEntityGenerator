@@ -11,4 +11,6 @@ public interface IUserInteractionResult
     string EntityName { get; }
     List<Property> EntityProperties { get; }
     string FileName { get; }
+
+    bool OpenFiles { get; }
 }

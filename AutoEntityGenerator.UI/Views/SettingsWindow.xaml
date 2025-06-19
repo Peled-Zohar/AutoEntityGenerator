@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         ResizeMode="CanResizeWithGrip" ShowInTaskbar="False" WindowStyle="ToolWindow"
-        MinHeight="320" MinWidth="200" Height="320" Width="200"
+        MinHeight="350" MinWidth="250" Height="320" Width="200"
         Title="Settings" >
     <Window.Resources>
         <ResourceDictionary>
@@ -32,6 +32,8 @@
 
             <Label Content="Default response suffix:" Margin="10, 0, 10, 0" />
             <TextBox Text="{Binding ResponseSuffix}" Margin="10, 0, 10, 10" />
+
+            <CheckBox Content="Automatically open generated files" IsChecked="{Binding OpenGeneratedFiles, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource DataGridCheckBoxStyleKey}" Margin="10, 0, 10, 10" />
         </StackPanel>
         <Grid VerticalAlignment="Bottom" Margin="10">
             <Button HorizontalAlignment="Right" Content="Save" Padding="5" Command="{Binding SaveCommand}" />

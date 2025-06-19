@@ -38,7 +38,7 @@
             </Button.Style>
         </Button>
         <!-- Text boxes -->
-        <StackPanel Orientation="Vertical" Margin="10,0,22,10">
+        <StackPanel Orientation="Vertical" Margin="10,22,10,0">
             <Label Content="Mapping Direction:" Margin="0" />
             <ComboBox x:Name="MappingDirection" 
                       ItemsSource="{Binding MappingDirections}"
@@ -51,6 +51,7 @@
             <Label Content="Destination folder (relative to project foler):" />
             <TextBox Text="{Binding DestinationFolder, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             <Button Content="Browse" Command="{Binding BrowseCommand}" HorizontalAlignment="Right" Padding="5,2,5,2" Margin="0,5,0,5" />
+            <CheckBox Content="Open newly generated files" Style="{StaticResource DataGridCheckBoxStyleKey}" IsChecked="{Binding OpenGeneratedFiles, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5,0" />
         </StackPanel>
         <!-- Data grid -->
         <Grid Grid.Row="1" Margin="10,0,10,0">

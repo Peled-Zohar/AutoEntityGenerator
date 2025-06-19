@@ -47,7 +47,7 @@ namespace AutoEntityGenerator.UI.Views
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            _settingsView = new SettingsWindow(_settingsViewModel)
+            _settingsView = new SettingsWindow(_settingsViewModel, _viewModel.SettingsChanged)
             {
                 Owner = this
             };

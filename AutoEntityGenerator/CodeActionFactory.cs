@@ -22,8 +22,9 @@ namespace AutoEntityGenerator
         private readonly IEntityGenerator _entityGenerator;
         private readonly IUserInteraction _userInteraction;
         private readonly ICodeFileGenerator _codeGenerator;
+        private readonly IDocumentOpener _documentOpener;
 
-        public CodeActionFactory(ILogger<EntityGeneratorCodeAction> entityGeneratorCodeActionLogger, ILogger<GenerateCodeOperation> generateCodeOperationLogger, ILogger<GetEntityInfoOperation> getEntityInfoOperationLogger, IEntityGenerator entityGenerator, IUserInteraction userInteraction, ICodeFileGenerator codeGenerator)
+        public CodeActionFactory(ILogger<EntityGeneratorCodeAction> entityGeneratorCodeActionLogger, ILogger<GenerateCodeOperation> generateCodeOperationLogger, ILogger<GetEntityInfoOperation> getEntityInfoOperationLogger, IEntityGenerator entityGenerator, IUserInteraction userInteraction, ICodeFileGenerator codeGenerator, IDocumentOpener documentOpener)
         {
             _entityGeneratorCodeActionLogger = entityGeneratorCodeActionLogger;
             _generateCodeOperationLogger = generateCodeOperationLogger;
@@ -31,6 +32,7 @@ namespace AutoEntityGenerator
             _entityGenerator = entityGenerator;
             _userInteraction = userInteraction;
             _codeGenerator = codeGenerator;
+            _documentOpener = documentOpener;
         }
 
         public EntityGeneratorCodeAction CreateEntityGeneratorCodeAction(Document document, TypeDeclarationSyntax typeDeclaration, INamedTypeSymbol typeSymbol) 
@@ -46,7 +48,8 @@ namespace AutoEntityGenerator
                 _codeGenerator,
                 entityProvider,
                 document,
-                _generateCodeOperationLogger
+                _generateCodeOperationLogger,
+                _documentOpener
             );
 
         public GetEntityInfoOperation CreateGetEntityInfoOperation(Document document, TypeDeclarationSyntax typeDeclaration, INamedTypeSymbol typeSymbol)

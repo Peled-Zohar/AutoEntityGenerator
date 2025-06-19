@@ -61,7 +61,8 @@ namespace AutoEntityGenerator
                     DestinationFolder = DefaultDestinationFolder,
                     MinimumLogLevel = LogLevel.Information,
                     RequestSuffix = "Request",
-                    ResponseSuffix = "Response"
+                    ResponseSuffix = "Response",
+                    OpenGeneratedFiles = true
                 };
             }
 

@@ -8,4 +8,5 @@ public interface IAppSettings
     LogLevel MinimumLogLevel { get; set; }
     string RequestSuffix { get; set; }
     string ResponseSuffix { get; set; }
+    bool OpenGeneratedFiles { get; set; }
 }
