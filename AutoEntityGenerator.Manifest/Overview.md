@@ -26,7 +26,8 @@ Your feedback is valuable, whether it’s positive or critical, and will help sh
 ##
 Changes from previous version:
 
-1 fixed a minor typo in UI -> ("Browes" to "Browse")
+1 Added an option to automatically open newly generated files in the editor.
+2 fixed a minor typo in UI -> ("Browes" to "Browse")
 
 
 ## How to use
