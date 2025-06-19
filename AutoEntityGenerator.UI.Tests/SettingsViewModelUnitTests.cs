@@ -141,4 +141,5 @@ internal class AppSettingsImplementation : IAppSettings
     public required string DestinationFolder { get; set; }
     public required string RequestSuffix { get; set; }
     public required string ResponseSuffix { get; set; }
+    public bool OpenGeneratedFiles { get;set; }
 }

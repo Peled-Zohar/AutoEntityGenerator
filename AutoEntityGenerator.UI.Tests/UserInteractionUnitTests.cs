@@ -53,7 +53,8 @@ class UserInteractionUnitTests
                         "Generated", 
                         _testEntity.Name, 
                         _testEntity.Properties, 
-                        _testEntity.Name + ".cs"
+                        _testEntity.Name + ".cs",
+                        false
                     )
                 );
                 return window;
