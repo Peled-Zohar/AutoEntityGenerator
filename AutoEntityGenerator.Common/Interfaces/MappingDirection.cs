@@ -1,8 +1,7 @@
-﻿namespace AutoEntityGenerator.Common.Interfaces
+﻿namespace AutoEntityGenerator.Common.Interfaces;
+
+public enum MappingDirection
 {
-    public enum MappingDirection
-    {
-        FromDtoToModel,
-        FromModelToDto
-    }
+    FromDtoToModel,
+    FromModelToDto
 }

@@ -1,8 +1,7 @@
-﻿namespace AutoEntityGenerator.Common.Interfaces
+﻿namespace AutoEntityGenerator.Common.Interfaces;
+
+public interface IGeneratedCodeFile
 {
-    public interface IGeneratedCodeFile
-    {
-        string FileName { get; }
-        string Content { get; }
-    }
+    string FileName { get; }
+    string Content { get; }
 }

@@ -1,9 +1,8 @@
-﻿namespace AutoEntityGenerator.Common.CodeInfo
+﻿namespace AutoEntityGenerator.Common.CodeInfo;
+
+public class Property
 {
-    public class Property
-    {
-        public string Name { get; set; }
-        public string Type { get; set; }
-        public bool IsReadonly { get; set; }
-    }
+    public string Name { get; set; }
+    public string Type { get; set; }
+    public bool IsReadonly { get; set; }
 }

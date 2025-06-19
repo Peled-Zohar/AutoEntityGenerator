@@ -1,15 +1,14 @@
-﻿namespace AutoEntityGenerator.Common.Interfaces
+﻿namespace AutoEntityGenerator.Common.Interfaces;
+
+public interface IServices
 {
-    public interface IServices
-    {
-        IServices AddSingleton<TImplementation>() where TImplementation : class;
-        IServices AddSingleton<TImplementation>(TImplementation instance) where TImplementation : class;
-        IServices AddSingleton<TService, TImplementation>()
-            where TService : class
-            where TImplementation : class, TService;
+    IServices AddSingleton<TImplementation>() where TImplementation : class;
+    IServices AddSingleton<TImplementation>(TImplementation instance) where TImplementation : class;
+    IServices AddSingleton<TService, TImplementation>()
+        where TService : class
+        where TImplementation : class, TService;
 
-        IServices AddTransient<TService>() where TService : class;
+    IServices AddTransient<TService>() where TService : class;
 
-        T GetService<T>();
-    }
+    T GetService<T>();
 }

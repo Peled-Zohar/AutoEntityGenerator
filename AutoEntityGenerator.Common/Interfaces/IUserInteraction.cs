@@ -1,9 +1,8 @@
 ﻿using AutoEntityGenerator.Common.CodeInfo;
 
-namespace AutoEntityGenerator.Common.Interfaces
+namespace AutoEntityGenerator.Common.Interfaces;
+
+public interface IUserInteraction
 {
-    public interface IUserInteraction
-    {
-        IUserInteractionResult ShowUIForm(Entity entityInfo);
-    }
+    IUserInteractionResult ShowUIForm(Entity entityInfo);
 }

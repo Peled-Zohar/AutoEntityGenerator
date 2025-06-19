@@ -1,7 +1,6 @@
-﻿namespace AutoEntityGenerator.Common.Interfaces
+﻿namespace AutoEntityGenerator.Common.Interfaces;
+
+public interface IConfigurationSaver
 {
-    public interface IConfigurationSaver
-    {
-        void Save(IAppSettings settings);
-    }
+    void Save(IAppSettings settings);
 }
