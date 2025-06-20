@@ -8,7 +8,6 @@ namespace AutoEntityGenerator.UI.Services
     {
         bool ShowYesNoDialog(string message, string caption);
         void ShowDialog(string message, string caption);
-
         (bool result, string folderName) ShowFolderPickerDialog(string initialDirectory);
     }
 
