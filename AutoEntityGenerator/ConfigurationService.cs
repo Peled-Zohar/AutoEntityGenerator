@@ -11,6 +11,7 @@ namespace AutoEntityGenerator
     internal class ConfigurationService : IConfigurationSaver
     {
         private const string FileName = "appSettings.json";
+        private const string DefaultDestinationFolder = "Generated";
         private readonly string _basePath;
         private readonly string _fullFilePath;
         private readonly JsonSerializerOptions _jsonOptions;
@@ -30,8 +31,17 @@ namespace AutoEntityGenerator
         }
 
         public IAppSettings Load()
+            => LoadFromFile() ?? new AppSettings()
+            {
+                DestinationFolder = DefaultDestinationFolder,
+                MinimumLogLevel = LogLevel.Information,
+                RequestSuffix = "Request",
+                ResponseSuffix = "Response",
+                OpenGeneratedFiles = true
+            };
+        
+        private IAppSettings LoadFromFile()
         {
-            const string DefaultDestinationFolder = "Generated";
             IAppSettings settings = null;
             if (File.Exists(_fullFilePath))
             {
@@ -53,24 +63,10 @@ namespace AutoEntityGenerator
                     _deferredException = ex;
                 }
             }
-
-            if (settings is null)
-            {
-                settings = new AppSettings()
-                {
-                    DestinationFolder = DefaultDestinationFolder,
-                    MinimumLogLevel = LogLevel.Information,
-                    RequestSuffix = "Request",
-                    ResponseSuffix = "Response",
-                    OpenGeneratedFiles = true
-                };
-            }
-
-
             return settings;
         }
 
-        // TO Consider: Moving validation from UI to common to reduce code repitition.
+        // TO Consider: Move validation from UI to common to reduce code repitition.
         private bool IsDestinationFolderValid(string destinationFolder)
         {
             return !destinationFolder.Any(c => Path.GetInvalidPathChars().Contains(c)) &&
