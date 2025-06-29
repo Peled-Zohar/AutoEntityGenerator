@@ -11,18 +11,18 @@ namespace AutoEntityGenerator
     internal class ConfigurationService : IConfigurationSaver
     {
         private const string FileName = "appSettings.json";
-        private readonly string _confgirationDirectoryPath;
+        private readonly string _basePath;
         private readonly string _fullFilePath;
         private readonly JsonSerializerOptions _jsonOptions;
         private Exception _deferredException;
 
         public ConfigurationService()
         {
-            _confgirationDirectoryPath = Path.Combine(
+            _basePath = Path.Combine(
                         Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                         "Zohar Peled",
                         nameof(AutoEntityGenerator));
-            _fullFilePath = Path.Combine(_confgirationDirectoryPath, FileName);
+            _fullFilePath = Path.Combine(_basePath, FileName);
             _jsonOptions = new JsonSerializerOptions()
             {
                 WriteIndented = true
@@ -38,7 +38,7 @@ namespace AutoEntityGenerator
                 try
                 {
                     var builder = new ConfigurationBuilder()
-                    .SetBasePath(_confgirationDirectoryPath)
+                    .SetBasePath(_basePath)
                     .AddJsonFile(FileName)
                     .Build();
                     settings = builder.Get<AppSettings>();
@@ -80,7 +80,7 @@ namespace AutoEntityGenerator
         public void Save(IAppSettings settings)
         {
             string json = JsonSerializer.Serialize(settings, _jsonOptions);
-            Directory.CreateDirectory(_confgirationDirectoryPath);
+            Directory.CreateDirectory(_basePath);
             File.WriteAllText(_fullFilePath, json);
         }
 
