@@ -5,37 +5,36 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Logging;
 using System.Threading;
 
-namespace AutoEntityGenerator.CodeOperations
+namespace AutoEntityGenerator.CodeOperations;
+
+public interface IEntityProvider
 {
-    public interface IEntityProvider
+    Entity Entity { get; }
+}
+
+internal class GetEntityInfoOperation : CodeActionOperation, IEntityProvider
+{
+    private readonly ILogger<GetEntityInfoOperation> _logger;
+    private readonly Document _document;
+    private readonly TypeDeclarationSyntax _typeDeclaration;
+    private readonly INamedTypeSymbol _typeSymbol;
+    private readonly IEntityGenerator _entityGenerator;
+
+    public GetEntityInfoOperation(ILogger<GetEntityInfoOperation> logger, Document document, TypeDeclarationSyntax typeDeclaration, INamedTypeSymbol typeSymbol, IEntityGenerator entityGenerator)
     {
-        Entity Entity { get; }
+        _logger = logger;
+        _document = document;
+        _typeDeclaration = typeDeclaration;
+        _typeSymbol = typeSymbol;
+        _entityGenerator = entityGenerator;
     }
 
-    internal class GetEntityInfoOperation : CodeActionOperation, IEntityProvider
+    public override void Apply(Workspace workspace, CancellationToken cancellationToken)
     {
-        private readonly ILogger<GetEntityInfoOperation> _logger;
-        private readonly Document _document;
-        private readonly TypeDeclarationSyntax _typeDeclaration;
-        private readonly INamedTypeSymbol _typeSymbol;
-        private readonly IEntityGenerator _entityGenerator;
-
-        public GetEntityInfoOperation(ILogger<GetEntityInfoOperation> logger, Document document, TypeDeclarationSyntax typeDeclaration, INamedTypeSymbol typeSymbol, IEntityGenerator entityGenerator)
-        {
-            _logger = logger;
-            _document = document;
-            _typeDeclaration = typeDeclaration;
-            _typeSymbol = typeSymbol;
-            _entityGenerator = entityGenerator;
-        }
-
-        public override void Apply(Workspace workspace, CancellationToken cancellationToken)
-        {
-            _logger.LogDebug("Attempting to generate entity from document");
-            Entity = _entityGenerator.GenerateFromDocument(_document, _typeDeclaration, _typeSymbol, cancellationToken);
-            _logger.LogDebug("Entity generated from document");
-        }
-
-        public Entity Entity { get; private set; }
+        _logger.LogDebug("Attempting to generate entity from document");
+        Entity = _entityGenerator.GenerateFromDocument(_document, _typeDeclaration, _typeSymbol, cancellationToken);
+        _logger.LogDebug("Entity generated from document");
     }
+
+    public Entity Entity { get; private set; }
 }

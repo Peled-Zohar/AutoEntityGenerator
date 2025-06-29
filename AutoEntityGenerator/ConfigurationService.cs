@@ -6,88 +6,87 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 
-namespace AutoEntityGenerator
+namespace AutoEntityGenerator;
+
+internal class ConfigurationService : IConfigurationSaver
 {
-    internal class ConfigurationService : IConfigurationSaver
+    private const string FileName = "appSettings.json";
+    private const string DefaultDestinationFolder = "Generated";
+    private readonly string _basePath;
+    private readonly string _fullFilePath;
+    private readonly JsonSerializerOptions _jsonOptions;
+    private Exception _deferredException;
+
+    public ConfigurationService()
     {
-        private const string FileName = "appSettings.json";
-        private const string DefaultDestinationFolder = "Generated";
-        private readonly string _basePath;
-        private readonly string _fullFilePath;
-        private readonly JsonSerializerOptions _jsonOptions;
-        private Exception _deferredException;
-
-        public ConfigurationService()
+        _basePath = Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                    "Zohar Peled",
+                    nameof(AutoEntityGenerator));
+        _fullFilePath = Path.Combine(_basePath, FileName);
+        _jsonOptions = new JsonSerializerOptions()
         {
-            _basePath = Path.Combine(
-                        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                        "Zohar Peled",
-                        nameof(AutoEntityGenerator));
-            _fullFilePath = Path.Combine(_basePath, FileName);
-            _jsonOptions = new JsonSerializerOptions()
-            {
-                WriteIndented = true
-            };
-        }
+            WriteIndented = true
+        };
+    }
 
-        public IAppSettings Load()
-            => LoadFromFile() ?? new AppSettings()
-            {
-                DestinationFolder = DefaultDestinationFolder,
-                MinimumLogLevel = LogLevel.Information,
-                RequestSuffix = "Request",
-                ResponseSuffix = "Response",
-                OpenGeneratedFiles = true
-            };
-        
-        private IAppSettings LoadFromFile()
+    public IAppSettings Load()
+        => LoadFromFile() ?? new AppSettings()
         {
-            IAppSettings settings = null;
-            if (File.Exists(_fullFilePath))
+            DestinationFolder = DefaultDestinationFolder,
+            MinimumLogLevel = LogLevel.Information,
+            RequestSuffix = "Request",
+            ResponseSuffix = "Response",
+            OpenGeneratedFiles = true
+        };
+    
+    private IAppSettings LoadFromFile()
+    {
+        IAppSettings settings = null;
+        if (File.Exists(_fullFilePath))
+        {
+            try
             {
-                try
-                {
-                    var builder = new ConfigurationBuilder()
-                    .SetBasePath(_basePath)
-                    .AddJsonFile(FileName)
-                    .Build();
-                    settings = builder.Get<AppSettings>();
+                var builder = new ConfigurationBuilder()
+                .SetBasePath(_basePath)
+                .AddJsonFile(FileName)
+                .Build();
+                settings = builder.Get<AppSettings>();
 
-                    if (!IsDestinationFolderValid(settings.DestinationFolder))
-                    {
-                        settings.DestinationFolder = DefaultDestinationFolder;
-                    }
-                }
-                catch (Exception ex)
+                if (!IsDestinationFolderValid(settings.DestinationFolder))
                 {
-                    _deferredException = ex;
+                    settings.DestinationFolder = DefaultDestinationFolder;
                 }
             }
-            return settings;
-        }
-
-        // TO Consider: Move validation from UI to common to reduce code repitition.
-        private bool IsDestinationFolderValid(string destinationFolder)
-        {
-            return !destinationFolder.Any(c => Path.GetInvalidPathChars().Contains(c)) &&
-                   (string.IsNullOrWhiteSpace(destinationFolder) || !Path.IsPathRooted(destinationFolder.TrimStart(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)));
-        }
-
-        public void Save(IAppSettings settings)
-        {
-            string json = JsonSerializer.Serialize(settings, _jsonOptions);
-            Directory.CreateDirectory(_basePath);
-            File.WriteAllText(_fullFilePath, json);
-        }
-
-        public void LogDeferredException(ILogger<ConfigurationService> logger)
-        {
-            if (logger is null || _deferredException is null)
+            catch (Exception ex)
             {
-                return;
+                _deferredException = ex;
             }
-            logger.LogError(_deferredException, "Deffered exception");
-            _deferredException = null;
         }
+        return settings;
+    }
+
+    // TO Consider: Move validation from UI to common to reduce code repitition.
+    private bool IsDestinationFolderValid(string destinationFolder)
+    {
+        return !destinationFolder.Any(c => Path.GetInvalidPathChars().Contains(c)) &&
+               (string.IsNullOrWhiteSpace(destinationFolder) || !Path.IsPathRooted(destinationFolder.TrimStart(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)));
+    }
+
+    public void Save(IAppSettings settings)
+    {
+        string json = JsonSerializer.Serialize(settings, _jsonOptions);
+        Directory.CreateDirectory(_basePath);
+        File.WriteAllText(_fullFilePath, json);
+    }
+
+    public void LogDeferredException(ILogger<ConfigurationService> logger)
+    {
+        if (logger is null || _deferredException is null)
+        {
+            return;
+        }
+        logger.LogError(_deferredException, "Deffered exception");
+        _deferredException = null;
     }
 }

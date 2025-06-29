@@ -8,44 +8,43 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace AutoEntityGenerator
+namespace AutoEntityGenerator;
+
+internal class EntityGeneratorCodeAction : CodeAction
 {
-    internal class EntityGeneratorCodeAction : CodeAction
+    private readonly ILogger<EntityGeneratorCodeAction> _logger;
+    private readonly Document _document;
+    private readonly TypeDeclarationSyntax _typeDeclaration;
+    private readonly ICodeActionFactory _codeActionFactory;
+    private readonly INamedTypeSymbol _typeSymbol;
+
+    public EntityGeneratorCodeAction(ILogger<EntityGeneratorCodeAction> logger, Document document, TypeDeclarationSyntax typeDeclaration, ICodeActionFactory codeActionFactory, INamedTypeSymbol typeSymbol)
     {
-        private readonly ILogger<EntityGeneratorCodeAction> _logger;
-        private readonly Document _document;
-        private readonly TypeDeclarationSyntax _typeDeclaration;
-        private readonly ICodeActionFactory _codeActionFactory;
-        private readonly INamedTypeSymbol _typeSymbol;
+        _logger = logger;
+        _document = document;
+        _typeDeclaration = typeDeclaration;
+        _codeActionFactory = codeActionFactory;
+        _typeSymbol = typeSymbol;
+    }
 
-        public EntityGeneratorCodeAction(ILogger<EntityGeneratorCodeAction> logger, Document document, TypeDeclarationSyntax typeDeclaration, ICodeActionFactory codeActionFactory, INamedTypeSymbol typeSymbol)
-        {
-            _logger = logger;
-            _document = document;
-            _typeDeclaration = typeDeclaration;
-            _codeActionFactory = codeActionFactory;
-            _typeSymbol = typeSymbol;
-        }
+    public override string Title => "🔧 Generate DTO and mapping 🛠️";
 
-        public override string Title => "🔧 Generate DTO and mapping 🛠️";
+    protected override Task<IEnumerable<CodeActionOperation>> ComputeOperationsAsync(CancellationToken cancellationToken)
+    {
+        var getEntityInfoOperation = _codeActionFactory.CreateGetEntityInfoOperation(_document, _typeDeclaration, _typeSymbol);
+        var getUserInputOperation = _codeActionFactory.CreateGetUserInputOperation(getEntityInfoOperation);
+        var generateCodeOperation = _codeActionFactory.CreateGenerateCodeOperation(getUserInputOperation, getEntityInfoOperation, _document);
+        _logger.LogDebug($"Code action operations created: {nameof(GetEntityInfoOperation)}, {nameof(GetUserInputOperation)}, {nameof(GenerateCodeOperation)}");
+        return Task.FromResult<IEnumerable<CodeActionOperation>>(
+        [
+            getEntityInfoOperation,
+            getUserInputOperation,
+            generateCodeOperation
+        ]);
+    }
 
-        protected override Task<IEnumerable<CodeActionOperation>> ComputeOperationsAsync(CancellationToken cancellationToken)
-        {
-            var getEntityInfoOperation = _codeActionFactory.CreateGetEntityInfoOperation(_document, _typeDeclaration, _typeSymbol);
-            var getUserInputOperation = _codeActionFactory.CreateGetUserInputOperation(getEntityInfoOperation);
-            var generateCodeOperation = _codeActionFactory.CreateGenerateCodeOperation(getUserInputOperation, getEntityInfoOperation, _document);
-            _logger.LogDebug($"Code action operations created: {nameof(GetEntityInfoOperation)}, {nameof(GetUserInputOperation)}, {nameof(GenerateCodeOperation)}");
-            return Task.FromResult<IEnumerable<CodeActionOperation>>(new CodeActionOperation[]
-            {
-                getEntityInfoOperation,
-                getUserInputOperation,
-                generateCodeOperation
-            });
-        }
-
-        protected override Task<IEnumerable<CodeActionOperation>> ComputePreviewOperationsAsync(CancellationToken cancellationToken)
-        {
-            return Task.FromResult(Enumerable.Empty<CodeActionOperation>());
-        }
+    protected override Task<IEnumerable<CodeActionOperation>> ComputePreviewOperationsAsync(CancellationToken cancellationToken)
+    {
+        return Task.FromResult(Enumerable.Empty<CodeActionOperation>());
     }
 }
