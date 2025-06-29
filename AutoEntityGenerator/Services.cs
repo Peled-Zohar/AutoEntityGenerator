@@ -45,7 +45,7 @@ namespace AutoEntityGenerator
                 .AddUI();
         }
 
-        // TO Consider: Switch to using Visual studio's Activity log instead.
+        // TO Consider: Switch to using file based log: Serilog / Nlog / Visual studio's Activity log.
         private Services AddLogger()
         {
             const string sourceName = nameof(AutoEntityGenerator);
