@@ -45,6 +45,7 @@ namespace AutoEntityGenerator
                 .AddUI();
         }
 
+        // TO Consider: Switch to using Visual studio's Activity log instead.
         private Services AddLogger()
         {
             const string sourceName = nameof(AutoEntityGenerator);
