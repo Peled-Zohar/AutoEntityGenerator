@@ -1,7 +1,8 @@
 # Contributing to AutoEntityGenerator
 
 Thank you for considering contributing to **AutoEntityGenerator**!  
-Whether it's fixing a bug, adding a feature, improving documentation, or reporting an issue — your help is most welcome!
+Whether it's fixing a bug, adding a feature, improving documentation, or reporting an issue — your help is most welcome!  
+By participating in this project, you agree to abide by our [Code of Conduct](CODE_OF_CONDUCT.md).
 
 ---
 
