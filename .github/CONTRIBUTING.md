@@ -19,7 +19,7 @@ Click “Fork” at the top right of this page and clone your fork locally:
     git clone https://github.com/YOUR_USERNAME/AutoEntityGenerator.git
     cd AutoEntityGenerator
 
-### 3. Create a new branch.
+### 3. Create a new branch on your fork.
 
     git checkout -b feature/your-feature-name
 
@@ -51,6 +51,7 @@ Make sure your code compiles and automation tests pass locally.
 
 Then, open a pull request targeting the `main` branch.
 Be sure to give it a meaningful name and a description. 
+Include a link to the issue you've worked on in the pull request's description.
 
 ---
 
