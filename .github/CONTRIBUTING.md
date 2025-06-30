@@ -8,6 +8,10 @@ By participating in this project, you agree to abide by our [Code of Conduct](CO
 
 ## 🛠️ How to Contribute
 
+The most valuable contribution you can make right now is to **[try the tool and share your feedback](https://github.com/Peled-Zohar/AutoEntityGenerator/issues/12)**.  
+It’s easy, takes just a few minutes, and helps shape the future of the project.  
+That being said, there are a few other issues we'd like to cover, so if feedback isn't your thing you can always choose another issue to work on.
+
 ### 1. Choose an unassigned issue to work on from the open issues list.  
 If you’d like to work on it, please comment on the issue — and a maintainer will assign it to you.  
 This helps avoid duplicate work and makes tracking progress easier.
