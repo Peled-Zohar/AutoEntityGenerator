@@ -9,7 +9,8 @@ By participating in this project, you agree to abide by our [Code of Conduct](CO
 ## 🛠️ How to Contribute
 
 ### 1. Choose an unassigned issue to work on from the open issues list.  
-Assign yourself to that issue to prevent multiple contributors working on the same issue.
+If you’d like to work on it, please comment on the issue — and a maintainer will assign it to you.  
+This helps avoid duplicate work and makes tracking progress easier.
 
 ### 2. Fork the repository.
 
@@ -46,7 +47,7 @@ Prefer multiple small, focused commits over a single large one.
 
     git push origin feature/your-feature-name
 
-Make sure your code compiles and automation tests pass. 
+Make sure your code compiles and automation tests pass locally.
 
 Then, open a pull request targeting the `main` branch.
 Be sure to give it a meaningful name and a description. 
@@ -91,4 +92,4 @@ Feel free to [open a discussion](https://github.com/Peled-Zohar/AutoEntityGenera
 
 ---
 
-Looking forward to your contributions! 🚀
+Looking forward to your contributions!
