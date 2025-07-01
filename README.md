@@ -15,6 +15,18 @@
 This extension helps developers quickly create and maintain supporting classes, enhancing productivity and reducing manual coding errors.
 **AutoEntityGenerator** logs to event log, meaning you can view the logs using windows Event Viewer, under "Windows logs" -> "Application" with the source "AutoEntityGenerator".
 
+# Quick links
+
+- [Features](#features)
+- [User feedback](#we-love-users-feedback)
+- [Licence](#license)
+- [Installation](#installation)
+- [Target platforms](#target-platforms)
+- [Usage](#usage)
+- [Configuration](#configuration)
+- [Want to Contribute?](#want-to-contribute)
+- [Thanks!](#thank-you)
+
 ## Features
 
 - Automatically generates DTOs from domain entity classes or records.
@@ -27,16 +39,24 @@ This extension helps developers quickly create and maintain supporting classes, 
 - All generated classes are partial, allowing users to add custom code while still maintaining the ability to re-generate if needed.
 - Supports generic types and generic constraints.
 
+
+## We love users Feedback!
+
+If you have any feedback of any kind, we would love to know about it!  
+Please [open a new discussion or join an existing one in the feedback category](https://github.com/Peled-Zohar/AutoEntityGenerator/discussions/categories/user-feedback).
+
+If encounter any bugs or have feature requests, 
+please join the [Suggested Features discussion]([https://github.com/Peled-Zohar/AutoEntityGenerator/discussions](https://github.com/Peled-Zohar/AutoEntityGenerator/discussions/16)) on the GitHub repository.
+
 ## Note
 
 Currently, only types with parameterless constructors are supported for mapping generation.  
-If the model doesn't have a parameterless constructor, the generated mapping extension will not compile.  
-In future versions, I plan to support entities without parameterless constructors by allowing users to include the properties that correspond to the constructor parameters.  
+If the model doesn't have a parameterless constructor, the generated mapping extension can still be generated but it will not compile without manual changes.  
+In future versions, I'm considering to support entities without parameterless constructors by allowing users to include the properties that correspond to the constructor parameters.  
 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](/AutoEntityGenerator.Manifest/LICENSE.txt) file for details.
-
 
 ## Installation
 
@@ -117,17 +137,22 @@ public static partial class CreateProductRequestDtoMappingExtensions
 }
 ```
 
-## Contributing
 
-We welcome contributions to improve AutoEntityGenerator! If you encounter any bugs or have feature requests, please open an issue on the GitHub repository.
+## Want to Contribute?
 
-### Steps to Contribute
-1. Fork the repository.
-1. Create a new branch for your feature or bugfix.
-1. Commit your changes.
-1. Push the branch to your forked repository.
-1. Open a pull request to the main repository.
+We'd love your help!
 
-## 
+Whether it's:
+- Trying the extension and giving feedback
+- Suggesting a feature
+- Fixing a bug
+- Improving tests or docs
+
+Start here 👉 [How to Contribute](https://github.com/Peled-Zohar/AutoEntityGenerator/blob/main/.github/CONTRIBUTING.md)  
+or check out [open issues](https://github.com/Peled-Zohar/AutoEntityGenerator/issues) and [good first issues](https://github.com/Peled-Zohar/AutoEntityGenerator/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22)
+
+We appreciate every bit of help 💙
+
+## Thank you!
 
 Thank you for using AutoEntityGenerator! We hope it enhances your development experience by automating the creation of DTOs and mapping methods.
