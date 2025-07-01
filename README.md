@@ -13,7 +13,20 @@
 
 **AutoEntityGenerator** is a Visual Studio extension that simplifies the process of generating Data Transfer Objects (DTOs) and mapping extensions based on existing domain entity classes.
 This extension helps developers quickly create and maintain supporting classes, enhancing productivity and reducing manual coding errors.
-**AutoEntityGenerator** logs to event log, meaning you can view the logs using windows Event Viewer, under "Windows logs" -> "Application" with the source "AutoEntityGenerator".
+
+### Quick links
+
+- [Features](#features)
+- [Technical Notes](#technical-notes)
+- [User feedback](#we-love-feedback)
+- [Licence](#license)
+- [Installation](#installation)
+- [Target platforms](#target-platforms)
+- [Usage](#usage)
+- [Configuration](#configuration)
+- [Example](#example)
+- [Want to Contribute?](#want-to-contribute)
+- [Thanks!](#thank-you)
 
 ## Features
 
@@ -27,16 +40,49 @@ This extension helps developers quickly create and maintain supporting classes, 
 - All generated classes are partial, allowing users to add custom code while still maintaining the ability to re-generate if needed.
 - Supports generic types and generic constraints.
 
-## Note
+<div align="center">
+  
+  [back to the top](#autoentitygenerator)
+  
+</div>
+
+## We love Feedback!
+
+If you have any feedback of any kind, we would love to know about it!  
+Please [open a new discussion or join an existing one in the feedback category](https://github.com/Peled-Zohar/AutoEntityGenerator/discussions/categories/user-feedback).
+
+If you encounter any bugs or have feature requests, 
+please join the [Suggested Features discussion](https://github.com/Peled-Zohar/AutoEntityGenerator/discussions/16) on the GitHub repository.
+
+<div align="center">
+  
+  [back to the top](#autoentitygenerator)
+  
+</div>
+
+## Technical Notes
+
+**AutoEntityGenerator** logs to event log, meaning you can view the logs using windows Event Viewer, under "Windows logs" -> "Application" with the source "AutoEntityGenerator".
 
 Currently, only types with parameterless constructors are supported for mapping generation.  
-If the model doesn't have a parameterless constructor, the generated mapping extension will not compile.  
-In future versions, I plan to support entities without parameterless constructors by allowing users to include the properties that correspond to the constructor parameters.  
+If the model doesn't have a parameterless constructor, the generated mapping extension can still be generated but it will not compile without manual changes.  
+In future versions, I'm considering to support entities without parameterless constructors by allowing users to include the properties that correspond to the constructor parameters.  
+
+<div align="center">
+  
+  [back to the top](#autoentitygenerator)
+  
+</div>
 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](/AutoEntityGenerator.Manifest/LICENSE.txt) file for details.
 
+<div align="center">
+  
+  [back to the top](#autoentitygenerator)
+  
+</div>
 
 ## Installation
 
@@ -50,9 +96,21 @@ This project is licensed under the MIT License - see the [LICENSE](/AutoEntityGe
 &nbsp;&nbsp; Alternatively, you can install the extension by downloading the `.vsix` file from the latest [release](https://github.com/Peled-Zohar/AutoEntityGenerator/releases).  
 &nbsp;&nbsp; Once downloaded, double-click the `.vsix` file and follow the instructions in the VSIX installer to complete the installation.
 
+<div align="center">
+  
+  [back to the top](#autoentitygenerator)
+  
+</div>
+
 ## Target platforms
 
-Supported targets are visual studio 2022 - Community, Professinal and Enterprise editions.  
+Supported targets are visual studio 2022 - Community, Professional and Enterprise editions.  
+
+<div align="center">
+  
+  [back to the top](#autoentitygenerator)
+  
+</div>
 
 ## Usage
 
@@ -62,6 +120,12 @@ Supported targets are visual studio 2022 - Community, Professinal and Enterprise
 5. Select <kbd>🔧 Generate DTO and mapping 🛠️</kbd> from the context menu.
 6. Configure the generation options in the UI dialog that appears.
 7. Click <kbd>OK</kbd> to generate the DTOs and mapping extensions.
+
+<div align="center">
+  
+  [back to the top](#autoentitygenerator)
+  
+</div>
 
 ## Configuration
 
@@ -73,13 +137,19 @@ Supported targets are visual studio 2022 - Community, Professinal and Enterprise
 - The generated file name
 - The generated mapping direction (from DTO to Model or from Model to DTO)
 
-## Default condiguration
+## Default configuration
 
 **AutoEntityGenerator** allows you to configure some default values for the extension:
 
 - The minimum log level
 - The default destination folder
 - The default suffix for request and response DTOs
+
+<div align="center">
+  
+  [back to the top](#autoentitygenerator)
+  
+</div>
 
 ## Example
 
@@ -116,18 +186,39 @@ public static partial class CreateProductRequestDtoMappingExtensions
     }
 }
 ```
+<div align="center">
+  
+  [back to the top](#autoentitygenerator)
+  
+</div>
 
-## Contributing
+## Want to Contribute?
 
-We welcome contributions to improve AutoEntityGenerator! If you encounter any bugs or have feature requests, please open an issue on the GitHub repository.
+We'd love your help!
 
-### Steps to Contribute
-1. Fork the repository.
-1. Create a new branch for your feature or bugfix.
-1. Commit your changes.
-1. Push the branch to your forked repository.
-1. Open a pull request to the main repository.
+Whether it's:
+- Trying the extension and giving feedback
+- Suggesting a feature
+- Fixing a bug
+- Improving tests or docs
 
-## 
+Start here 👉 [How to Contribute](https://github.com/Peled-Zohar/AutoEntityGenerator/blob/main/.github/CONTRIBUTING.md)  
+or check out [open issues](https://github.com/Peled-Zohar/AutoEntityGenerator/issues) and [good first issues](https://github.com/Peled-Zohar/AutoEntityGenerator/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22)
+
+We appreciate every bit of help 💙
+
+<div align="center">
+  
+  [back to the top](#autoentitygenerator)
+  
+</div>
+
+## Thank you!
 
 Thank you for using AutoEntityGenerator! We hope it enhances your development experience by automating the creation of DTOs and mapping methods.
+
+<div align="center">
+  
+  [back to the top](#autoentitygenerator)
+  
+</div>
