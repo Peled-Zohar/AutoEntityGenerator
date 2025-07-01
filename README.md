@@ -13,11 +13,11 @@
 
 **AutoEntityGenerator** is a Visual Studio extension that simplifies the process of generating Data Transfer Objects (DTOs) and mapping extensions based on existing domain entity classes.
 This extension helps developers quickly create and maintain supporting classes, enhancing productivity and reducing manual coding errors.
-**AutoEntityGenerator** logs to event log, meaning you can view the logs using windows Event Viewer, under "Windows logs" -> "Application" with the source "AutoEntityGenerator".
 
-# Quick links
+### Quick links
 
 - [Features](#features)
+- [Technical Notes](#technical-notes)
 - [User feedback](#we-love-users-feedback)
 - [Licence](#license)
 - [Installation](#installation)
@@ -48,7 +48,9 @@ Please [open a new discussion or join an existing one in the feedback category](
 If encounter any bugs or have feature requests, 
 please join the [Suggested Features discussion]([https://github.com/Peled-Zohar/AutoEntityGenerator/discussions](https://github.com/Peled-Zohar/AutoEntityGenerator/discussions/16)) on the GitHub repository.
 
-## Note
+## Technical Notes
+
+**AutoEntityGenerator** logs to event log, meaning you can view the logs using windows Event Viewer, under "Windows logs" -> "Application" with the source "AutoEntityGenerator".
 
 Currently, only types with parameterless constructors are supported for mapping generation.  
 If the model doesn't have a parameterless constructor, the generated mapping extension can still be generated but it will not compile without manual changes.  
