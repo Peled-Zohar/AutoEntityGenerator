@@ -18,7 +18,7 @@ This extension helps developers quickly create and maintain supporting classes, 
 
 - [Features](#features)
 - [Technical Notes](#technical-notes)
-- [User feedback](#we-love-users-feedback)
+- [User feedback](#we-love-feedback)
 - [Licence](#license)
 - [Installation](#installation)
 - [Target platforms](#target-platforms)
@@ -46,13 +46,13 @@ This extension helps developers quickly create and maintain supporting classes, 
   
 </div>
 
-## We love users Feedback!
+## We love Feedback!
 
 If you have any feedback of any kind, we would love to know about it!  
 Please [open a new discussion or join an existing one in the feedback category](https://github.com/Peled-Zohar/AutoEntityGenerator/discussions/categories/user-feedback).
 
-If encounter any bugs or have feature requests, 
-please join the [Suggested Features discussion]([https://github.com/Peled-Zohar/AutoEntityGenerator/discussions](https://github.com/Peled-Zohar/AutoEntityGenerator/discussions/16)) on the GitHub repository.
+If you encounter any bugs or have feature requests, 
+please join the [Suggested Features discussion](https://github.com/Peled-Zohar/AutoEntityGenerator/discussions/16) on the GitHub repository.
 
 <div align="center">
   
@@ -104,7 +104,7 @@ This project is licensed under the MIT License - see the [LICENSE](/AutoEntityGe
 
 ## Target platforms
 
-Supported targets are visual studio 2022 - Community, Professinal and Enterprise editions.  
+Supported targets are visual studio 2022 - Community, Professional and Enterprise editions.  
 
 <div align="center">
   
@@ -137,7 +137,7 @@ Supported targets are visual studio 2022 - Community, Professinal and Enterprise
 - The generated file name
 - The generated mapping direction (from DTO to Model or from Model to DTO)
 
-## Default condiguration
+## Default configuration
 
 **AutoEntityGenerator** allows you to configure some default values for the extension:
 
