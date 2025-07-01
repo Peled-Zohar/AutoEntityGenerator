@@ -24,6 +24,7 @@ This extension helps developers quickly create and maintain supporting classes, 
 - [Target platforms](#target-platforms)
 - [Usage](#usage)
 - [Configuration](#configuration)
+- [Example](#example)
 - [Want to Contribute?](#want-to-contribute)
 - [Thanks!](#thank-you)
 
@@ -39,6 +40,11 @@ This extension helps developers quickly create and maintain supporting classes, 
 - All generated classes are partial, allowing users to add custom code while still maintaining the ability to re-generate if needed.
 - Supports generic types and generic constraints.
 
+<div align="center">
+  
+  [back to the top](#autoentitygenerator)
+  
+</div>
 
 ## We love users Feedback!
 
@@ -48,6 +54,12 @@ Please [open a new discussion or join an existing one in the feedback category](
 If encounter any bugs or have feature requests, 
 please join the [Suggested Features discussion]([https://github.com/Peled-Zohar/AutoEntityGenerator/discussions](https://github.com/Peled-Zohar/AutoEntityGenerator/discussions/16)) on the GitHub repository.
 
+<div align="center">
+  
+  [back to the top](#autoentitygenerator)
+  
+</div>
+
 ## Technical Notes
 
 **AutoEntityGenerator** logs to event log, meaning you can view the logs using windows Event Viewer, under "Windows logs" -> "Application" with the source "AutoEntityGenerator".
@@ -56,9 +68,21 @@ Currently, only types with parameterless constructors are supported for mapping 
 If the model doesn't have a parameterless constructor, the generated mapping extension can still be generated but it will not compile without manual changes.  
 In future versions, I'm considering to support entities without parameterless constructors by allowing users to include the properties that correspond to the constructor parameters.  
 
+<div align="center">
+  
+  [back to the top](#autoentitygenerator)
+  
+</div>
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](/AutoEntityGenerator.Manifest/LICENSE.txt) file for details.
+
+<div align="center">
+  
+  [back to the top](#autoentitygenerator)
+  
+</div>
 
 ## Installation
 
@@ -72,9 +96,21 @@ This project is licensed under the MIT License - see the [LICENSE](/AutoEntityGe
 &nbsp;&nbsp; Alternatively, you can install the extension by downloading the `.vsix` file from the latest [release](https://github.com/Peled-Zohar/AutoEntityGenerator/releases).  
 &nbsp;&nbsp; Once downloaded, double-click the `.vsix` file and follow the instructions in the VSIX installer to complete the installation.
 
+<div align="center">
+  
+  [back to the top](#autoentitygenerator)
+  
+</div>
+
 ## Target platforms
 
 Supported targets are visual studio 2022 - Community, Professinal and Enterprise editions.  
+
+<div align="center">
+  
+  [back to the top](#autoentitygenerator)
+  
+</div>
 
 ## Usage
 
@@ -84,6 +120,12 @@ Supported targets are visual studio 2022 - Community, Professinal and Enterprise
 5. Select <kbd>🔧 Generate DTO and mapping 🛠️</kbd> from the context menu.
 6. Configure the generation options in the UI dialog that appears.
 7. Click <kbd>OK</kbd> to generate the DTOs and mapping extensions.
+
+<div align="center">
+  
+  [back to the top](#autoentitygenerator)
+  
+</div>
 
 ## Configuration
 
@@ -102,6 +144,12 @@ Supported targets are visual studio 2022 - Community, Professinal and Enterprise
 - The minimum log level
 - The default destination folder
 - The default suffix for request and response DTOs
+
+<div align="center">
+  
+  [back to the top](#autoentitygenerator)
+  
+</div>
 
 ## Example
 
@@ -138,7 +186,11 @@ public static partial class CreateProductRequestDtoMappingExtensions
     }
 }
 ```
-
+<div align="center">
+  
+  [back to the top](#autoentitygenerator)
+  
+</div>
 
 ## Want to Contribute?
 
@@ -155,6 +207,18 @@ or check out [open issues](https://github.com/Peled-Zohar/AutoEntityGenerator/is
 
 We appreciate every bit of help 💙
 
+<div align="center">
+  
+  [back to the top](#autoentitygenerator)
+  
+</div>
+
 ## Thank you!
 
 Thank you for using AutoEntityGenerator! We hope it enhances your development experience by automating the creation of DTOs and mapping methods.
+
+<div align="center">
+  
+  [back to the top](#autoentitygenerator)
+  
+</div>
