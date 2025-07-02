@@ -1,35 +1,35 @@
 ﻿using AutoEntityGenerator.Common.CodeInfo;
 
-namespace AutoEntityGenerator.CodeGenerator
+namespace AutoEntityGenerator.CodeGenerator;
+
+public interface IMappingsClassGenerator
 {
-    public interface IMappingsClassGenerator
+    string GenerateMappingClassCode(Entity from, Entity to);
+}
+
+internal class MappingsClassGenerator : CodeGeneratorBase, IMappingsClassGenerator
+{
+    public string GenerateMappingClassCode(Entity from, Entity to)
     {
-        string GenerateMappingClassCode(Entity from, Entity to);
+        var indentationLevel = from.Namespace.IsFileScoped ? 3 : 4;
+        var indentation = new string('\t', indentationLevel);
+        var properties = GenerateProperties(from.Properties, p => $"{indentation}{p.Name} = source.{p.Name},");
+
+        return GenerateCode(from, to, properties);
     }
 
-    internal class MappingsClassGenerator : CodeGeneratorBase, IMappingsClassGenerator
+    private string GenerateCode(Entity from, Entity to, string properties)
     {
-        public string GenerateMappingClassCode(Entity from, Entity to)
-        {
-            var indentationLevel = from.Namespace.IsFileScoped ? 3 : 4;
-            var indentation = new string('\t', indentationLevel);
-            var properties = GenerateProperties(from.Properties, p => $"{indentation}{p.Name} = source.{p.Name},");
 
-            return GenerateCode(from, to, properties);
-        }
+        var typeParameters = GenerateTypeParameters(to);
+        var genericConstraints = GenerateGenericConstraints(to);
 
-        private string GenerateCode(Entity from, Entity to, string properties)
-        {
+        var toFullName = string.IsNullOrEmpty(to.Namespace.Name)
+            ? to.Name
+            : to.Namespace.Name + "." + to.Name;
 
-            var typeParameters = GenerateTypeParameters(to);
-            var genericConstraints = GenerateGenericConstraints(to);
-
-            var toFullName = string.IsNullOrEmpty(to.Namespace.Name)
-                ? to.Name
-                : to.Namespace.Name + "." + to.Name;
-
-            return from.Namespace.IsFileScoped
-                ?
+        return from.Namespace.IsFileScoped
+            ?
 $@"{Comments}namespace {from.Namespace.Name};
 
 public static partial class {from.Name}MappingExtensions
@@ -42,7 +42,7 @@ public static partial class {from.Name}MappingExtensions
         }};
     }}
 }}"
-                :
+            :
 $@"{Comments}namespace {from.Namespace.Name}
 {{
     public static partial class {from.Name}MappingExtensions
@@ -56,6 +56,5 @@ $@"{Comments}namespace {from.Namespace.Name}
         }}  
     }}
 }}";
-        }
     }
 }
