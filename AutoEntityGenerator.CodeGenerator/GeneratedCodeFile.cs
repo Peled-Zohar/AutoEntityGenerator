@@ -5,7 +5,7 @@ namespace AutoEntityGenerator.CodeGenerator;
 internal class GeneratedCodeFile : IGeneratedCodeFile
 {
     public GeneratedCodeFile(string content, string fileName)
-        => (Content, FileName) = (Content, fileName);
+        => (Content, FileName) = (content, fileName);
 
     public string FileName { get; }
 
