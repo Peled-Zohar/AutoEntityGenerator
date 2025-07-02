@@ -13,10 +13,7 @@ internal class CodeFileGenerator : ICodeFileGenerator
     private readonly IMappingsClassGenerator _mappingsClassGenerator;
 
     public CodeFileGenerator(IEntityGenerator entityGenerator, IMappingsClassGenerator mappingsClassGenerator)
-    {
-        _entityGenerator = entityGenerator;
-        _mappingsClassGenerator = mappingsClassGenerator;
-    }
+        => (_entityGenerator, _mappingsClassGenerator) = (entityGenerator, mappingsClassGenerator);
 
     public IGeneratedCodeFile GenerateEntityCodeFile(Entity entityInfo)
     {
