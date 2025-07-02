@@ -1,18 +1,14 @@
 ﻿using AutoEntityGenerator.Common.Interfaces;
 
-namespace AutoEntityGenerator.CodeGenerator
+namespace AutoEntityGenerator.CodeGenerator;
+
+internal class GeneratedCodeFile : IGeneratedCodeFile
 {
-    internal class GeneratedCodeFile : IGeneratedCodeFile
-    {
-        public GeneratedCodeFile(string content, string fileName)
-        {
-            Content = content;
-            FileName = fileName;
-        }
+    public GeneratedCodeFile(string content, string fileName)
+        => (Content, FileName) = (content, fileName);
 
-        public string FileName { get; }
+    public string FileName { get; }
 
-        public string Content { get; }
+    public string Content { get; }
 
-    }
 }
