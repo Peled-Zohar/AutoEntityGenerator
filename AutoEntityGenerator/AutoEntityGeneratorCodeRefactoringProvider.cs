@@ -31,7 +31,7 @@ internal class AutoEntityGeneratorCodeRefactoringProvider : CodeRefactoringProvi
         var root = await context.Document.GetSyntaxRootAsync(context.CancellationToken).ConfigureAwait(false);
         var node = root.FindNode(context.Span);
 
-        if (!(node is ClassDeclarationSyntax || node is RecordDeclarationSyntax))
+        if (node is not (ClassDeclarationSyntax or RecordDeclarationSyntax))
         {
             return;
         }

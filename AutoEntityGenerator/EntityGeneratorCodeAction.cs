@@ -43,8 +43,6 @@ internal class EntityGeneratorCodeAction : CodeAction
         ]);
     }
 
-    protected override Task<IEnumerable<CodeActionOperation>> ComputePreviewOperationsAsync(CancellationToken cancellationToken)
-    {
-        return Task.FromResult(Enumerable.Empty<CodeActionOperation>());
-    }
+    protected override Task<IEnumerable<CodeActionOperation>> ComputePreviewOperationsAsync(CancellationToken cancellationToken) 
+        => Task.FromResult(Enumerable.Empty<CodeActionOperation>());
 }
