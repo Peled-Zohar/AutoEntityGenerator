@@ -1,4 +1,5 @@
 ﻿using AutoEntityGenerator.Common.CodeInfo;
+using System.Linq;
 
 namespace AutoEntityGenerator.CodeGenerator;
 
@@ -13,7 +14,12 @@ internal class MappingsClassGenerator : CodeGeneratorBase, IMappingsClassGenerat
     {
         var indentationLevel = from.Namespace.IsFileScoped ? 3 : 4;
         var indentation = new string('\t', indentationLevel);
-        var properties = GenerateProperties(from.Properties, p => $"{indentation}{p.Name} = source.{p.Name},");
+        var properties = GenerateProperties(
+            to.Properties.Count < from.Properties.Count 
+                ? to.Properties
+                : from.Properties, 
+            p => $"{indentation}{p.Name} = source.{p.Name},"
+        );
 
         return GenerateCode(from, to, properties);
     }
