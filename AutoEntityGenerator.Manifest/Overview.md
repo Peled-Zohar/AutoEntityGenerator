@@ -23,11 +23,11 @@ For more information, visit the [ReadMe](https://github.com/Peled-Zohar/AutoEnti
 ##
 Please consider rating **AutoEntityGenerator** or leaving a review to help improve it!
 Your feedback is valuable, whether it’s positive or critical, and will help shape future updates.
+
 ##
 Changes from previous version:
 
-1 Added an option to automatically open newly generated files in the editor.
-2 fixed a minor typo in UI -> ("Browes" to "Browse")
+1 fixed a bug in mapping extension method generation for response DTOs.
 
 
 ## How to use
