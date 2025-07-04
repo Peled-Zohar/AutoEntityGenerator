@@ -19,11 +19,9 @@ This extension helps developers quickly create and maintain supporting classes, 
 For more information, visit the [ReadMe](https://github.com/Peled-Zohar/AutoEntityGenerator/blob/main/README.md) file on the **AutoEntityGenerator** GitHub repository
 ## 
 **AutoEntityGenerator** is completely open-source and licensed under the [MIT License](https://github.com/Peled-Zohar/AutoEntityGenerator/blob/main/AutoEntityGenerator.Manifest/LICENSE.txt).
-
 ##
 Please consider rating **AutoEntityGenerator** or leaving a review to help improve it!
 Your feedback is valuable, whether it’s positive or critical, and will help shape future updates.
-
 ##
 Changes from previous version:
 
@@ -57,3 +55,7 @@ Changes from previous version:
 ### Generated mapping extension
 
 ![6._GeneratedMappingExtension.jpg](6._GeneratedMappingExtension.jpg)
+
+# Contributors welcome!
+Did you find AutoEntityGenerator useful? Want to help shape its future?
+We have a few [good first issues](https://github.com/Peled-Zohar/AutoEntityGenerator/labels/good%20first%20issue) ready and waiting!
