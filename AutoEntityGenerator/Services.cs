@@ -1,10 +1,11 @@
 ﻿using AutoEntityGenerator.CodeGenerator;
 using AutoEntityGenerator.Common.Interfaces;
+using AutoEntityGenerator.Logging;
 using AutoEntityGenerator.UI.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Diagnostics;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace AutoEntityGenerator;
@@ -45,22 +46,27 @@ public class Services : IServices
             .AddUI();
     }
 
-    // TO Consider: Switch to using file based log: Serilog / Nlog / Visual studio's Activity log.
     private Services AddLogger()
     {
-        const string sourceName = nameof(AutoEntityGenerator);
-        if (!EventLog.SourceExists(sourceName))
+        try
         {
-            EventLog.CreateEventSource(sourceName, "Application");
-        }
+            var logsDirectory = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                "Zohar Peled",
+                nameof(AutoEntityGenerator),
+                "Logs");
 
-        _services.AddLogging(buider => buider
-            .SetMinimumLevel(_appSettings.MinimumLogLevel)
-            .AddEventLog(settings =>
-            {
-                settings.SourceName = sourceName;
-            })
-        );
+            _services.AddLogging(builder => builder
+                .SetMinimumLevel(_appSettings.MinimumLogLevel)
+                .AddFile(logsDirectory)
+            );
+        }
+        catch
+        {
+            _services.AddLogging(builder => builder
+                .SetMinimumLevel(_appSettings.MinimumLogLevel)
+            );
+        }
         return this;
     }
 
