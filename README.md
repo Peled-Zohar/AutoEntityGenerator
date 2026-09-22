@@ -62,7 +62,8 @@ please join the [Suggested Features discussion](https://github.com/Peled-Zohar/A
 
 ## Technical Notes
 
-**AutoEntityGenerator** logs to event log, meaning you can view the logs using windows Event Viewer, under "Windows logs" -> "Application" with the source "AutoEntityGenerator".
+**AutoEntityGenerator** logs to files in `%appData%\Zohar Peled\AutoEntityGenerator\Logs`.  
+Log files are rotated monthly and have a max size of 10mb.
 
 Currently, only types with parameterless constructors are supported for mapping generation.  
 If the model doesn't have a parameterless constructor, the generated mapping extension can still be generated but it will not compile without manual changes.  
